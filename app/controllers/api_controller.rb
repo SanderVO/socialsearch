@@ -1,6 +1,6 @@
 class ApiController < ApplicationController
   	respond_to :json
-  	before_filter :filter_params
+  	before_filter :validate_params
 
 
   	#search in all resources
@@ -13,7 +13,10 @@ class ApiController < ApplicationController
   				result = self.send(params[:resource])
   			else
 	  			result = {
-	  				flickr: flickr
+	  				flickr: flickr,
+	  				facebook: facebook,
+	  				twitter: twitter,
+	  				wikipedia: wikipedia
 	  			} 
 	  		end
   		end
@@ -48,21 +51,21 @@ class ApiController < ApplicationController
 	end
 
 	def facebook
-		render :json => "{\"results\":[]}"
+		[]
 	end
 
 	def twitter
-		render :json => "{\"results\":[]}"
+		[]
 	end
 
 	def wikipedia
-		render :json => "{\"results\":[]}"
+		[]
 	end
 
 	private
 
 		# checks if resource exists and search query is long enough
-		def filter_params
+		def validate_params
 			if params[:resource] && !(self.respond_to? params[:resource])
 				@error = "Resource invalid"
 			elsif params[:search] && params[:search].length < 3
