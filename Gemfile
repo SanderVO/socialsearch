@@ -36,6 +36,17 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+# Mongoid
+gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
+gem 'bson_ext'
+
+# Suspenders
+gem 'suspenders'
+
+# Auth
+gem 'devise'
+gem 'omniauth'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

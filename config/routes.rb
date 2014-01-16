@@ -1,15 +1,24 @@
 Socialsearch::Application.routes.draw do
+
+  root :to => 'dashboards#show'
+
+  resources :authorizations
+
+  resources :searches
+
+  resources :users
+
+  resources :dashboards
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root :to => 'dashboards#show'
+
 
   # api
   match '/search' =>              'api#search',       via: [:get,:post]
-  match '/search/:flickr' =>      'api#flickr',       via: [:get,:post]
-  match '/search/facebook' =>     'api#facebook',     via: [:get,:post]
-  match '/search/twitter' =>      'api#twitter',      via: [:get,:post]
+  match '/search/:resource' =>    'api#search',       via: [:get,:post]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
