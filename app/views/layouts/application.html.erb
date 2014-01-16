@@ -7,6 +7,11 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div class="col two">
+	Did you link your account to social media? <br />
+	<%= link_to "Login with twitter", "/auth/twitter/" %><br />
+	<%= link_to "Login with facebook", "/auth/facebook/" %>
+</div>
 
 <% if content_for?(:main) %>
 	<%= yield :main %>
