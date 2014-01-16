@@ -1,0 +1,31 @@
+<h1>Listing authorizations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Provider</th>
+      <th>Token</th>
+      <th>Date created</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @authorizations.each do |authorization| %>
+      <tr>
+        <td><%= authorization.provider %></td>
+        <td><%= authorization.token %></td>
+        <td><%= authorization.date_created %></td>
+        <td><%= link_to 'Show', authorization %></td>
+        <td><%= link_to 'Edit', edit_authorization_path(authorization) %></td>
+        <td><%= link_to 'Destroy', authorization, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Authorization', new_authorization_path %>

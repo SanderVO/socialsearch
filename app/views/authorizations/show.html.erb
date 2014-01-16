@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Provider:</strong>
+  <%= @authorization.provider %>
+</p>
+
+<p>
+  <strong>Token:</strong>
+  <%= @authorization.token %>
+</p>
+
+<p>
+  <strong>Date created:</strong>
+  <%= @authorization.date_created %>
+</p>
+
+<%= link_to 'Edit', edit_authorization_path(@authorization) %> |
+<%= link_to 'Back', authorizations_path %>

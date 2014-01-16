@@ -1,4 +1,10 @@
 Socialsearch::Application.routes.draw do
+  resources :authorizations
+
+  resources :searches
+
+  resources :users
+
   resources :dashboards
 
   # The priority is based upon order of creation: first created -> highest priority.
