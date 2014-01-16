@@ -1,4 +1,7 @@
 Socialsearch::Application.routes.draw do
+
+  root :to => 'dashboards#show'
+
   resources :authorizations
 
   resources :searches
@@ -11,7 +14,11 @@ Socialsearch::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root :to => 'dashboards#show'
+
+
+  # api
+  match '/search' =>              'api#search',       via: [:get,:post]
+  match '/search/:resource' =>    'api#search',       via: [:get,:post]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
