@@ -7,8 +7,9 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
+<% if content_for?(:main) %>
+	<%= yield :main %>
+<% end %>
 
 </body>
 </html>
