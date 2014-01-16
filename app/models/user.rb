@@ -7,8 +7,6 @@ class User
   field :email, type: String
   field :first_name, type: String
   field :last_name, type: String
-  field :date_created, type: String
-  field :date_updated, type: String
   field :active, type: Integer
   field :activationkey, type: String
   field :city, type: String
