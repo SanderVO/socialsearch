@@ -1,0 +1,15 @@
+<% result.each do |r| %>
+	<ul>
+		<li>
+			<div class="image">
+				<% if r[:type] == 'photo' %>
+					<img src=<%= r[:image_url] %> /> 
+				<% end %>
+			</div>
+
+			<div class="title">
+				<%= r[:title] %>
+			</div>
+		</li>
+	</ul>
+<% end %>
