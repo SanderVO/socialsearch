@@ -51,7 +51,7 @@ class User
   embeds_many :searches
   embeds_many :authorizations
 
-  
+  # Social intergration 
   def fb
     if authorizations.length > 0 
       authorizations.each do |a|

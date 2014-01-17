@@ -7,11 +7,6 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<div class="col two">
-	Did you link your account to social media? <br />
-	<%= link_to "Login with twitter", "/auth/twitter/" %><br />
-	<%= link_to "Login with facebook", "/auth/facebook/" %>
-</div>
 
 <div class="navbar">
   <div class="navbar-inner">
@@ -24,22 +19,17 @@
     </ul>
   </div>
 </div>
-    <% if !current_user %>
-      <%= link_to "Sign in", new_user_session_path %> | <%= link_to "Sign up", new_user_registration_path %>
-    <% else %>
-      Signed in as <%= current_user.username ? current_user.username : current_user.email %> <%= button_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure?' } %><br />
-      <%= current_user.fb != nil ? ("Linked to facebook " + button_to('Unlink', current_user.fb, method: :delete, data: { confirm: 'Are you sure?' })).html_safe : link_to("Connect with facebook", "/auth/facebook/") %><Br />
-      <%= current_user.twitter != nil ? ("Linked to twitter " + button_to('Unlink', current_user.twitter, method: :delete, data: { confirm: 'Are you sure?' })).html_safe : link_to("Connect with twitter", "/auth/twitter/") %>
-    <% end %>
 
-<% if content_for?(:main) %>
-	<%= yield :main %>
-<% end %>
+<div class="container">
+  <% if content_for?(:main) %>
+  	<%= yield :main %>
+  <% end %>
 
 
-<% if content_for?(:sidebar) %>
-	<%= yield :sidebar %>
-<% end %>
+  <% if content_for?(:sidebar) %>
+  	<%= yield :sidebar %>
+  <% end %>
+</div>
 
 </body>
 </html>

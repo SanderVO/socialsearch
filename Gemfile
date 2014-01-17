@@ -50,7 +50,7 @@ gem 'omniauth'
 gem 'omniauth-twitter', :github => 'arunagw/omniauth-twitter'
 gem 'omniauth-facebook'
 gem 'omniauth-linkedin'
-
+gem 'omniauth-google-oauth2'
 gem 'twitter'
 
 # Bootstrap
