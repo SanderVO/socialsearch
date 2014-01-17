@@ -49,7 +49,7 @@ class User
   field :postal_code, type: String
   field :gender, type: String
   embeds_many :searches
-  embeds_many :authorizations
+  has_many :authorizations
 
   # Social intergration 
   def fb
@@ -65,6 +65,15 @@ class User
     if authorizations.length > 0 
       authorizations.each do |a|
         return a if a.provider == "twitter"
+      end
+    end 
+    return nil
+  end
+
+  def google
+    if authorizations.length > 0 
+      authorizations.each do |a|
+        return a if a.provider == "google"
       end
     end 
     return nil
