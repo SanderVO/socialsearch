@@ -4,7 +4,7 @@ function search() {
 	if(value) {
 		$('#searchOptions input:checked').each(function() {
 		    var name = $(this).attr('name'),
-		    	url = 'http://localhost:3000/search/' + name,
+		    	url = '/search/' + name,
 		    	data = { search : value };
 
 	    	sendRequest(name, url, data);
