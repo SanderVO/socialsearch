@@ -29,6 +29,8 @@ gem 'jbuilder', '~> 1.2'
 
 gem "flickrie"
 
+gem 'instagram'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -54,8 +56,8 @@ gem 'omniauth-google-oauth2'
 gem 'twitter'
 
 # Bootstrap
-gem "therubyracer"
-gem "less-rails"
+# gem "therubyracer"
+# gem "less-rails"
 gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 
 

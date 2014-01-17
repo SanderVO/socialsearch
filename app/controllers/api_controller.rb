@@ -5,7 +5,7 @@ class ApiController < ApplicationController
 
   	#search in all resources
   	def search
-  		@limit = params[:limit] ? params[:limit] : 10
+  		@limit = params[:limit] ? params[:limit].to_i : 10
   		if @error
   			@result = @error
   		else
@@ -32,7 +32,7 @@ class ApiController < ApplicationController
 		Flickrie.shared_secret = "093b1e94fea1a0d8"
 
 		query = params[:search]
-		result = Flickrie.search_photos(tags: query, text:query)
+		result = Flickrie.search_photos(tags: query.split(' '), text:query)
 		@limit = result.length if result.length < @limit
 
 		photos = []
@@ -62,19 +62,68 @@ class ApiController < ApplicationController
 	def twitter
 		require 'twitter'
 		
-
+		# client = Twitter::REST::Client.new do |config|
+		#   config.consumer_key        = "jrQQLPvLRzJ9lLf6pd8r3Q"
+		#   config.consumer_secret     = "s5ylJSbIyX8t51bZIZY14hTwVFoG9k3SIUPbe6cNJo"
+		#   config.bearer_token        = "AAAAAAAAAAAAAAAAAAAAAIAETwAAAAAAgWaQPsghbCxRF5NAl%2FdfiagCVaE%3DjQ4CHqMZP6LwfWFmeARDgL0uTVD5x184l2UivAVGR5I2LkumrU"
+		# end
 		tweets = []
 		topics = params[:search]
+		results = Twitter.search(topics)
+		#twitter = Twitter::SearchResults.new({},client,:get,topics,{})
+		# results = twitter.search(topics)
 		
-		client.filter(:track => topics) do |object|
-		  tweets << object.text if object.is_a?(Twitter::Tweet)
+		twitter.each do |res|
+			raise res.inspect
 		end
+
+		# client.filter(:track => topics) do |object|
+		#   tweets << object.text if object.is_a?(Twitter::Tweet)
+		# end
 		tweets
 		
 	end
 
 	def wikipedia
 		[]
+	end
+
+	def instagram
+		
+		
+		photos = []
+
+		result = Instagram.tag_search(params[:search])
+		@limit = result.length if result.length < @limit
+		result[0..2].each do |tag|
+			tag_media = Instagram.tag_recent_media(tag['name'])
+			tag_media[0..@limit].each do |media|
+				media['type'] = "media"
+				media['likes'] = media['likes']['count']
+				media['tags'] = media['tags'].length
+				media['comments'] = media['comments']['count']
+				photos << media	
+			end
+		end
+
+		result = Instagram.user_search(params[:search])
+		limit = result.length < 2 ? result.length : 2
+		result[0..limit].each do |r|
+			r['type'] = "user"
+			photos << r
+			user_media = Instagram.user_recent_media(777)
+			limit = user_media.length < 2 ? user_media.length : 2
+			user_media[0..limit].each do |media|
+				media['type'] = "user_media"
+				media['username'] = "username"
+				media['likes'] = media['likes']['count']
+				media['tags'] = media['tags'].length
+				media['comments'] = media['comments']['count']
+				photos << media
+			end
+		end
+
+		photos
 	end
 
 	private
