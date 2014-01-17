@@ -69,5 +69,14 @@ class User
     end 
     return nil
   end
+
+  def google
+    if authorizations.length > 0 
+      authorizations.each do |a|
+        return a if a.provider == "google"
+      end
+    end 
+    return nil
+  end
   
 end
