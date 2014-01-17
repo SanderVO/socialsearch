@@ -37,7 +37,7 @@ class ApiController < ApplicationController
 		photos = []
 		result[0..@limit].each do |r|
 			info = Flickrie.get_photo_info(r.id)
-			photos << {
+			photos <<{
 				title: info.title, 
 				description: info.description, 
 				owner: info.owner.hash, 
@@ -45,6 +45,7 @@ class ApiController < ApplicationController
 				date_posted: info['dates']['posted'],
 				date_taken: info['dates']['taken'],
 				url: info['urls']['url'],
+				image_url: "http://farm#{info.farm}.staticflickr.com/#{info.server}/#{info.id}_#{info.secret}.jpg",
 				type: info['media'],
 				comments_count: info.comments_count,
 				location: info.location
