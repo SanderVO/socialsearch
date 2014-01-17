@@ -22,7 +22,7 @@ class ApiController < ApplicationController
   		end
   		respond_to do |format|
   			format.json { render :json => {result: @result} }
-  			format.html { render :partial => params[:resource] }
+  			format.html { render :partial => (params[:resource] ? params[:resource] : "search"), locals: { result: @result} }
   		end
   	end
 
@@ -33,6 +33,7 @@ class ApiController < ApplicationController
 
 		query = params[:search]
 		result = Flickrie.search_photos(tags: query, text:query)
+		@limit = result.length if result.length < @limit
 
 		photos = []
 		result[0..@limit].each do |r|
@@ -45,6 +46,7 @@ class ApiController < ApplicationController
 				date_posted: info['dates']['posted'],
 				date_taken: info['dates']['taken'],
 				url: info['urls']['url'],
+				image_url: "http://farm#{info.farm}.staticflickr.com/#{info.server}/#{info.id}_#{info.secret}.jpg",
 				type: info['media'],
 				comments_count: info.comments_count,
 				location: info.location

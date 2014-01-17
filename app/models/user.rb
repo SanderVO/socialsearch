@@ -49,7 +49,7 @@ class User
   field :postal_code, type: String
   field :gender, type: String
   embeds_many :searches
-  embeds_many :authorizations
+  has_many :authorizations
 
   # Social intergration 
   def fb

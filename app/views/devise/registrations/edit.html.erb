@@ -28,4 +28,10 @@
   <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %></p>
 
   <%= link_to "Back", :back %>
+
+  <h3>Social media</h3>
+
+  <%= current_user.fb != nil ? ("Linked to facebook " + button_to('Unlink', current_user.fb, method: :delete, data: { confirm: 'Are you sure?' })).html_safe : link_to("Connect with facebook", "/auth/facebook/") %><Br />
+  <%= current_user.twitter != nil ? ("Linked to twitter " + button_to('Unlink', current_user.twitter, method: :delete, data: { confirm: 'Are you sure?' })).html_safe : link_to("Connect with twitter", "/auth/twitter/") %><br />
+  <%= current_user.google != nil ? ("Linked to google " + button_to('Unlink', current_user.google, method: :delete, data: { confirm: 'Are you sure?' })).html_safe : link_to("Connect with google", "/auth/google/") %>
 <% end %>
