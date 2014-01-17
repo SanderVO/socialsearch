@@ -18,6 +18,9 @@ Socialsearch::Application.routes.draw do
   # You can have the root of your site routed with "root"
 
 
+  # oauth
+  get '/auth/:provider/callback' => 'authorizations#create'
+
   # api
   match '/search' =>              'api#search',       via: [:get,:post]
   match '/search/:resource' =>    'api#search',       via: [:get,:post]

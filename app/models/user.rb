@@ -49,5 +49,25 @@ class User
   field :postal_code, type: String
   field :gender, type: String
   embeds_many :searches
-  has_many :authorizations, :dependent => :delete_all
+  embeds_many :authorizations
+
+  # Social intergration 
+  def fb
+    if authorizations.length > 0 
+      authorizations.each do |a|
+        return a if a.provider == "facebook"
+      end
+    end 
+    return nil
+  end
+
+  def twitter
+    if authorizations.length > 0 
+      authorizations.each do |a|
+        return a if a.provider == "twitter"
+      end
+    end 
+    return nil
+  end
+  
 end

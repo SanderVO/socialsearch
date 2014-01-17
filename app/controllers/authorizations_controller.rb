@@ -7,60 +7,48 @@ class AuthorizationsController < ApplicationController
     @authorizations = Authorization.all
   end
 
-  # GET /authorizations/1
-  # GET /authorizations/1.json
-  def show
-  end
-
-  # GET /authorizations/new
-  def new
-    @authorization = Authorization.new
-  end
-
-  # GET /authorizations/1/edit
-  def edit
-  end
-
-  # POST /authorizations
-  # POST /authorizations.json
+  # POST /authentications
+  # POST /authentications.json
   def create
-    @authorization = Authorization.new(authorization_params)
-
-    respond_to do |format|
-      if @authorization.save
-        format.html { redirect_to @authorization, notice: 'Authorization was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @authorization }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @authorization.errors, status: :unprocessable_entity }
-      end
+    auth = request.env["omniauth.auth"] 
+    user_info = auth["info"] ? auth["info"] : auth["user_info"]
+    authentication = Authorization.where(:provider => auth['provider'], :uid => auth['uid']).first
+    authentication = Authorization.new(:provider => auth['provider'], :uid => auth['uid']) if !authentication
+    if !authentication.user && current_user
+      authentication.user = current_user
+      authentication.save
     end
+    if !authentication.user && !user_info["email"]
+      flash[:notice] = "No user linked to this account. Please sign in or create a new account"
+    elsif !authentication.user
+      users = User.where(email: user_info['email'])
+      if users.first
+        authentication.user = users.first
+      else
+        authentication.user = User.new(email: user_info['email'], username: user_info['name'], first_name: user_info['first_name'], last_name: user_info['last_name'])
+        authentication.user.save
+      end
+      authentication.save
+    end
+    if authentication.user
+      sign_in authentication.user
+      # raise "signed in #{authentication}"
+
+      flash[:notice] = "Authorization successful." 
+    end
+    
+    redirect_to root_path
   end
 
-  # PATCH/PUT /authorizations/1
-  # PATCH/PUT /authorizations/1.json
-  def update
-    respond_to do |format|
-      if @authorization.update(authorization_params)
-        format.html { redirect_to @authorization, notice: 'Authorization was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @authorization.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /authorizations/1
-  # DELETE /authorizations/1.json
+  # DELETE /authentications/1
+  # DELETE /authentications/1.json
   def destroy
-    @authorization.destroy
-    respond_to do |format|
-      format.html { redirect_to authorizations_url }
-      format.json { head :no_content }
-    end
+     @authentication = Authorization.find(params[:id])
+     @authentication.destroy
+    flash[:notice] = "Successfully destroyed authentication."
+    redirect_to root_path
   end
-
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_authorization

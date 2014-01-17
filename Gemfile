@@ -44,13 +44,20 @@ gem 'suspenders'
 # Auth
 gem 'devise'
 gem 'omniauth'
+
+
+# omniauth stratigy's 
+gem 'omniauth-twitter', :github => 'arunagw/omniauth-twitter'
 gem 'omniauth-facebook'
+gem 'omniauth-linkedin'
 gem 'omniauth-google-oauth2'
+gem 'twitter'
 
 # Bootstrap
 gem "therubyracer"
 gem "less-rails"
 gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
