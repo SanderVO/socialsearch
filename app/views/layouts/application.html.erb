@@ -20,11 +20,9 @@
     </ul>
   </div>
 </div>
-<%
-response = Instagram.get_access_token("ce957c34f62a4d4daaae84eb2f999b10", :redirect_uri => "http://127.0.0.1:3000/auth/instagram/callback")
-    raise response.inspect
-    %>
-<div class="container">
+
+<div class="container-fluid">
+
   <% if content_for?(:main) %>
   	<%= yield :main %>
   <% end %>
