@@ -1,7 +1,9 @@
 <% content_for :main do %>
-  <h1>Listing users</h1>
+  <h1>Users</h1>
 
-  <table>
+  <hr />
+
+  <table class="table table-bordered">
     <thead>
       <tr>
         <th>Username</th>
@@ -45,7 +47,7 @@
           <td><%= user.gender %></td>
           <td><%= link_to 'Show', user %></td>
           <td><%= link_to 'Edit', edit_user_path(user) %></td>
-          <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure you want to delete this user?' } %></td>
         </tr>
       <% end %>
     </tbody>
