@@ -22,7 +22,7 @@ class ApiController < ApplicationController
   		end
   		respond_to do |format|
   			format.json { render :json => {result: @result} }
-  			format.html { render :partial => params[:resource] }
+  			format.html { render :partial => params[:resource], locals: { result: @result} }
   		end
   	end
 
