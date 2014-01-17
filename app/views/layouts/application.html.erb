@@ -20,14 +20,16 @@
   </div>
 </div>
 
-<% if content_for?(:main) %>
-	<%= yield :main %>
-<% end %>
+<div class="container-fluid">
+  <% if content_for?(:main) %>
+  	<%= yield :main %>
+  <% end %>
 
 
-<% if content_for?(:sidebar) %>
-	<%= yield :sidebar %>
-<% end %>
+  <% if content_for?(:sidebar) %>
+  	<%= yield :sidebar %>
+  <% end %>
+</div>
 
 </body>
 </html>

@@ -4,7 +4,7 @@
 	  <p>What are you waiting for? Start searching!</p>
 	  	<div class="input-append">
 		  <input class="span6" id="mainSearch" type="text">
-		  <button class="btn" type="button" onclick="search()">Search!</button>
+		  <button class="btn" type="submit" onclick="search()">Search!</button>
 		  <button class="btn" type="button" onclick="js:$('#searchOptions').toggle()">Options</button>
 		</div>
 
@@ -37,6 +37,13 @@
 	</div>
 
 	<div id="searchResults">
-		<div id="flickr" style="display:none;"></div>
+		<div id="flickr" style="display:none;">
+			<img src="/assets/flickr-logo.png" class="logoResults" />
+
+			<hr />
+
+			<div class="flickr-results">
+			</div>
+		</div>
 	</div>
 <% end %>

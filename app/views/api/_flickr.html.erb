@@ -1,15 +1,18 @@
-<% result.each do |r| %>
-	<ul>
+<ul>
+	<% result.each do |r| %>
 		<li>
-			<div class="image">
+			<a href="<%= r[:url].first['_content'] %>" target="_blank">
+			<div class="flickr-image">
 				<% if r[:type] == 'photo' %>
-					<img src=<%= r[:image_url] %> /> 
+					<img src=<%= r[:image_url] %> class="flickr-image" align="center" /> 
 				<% end %>
-			</div>
 
-			<div class="title">
-				<%= r[:title] %>
+				<div class="flickr-content" style="display:none;">
+					<span class="title"><%= r[:title] %></span>
+					<p><%= r[:description] %></p>
+				</div>
 			</div>
+			</a>
 		</li>
-	</ul>
-<% end %>
+	<% end %>
+</ul>

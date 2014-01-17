@@ -7,12 +7,12 @@ function search() {
 		    	url = 'http://localhost:3000/search/' + name,
 		    	data = { search : value };
 
-	    	sendRequest($('#searchResults #' + name), url, data);
+	    	sendRequest(name, url, data);
 		});
 	}
 }
 
-function sendRequest(target, url, data) {
+function sendRequest(name, url, data) {
 	$.ajax({
 		url: url,
 		type: 'POST',
@@ -22,9 +22,10 @@ function sendRequest(target, url, data) {
 
 		success: function(data, status, xhr) {
 			console.log('success');
-			target.html('');
-			target.show();
-			target.append(data);
+			$('#searchResults #' + name + ' .' + name + '-results').html('');
+			$('#searchResults #' + name).show();
+			$('#searchResults #' + name + ' .' + name + '-results').append(data);
+			setHovers();
 		},
 
 		error: function() {
@@ -32,3 +33,23 @@ function sendRequest(target, url, data) {
 		}
 	});
 }
+
+function setHovers() {
+	$(".flickr-image").mouseleave(function() {
+		$(this).find(".flickr-content").stop().slideUp(250);
+	});
+
+	$(".flickr-image").mouseenter(function() {
+		$(this).find(".flickr-content").stop().show().slideUp(0).slideDown(250);
+	});
+}
+
+$(function() {
+	$('#mainSearch').keyup(function(e){
+			console.log('event!');
+	    if(e.keyCode == 13)
+	    {
+	        search();
+	    }
+	});
+});
