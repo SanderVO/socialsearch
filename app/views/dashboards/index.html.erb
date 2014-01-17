@@ -1,12 +1,50 @@
 <% content_for :main do %>
 	<p id="notice"><%= notice %></p>
 	<div class="hero-unit">
-	  <h1>Welcome!</h1>
-	  <p>Wait are you waiting for? Start searching!</p>
-	  <p>
-	    <a class="btn btn-primary btn-large">
-	      Search!
-	    </a>
-	  </p>
+	  <h1>Welcome traveler!</h1>
+	  <p>What are you waiting for? Start searching!</p>
+	  	<div class="input-append">
+		  <input class="span6" id="mainSearch" type="text">
+		  <button class="btn" type="submit" onclick="search()">Search!</button>
+		  <button class="btn" type="button" onclick="js:$('#searchOptions').toggle()">Options</button>
+		</div>
+
+		<div id="searchOptions" style="display:none;">
+			<label class="checkbox">
+			  <input type="checkbox" value="" name="flickr" checked>
+			  Flickr
+			</label>
+
+			<label class="checkbox">
+			  <input type="checkbox" value="" name="twitter" checked>
+			  Twitter
+			</label>
+
+			<label class="checkbox">
+			  <input type="checkbox" value="" name="facebook" checked>
+			  Facebook
+			</label>
+
+			<label class="checkbox">
+			  <input type="checkbox" value="" name="google" checked>
+			  Google
+			</label>
+
+			<label class="checkbox">
+			  <input type="checkbox" value="" name="instagram" checked>
+			  Instagram
+			</label>
+		</div>
+	</div>
+
+	<div id="searchResults">
+		<div id="flickr" style="display:none;">
+			<img src="/assets/flickr-logo.png" class="logoResults" />
+
+			<hr />
+
+			<div class="flickr-results">
+			</div>
+		</div>
 	</div>
 <% end %>
