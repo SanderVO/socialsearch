@@ -44,6 +44,8 @@ gem 'suspenders'
 # Auth
 gem 'devise'
 gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
 
 # Bootstrap
 gem "therubyracer"

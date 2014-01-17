@@ -16,18 +16,21 @@
       <li><a href="/users">Users</a></li>
 	  <li><%= render 'devise/menu/registration_items' %></li>
 	  <li><%= render 'devise/menu/login_items' %></li>
+    <li><%= link_to 'Login with Facebook', '/auth/facebook/' %></li>
     </ul>
   </div>
 </div>
 
-<% if content_for?(:main) %>
-	<%= yield :main %>
-<% end %>
+<div class="container">
+  <% if content_for?(:main) %>
+  	<%= yield :main %>
+  <% end %>
 
 
-<% if content_for?(:sidebar) %>
-	<%= yield :sidebar %>
-<% end %>
+  <% if content_for?(:sidebar) %>
+  	<%= yield :sidebar %>
+  <% end %>
+</div>
 
 </body>
 </html>
