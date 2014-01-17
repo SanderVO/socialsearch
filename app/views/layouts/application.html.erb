@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Socialsearch</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
@@ -13,6 +13,18 @@
 	<%= link_to "Login with facebook", "/auth/facebook/" %>
 </div>
 
+<div class="navbar">
+  <div class="navbar-inner">
+    <a class="brand" href="/">Social Search</a>
+    <ul class="nav">
+      <li><a href="/searches">Search</a></li>
+      <li><a href="/users">Users</a></li>
+	  <li><%= render 'devise/menu/registration_items' %></li>
+	  <li><%= render 'devise/menu/login_items' %></li>
+    </ul>
+  </div>
+</div>
+
 <% if content_for?(:main) %>
 	<%= yield :main %>
 <% end %>
@@ -21,7 +33,6 @@
 <% if content_for?(:sidebar) %>
 	<%= yield :sidebar %>
 <% end %>
-
 
 </body>
 </html>

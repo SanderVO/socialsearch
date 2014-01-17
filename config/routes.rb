@@ -1,6 +1,8 @@
 Socialsearch::Application.routes.draw do
 
-  root :to => 'dashboards#show'
+  devise_for :users
+  
+  root :to => 'dashboards#index'
 
   resources :authorizations
 

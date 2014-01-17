@@ -55,6 +55,6 @@ class AuthorizationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def authorization_params
-      params.require(:authorization).permit(:provider, :token, :date_created)
+      params.require(:authorization).permit(:provider, :token)
     end
 end

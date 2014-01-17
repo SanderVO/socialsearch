@@ -27,8 +27,6 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
-gem 'devise'
-
 gem "flickrie"
 
 group :doc do
@@ -47,12 +45,19 @@ gem 'suspenders'
 gem 'devise'
 gem 'omniauth'
 
+
 # omniauth stratigy's 
 gem 'omniauth-twitter', :github => 'arunagw/omniauth-twitter'
 gem 'omniauth-facebook'
 gem 'omniauth-linkedin'
 
 gem 'twitter'
+
+# Bootstrap
+# gem "therubyracer"
+gem "less-rails"
+gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
