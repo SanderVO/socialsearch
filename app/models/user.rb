@@ -73,7 +73,7 @@ class User
   def google
     if authorizations.length > 0 
       authorizations.each do |a|
-        return a if a.provider == "google"
+        return a if a.provider == "google_oauth2"
       end
     end 
     return nil

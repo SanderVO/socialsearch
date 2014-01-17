@@ -22,6 +22,7 @@ class AuthorizationsController < ApplicationController
     # twitter only (gets no email)
     if !authentication.user && !user_info["email"]
       flash[:notice] = "No user linked to this account. Please sign in or create a new account"
+      redirect_to '/users/sign_up/'
     # if user doesnt exists, register user
     elsif !authentication.user
       users = User.where(email: user_info['email'])
@@ -36,10 +37,9 @@ class AuthorizationsController < ApplicationController
     # if user exists, sign in
     if authentication.user
       sign_in authentication.user
-      # raise "signed in #{authentication}"
       flash[:notice] = "Authorization successful." 
+      redirect_to root_path
     end
-    redirect_to root_path
   end
 
   # DELETE /authentications/1

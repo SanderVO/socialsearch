@@ -1,81 +1,63 @@
 <% content_for :main do %>
   <p id="notice"><%= notice %></p>
 
-  <p>
-    <strong>Username:</strong>
-    <%= @user.username %>
-  </p>
+  <div class="profile_title">
+    <h1><%= @user.username %></h1>
+  </div>
 
-  <p>
-    <strong>Password:</strong>
-    <%= @user.password %>
-  </p>
+  <h2>Info</h2>
+  <div class="profile_info well well-small">
+    <ul class="profile_info_ul">
+      <li>
+        <strong>Email:</strong>
+        <%= @user.email %>
+      </li>
+      <li>
+        <strong>First name:</strong>
+        <%= @user.first_name %>
+      </li>
+      <li>
+        <strong>Last name:</strong>
+        <%= @user.last_name %>
+      </li>
+      <li>
+        <strong>City:</strong>
+        <%= @user.city %>
+      </li>
+      <li>
+        <strong>Country:</strong>
+        <%= @user.country %>
+      </li>
+      <li>
+        <strong>Street:</strong>
+        <%= @user.street %>
+      </li>
+      <li>
+        <strong>Postal code:</strong>
+        <%= @user.postal_code %>
+      </li>
+      <li>
+        <strong>Gender:</strong>
+        <%= @user.gender %>
+      </li>
+    </ul>
+  </div>
 
-  <p>
-    <strong>Salt:</strong>
-    <%= @user.salt %>
-  </p>
-
-  <p>
-    <strong>Email:</strong>
-    <%= @user.email %>
-  </p>
-
-  <p>
-    <strong>First name:</strong>
-    <%= @user.first_name %>
-  </p>
-
-  <p>
-    <strong>Last name:</strong>
-    <%= @user.last_name %>
-  </p>
-
-  <p>
-    <strong>Date created:</strong>
-    <%= @user.date_created %>
-  </p>
-
-  <p>
-    <strong>Date updated:</strong>
-    <%= @user.date_updated %>
-  </p>
-
-  <p>
-    <strong>Active:</strong>
-    <%= @user.active %>
-  </p>
-
-  <p>
-    <strong>Activationkey:</strong>
-    <%= @user.activationkey %>
-  </p>
-
-  <p>
-    <strong>City:</strong>
-    <%= @user.city %>
-  </p>
-
-  <p>
-    <strong>Country:</strong>
-    <%= @user.country %>
-  </p>
-
-  <p>
-    <strong>Street:</strong>
-    <%= @user.street %>
-  </p>
-
-  <p>
-    <strong>Postal code:</strong>
-    <%= @user.postal_code %>
-  </p>
-
-  <p>
-    <strong>Gender:</strong>
-    <%= @user.gender %>
-  </p>
-
-  <%= link_to 'Edit', edit_user_path(@user) %> |
-  <%= link_to 'Back', users_path %>
+  <h2>Link Accounts</h2>
+  <div class="profile_links well well-small">
+    <ul class="profile_info_ul">
+      <li>
+        <strong>Facebook:</strong>
+        <%= @user.fb ? "Linked" : "Not Linked" %>
+      </li>
+      <li>
+        <strong>Twitter:</strong>
+        <%= @user.twitter ? "Linked" : "Not Linked" %>
+      </li>
+      <li>
+        <strong>Google:</strong>
+        <%= @user.google ? "Linked" : "Not Linked" %>
+      </li>
+    </ul>
+  </div>
 <% end %>
