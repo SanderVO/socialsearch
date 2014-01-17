@@ -21,7 +21,7 @@ class ApiController < ApplicationController
 	  		end
   		end
   		respond_to do |format|
-  			fotmat.json { render :json => {result: @result} }
+  			format.json { render :json => {result: @result} }
   			format.html { render :partial => params[:resource] }
   		end
   	end

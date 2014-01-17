@@ -14,3 +14,6 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Ignore windows bootstrap shit
+/app/assets/stylesheets/bootstrap_and_overrides.css
