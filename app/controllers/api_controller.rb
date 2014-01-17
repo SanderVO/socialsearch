@@ -7,12 +7,12 @@ class ApiController < ApplicationController
   	def search
   		@limit = params[:limit] ? params[:limit] : 10
   		if @error
-  			result = @error
+  			@result = @error
   		else
   			if params[:resource]
-  				result = self.send(params[:resource])
+  				@result = self.send(params[:resource])
   			else
-	  			result = {
+	  			@result = {
 	  				flickr: flickr,
 	  				facebook: facebook,
 	  				twitter: twitter,
@@ -20,7 +20,10 @@ class ApiController < ApplicationController
 	  			} 
 	  		end
   		end
-  		render :json => {result: result}
+  		respond_to do |format|
+  			fotmat.json { render :json => {result: @result} }
+  			format.html { render :partial => params[:resource] }
+  		end
   	end
 
 	def flickr

@@ -25,13 +25,14 @@ class AuthorizationsController < ApplicationController
       if users.first
         authentication.user = users.first
       else
-        authentication.user = User.new(email: user_info['email'], name: user_info['name'])
+        authentication.user = User.new(email: user_info['email'], username: user_info['name'], first_name: user_info['first_name'], last_name: user_info['last_name'])
         authentication.user.save
       end
       authentication.save
     end
     if authentication.user
       sign_in authentication.user
+      # raise "signed in #{authentication}"
 
       flash[:notice] = "Authorization successful." 
     end
@@ -47,6 +48,7 @@ class AuthorizationsController < ApplicationController
     flash[:notice] = "Successfully destroyed authentication."
     redirect_to root_path
   end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_authorization
