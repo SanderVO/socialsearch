@@ -1,7 +1,9 @@
-<%= form_for(@search) do |f| %>
+<%= form_for(@search, :html => {:class => 'form-horizontal'}) do |f| %>
   <% if @search.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@search.errors.count, "error") %> prohibited this search from being saved:</h2>
+
+      <hr />
 
       <ul>
       <% @search.errors.full_messages.each do |msg| %>
@@ -11,11 +13,15 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :query %><br>
-    <%= f.text_field :query %>
+  <div class="control-group">
+    <%= f.label :query, :class => 'control-label' %>
+    <div class='controls'>
+      <%= f.text_field :query %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+
+  <div class="form-actions">
+    <%= f.submit "Search", :class => 'btn btn-primary' %>
+    <%= link_to 'Back', searches_path, :class => 'btn' %>
   </div>
 <% end %>
