@@ -14,12 +14,15 @@ class AuthorizationsController < ApplicationController
     user_info = auth["info"] ? auth["info"] : auth["user_info"]
     authentication = Authorization.where(:provider => auth['provider'], :uid => auth['uid']).first
     authentication = Authorization.new(:provider => auth['provider'], :uid => auth['uid']) if !authentication
+    # if the user exists, but does not have a link with the social service
     if !authentication.user && current_user
       authentication.user = current_user
       authentication.save
     end
+    # twitter only (gets no email)
     if !authentication.user && !user_info["email"]
       flash[:notice] = "No user linked to this account. Please sign in or create a new account"
+    # if user doesnt exists, register user
     elsif !authentication.user
       users = User.where(email: user_info['email'])
       if users.first
@@ -30,13 +33,12 @@ class AuthorizationsController < ApplicationController
       end
       authentication.save
     end
+    # if user exists, sign in
     if authentication.user
       sign_in authentication.user
       # raise "signed in #{authentication}"
-
       flash[:notice] = "Authorization successful." 
     end
-    
     redirect_to root_path
   end
 

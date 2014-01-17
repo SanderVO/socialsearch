@@ -70,7 +70,6 @@ class User
     return nil
   end
 
-
   def google
     if authorizations.length > 0 
       authorizations.each do |a|
