@@ -1,30 +1,30 @@
 class ApiController < ApplicationController
-  	respond_to :json
-  	before_filter :validate_params
+  respond_to :json
+  before_filter :validate_params
 
 
-  	#search in all resources
-  	def search
-  		@limit = params[:limit] ? params[:limit].to_i : 10
-  		if @error
-  			@result = @error
-  		else
-  			if params[:resource]
-  				@result = self.send(params[:resource])
-  			else
-	  			@result = {
-	  				flickr: flickr,
-	  				facebook: facebook,
-	  				twitter: twitter,
-	  				wikipedia: wikipedia
-	  			} 
-	  		end
+	#search in all resources
+	def search
+		@limit = params[:limit] ? params[:limit].to_i : 10
+		if @error
+			@result = @error
+		else
+			if params[:resource]
+				@result = self.send(params[:resource])
+			else
+  			@result = {
+  				flickr: flickr,
+  				facebook: facebook,
+  				twitter: twitter,
+  				wikipedia: wikipedia
+  			}
   		end
-  		respond_to do |format|
-  			format.json { render :json => {result: @result} }
-  			format.html { render :partial => (params[:resource] ? params[:resource] : "search"), locals: { result: @result} }
-  		end
-  	end
+		end
+		respond_to do |format|
+			format.json { render :json => {result: @result} }
+			format.html { render :partial => (params[:resource] ? params[:resource] : "search"), locals: { result: @result} }
+		end
+	end
 
 	def flickr
 		require 'flickrie'
@@ -39,9 +39,9 @@ class ApiController < ApplicationController
 		result[0..@limit].each do |r|
 			info = Flickrie.get_photo_info(r.id)
 			photos << {
-				title: info.title, 
-				description: info.description, 
-				owner: info.owner.hash, 
+				title: info.title,
+				description: info.description,
+				owner: info.owner.hash,
 				location:info['location'].hash,
 				date_posted: info['dates']['posted'],
 				date_taken: info['dates']['taken'],
@@ -61,27 +61,20 @@ class ApiController < ApplicationController
 
 	def twitter
 		require 'twitter'
-		
-		# client = Twitter::REST::Client.new do |config|
-		#   config.consumer_key        = "jrQQLPvLRzJ9lLf6pd8r3Q"
-		#   config.consumer_secret     = "s5ylJSbIyX8t51bZIZY14hTwVFoG9k3SIUPbe6cNJo"
-		#   config.bearer_token        = "AAAAAAAAAAAAAAAAAAAAAIAETwAAAAAAgWaQPsghbCxRF5NAl%2FdfiagCVaE%3DjQ4CHqMZP6LwfWFmeARDgL0uTVD5x184l2UivAVGR5I2LkumrU"
-		# end
-		tweets = []
-		topics = params[:search]
-		results = Twitter.search(topics)
-		#twitter = Twitter::SearchResults.new({},client,:get,topics,{})
-		# results = twitter.search(topics)
-		
-		twitter.each do |res|
-			raise res.inspect
-		end
 
-		# client.filter(:track => topics) do |object|
-		#   tweets << object.text if object.is_a?(Twitter::Tweet)
-		# end
+		client = Twitter::REST::Client.new do |config|
+		   config.consumer_key        = "jrQQLPvLRzJ9lLf6pd8r3Q"
+		   config.consumer_secret     = "s5ylJSbIyX8t51bZIZY14hTwVFoG9k3SIUPbe6cNJo"
+		   config.bearer_token        = "AAAAAAAAAAAAAAAAAAAAAIAETwAAAAAAgWaQPsghbCxRF5NAl%2FdfiagCVaE%3DjQ4CHqMZP6LwfWFmeARDgL0uTVD5x184l2UivAVGR5I2LkumrU"
+	  end
+
+		tweets = []
+		topics = params[:search].split(' ')
+
+		client.search(topics, :count => 3, :result_type => "recent").collect do |tweet|
+			tweets << Tweet.new(tweet.text, tweet.user.screen_name, tweet.id)
+		end
 		tweets
-		
 	end
 
 	def wikipedia
@@ -89,8 +82,8 @@ class ApiController < ApplicationController
 	end
 
 	def instagram
-		
-		
+
+
 		photos = []
 
 		result = Instagram.tag_search(params[:search])
@@ -102,7 +95,7 @@ class ApiController < ApplicationController
 				media['likes'] = media['likes']['count']
 				media['tags'] = media['tags'].length
 				media['comments'] = media['comments']['count']
-				photos << media	
+				photos << media
 			end
 		end
 
