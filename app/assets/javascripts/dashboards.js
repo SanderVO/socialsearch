@@ -6,7 +6,8 @@ function search() {
 		    var name = $(this).attr('name'),
 		    	url = '/search/' + name,
 		    	data = { search : value };
-
+		    	console.log(data);
+		    	console.log(JSON.stringify(data, null, 2));
 	    	sendRequest(name, url, data);
 		});
 	}
