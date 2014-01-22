@@ -38,22 +38,7 @@ class ApiController < ApplicationController
 		photos = []
 		result[0..@limit].each do |r|
 			info = Flickrie.get_photo_info(r.id)
-			#def initialize(title, description, username, location, url, datetime, content)
-			puts info.url
 			photos << FlickrPhoto.new(info.title, info.description, info.owner.username, info.location, info.url, info["dates"]["posted"], "http://farm#{info.farm}.staticflickr.com/#{info.server}/#{info.id}_#{info.secret}.jpg")
-			#{
-			#	title: info.title,
-			#	description: info.description,
-			#	owner: info.owner.hash,
-			#	location:info['location'].hash,
-			#	date_posted: info['dates']['posted'],
-			#	date_taken: info['dates']['taken'],
-			#	url: info['urls']['url'],
-			#	image_url: "http://farm#{info.farm}.staticflickr.com/#{info.server}/#{info.id}_#{info.secret}.jpg",
-			#	type: info['media'],
-			#	comments_count: info.comments_count,
-			#	location: info.location
-			#}
 		end
 		photos
 	end
@@ -75,6 +60,7 @@ class ApiController < ApplicationController
 		topics = params[:search]
 
 		client.search(topics, :count => 3, :result_type => "recent").collect do |tweet|
+			puts tweet.text
 			tweets << Tweet.new(tweet.text, tweet.user.screen_name, tweet.id, tweet.created_at)
 		end
 		tweets

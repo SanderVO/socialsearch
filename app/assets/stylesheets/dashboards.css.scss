@@ -1,11 +1,16 @@
 .logoResults {
 	margin-left: 20px;
-	max-height: 150px;
+	height: 70px;
 	width: 200px;
 }
 
 #searchResults #flickr {
 	float: left;
+	width: 25%;
+}
+
+#searchResults #twitter {
+	float:left;
 	width: 25%;
 }
 
