@@ -1,9 +1,6 @@
-class Tweet
-  attr_reader :text, :username
+class Tweet < Result
   BASIC_URL = "https://twitter.com/"
-  def initialize(text, username, id)
-    @text = text
-    @username = username
-    @url = "#{BASIC_URL}#{username}/#{id}"
+  def initialize(content, username, datetime, id)
+    super(datetime, content, username, "#{BASIC_URL}#{username}/#{id}")
   end
 end
