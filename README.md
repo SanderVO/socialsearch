@@ -8,3 +8,6 @@ Please adhere to styleguide https://github.com/styleguide/ruby
 - Rubygems
 - Bundler (`gem install bundler`)
 
+**Setup:**
+- Put auth tokens and keys in config/local_env.yml (use local_env.yml.example as template)
+
