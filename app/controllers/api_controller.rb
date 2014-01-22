@@ -1,6 +1,6 @@
 class ApiController < ApplicationController
-  respond_to :json
-  before_filter :validate_params
+	respond_to :json
+	before_filter :validate_params
 
 
 	#search in all resources
@@ -12,19 +12,19 @@ class ApiController < ApplicationController
 			if params[:resource]
 				@result = self.send(params[:resource])
 			else
-  			@result = {
-  				flickr: flickr,
-  				facebook: facebook,
-  				twitter: twitter,
-  				wikipedia: wikipedia
+				@result = {
+					flickr: flickr
+  				#facebook: facebook,
+  				#twitter: twitter
+  				#wikipedia: wikipedia
   			}
   		end
-		end
-		respond_to do |format|
-			format.json { render :json => {result: @result} }
-			format.html { render :partial => (params[:resource] ? params[:resource] : "search"), locals: { result: @result} }
-		end
-	end
+  	end
+  	respond_to do |format|
+  		format.json { render :json => {result: @result} }
+  		format.html { render :partial => (params[:resource] ? params[:resource] : "search"), locals: { result: @result} }
+  	end
+  end
 
 	def flickr
 		require 'flickrie'
@@ -38,19 +38,22 @@ class ApiController < ApplicationController
 		photos = []
 		result[0..@limit].each do |r|
 			info = Flickrie.get_photo_info(r.id)
-			photos << {
-				title: info.title,
-				description: info.description,
-				owner: info.owner.hash,
-				location:info['location'].hash,
-				date_posted: info['dates']['posted'],
-				date_taken: info['dates']['taken'],
-				url: info['urls']['url'],
-				image_url: "http://farm#{info.farm}.staticflickr.com/#{info.server}/#{info.id}_#{info.secret}.jpg",
-				type: info['media'],
-				comments_count: info.comments_count,
-				location: info.location
-			}
+			#def initialize(title, description, username, location, url, datetime, content)
+			puts info.inspect
+			photos << FlickrPhoto.new(info.title, info.description, info.owner.username, info.location, info.url, info["dates"]["posted"], "http://farm#{info.farm}.staticflickr.com/#{info.server}/#{info.id}_#{info.secret}.jpg")
+			#{
+			#	title: info.title,
+			#	description: info.description,
+			#	owner: info.owner.hash,
+			#	location:info['location'].hash,
+			#	date_posted: info['dates']['posted'],
+			#	date_taken: info['dates']['taken'],
+			#	url: info['urls']['url'],
+			#	image_url: "http://farm#{info.farm}.staticflickr.com/#{info.server}/#{info.id}_#{info.secret}.jpg",
+			#	type: info['media'],
+			#	comments_count: info.comments_count,
+			#	location: info.location
+			#}
 		end
 		photos
 	end
@@ -63,16 +66,16 @@ class ApiController < ApplicationController
 		require 'twitter'
 
 		client = Twitter::REST::Client.new do |config|
-		   config.consumer_key        = "jrQQLPvLRzJ9lLf6pd8r3Q"
-		   config.consumer_secret     = "s5ylJSbIyX8t51bZIZY14hTwVFoG9k3SIUPbe6cNJo"
-		   config.bearer_token        = "AAAAAAAAAAAAAAAAAAAAAIAETwAAAAAAgWaQPsghbCxRF5NAl%2FdfiagCVaE%3DjQ4CHqMZP6LwfWFmeARDgL0uTVD5x184l2UivAVGR5I2LkumrU"
-	  end
+			config.consumer_key        = "jrQQLPvLRzJ9lLf6pd8r3Q"
+			config.consumer_secret     = "s5ylJSbIyX8t51bZIZY14hTwVFoG9k3SIUPbe6cNJo"
+			config.bearer_token        = "AAAAAAAAAAAAAAAAAAAAAIAETwAAAAAAgWaQPsghbCxRF5NAl%2FdfiagCVaE%3DjQ4CHqMZP6LwfWFmeARDgL0uTVD5x184l2UivAVGR5I2LkumrU"
+		end
 
 		tweets = []
 		topics = params[:search].split(' ')
 
 		client.search(topics, :count => 3, :result_type => "recent").collect do |tweet|
-			tweets << Tweet.new(tweet.text, tweet.user.screen_name, tweet.id)
+			tweets << Tweet.new(tweet.text, tweet.user.screen_name, tweet.id, tweet.created_at)
 		end
 		tweets
 	end
@@ -82,8 +85,6 @@ class ApiController < ApplicationController
 	end
 
 	def instagram
-
-
 		photos = []
 
 		result = Instagram.tag_search(params[:search])
@@ -120,13 +121,12 @@ class ApiController < ApplicationController
 	end
 
 	private
-
-		# checks if resource exists and search query is long enough
-		def validate_params
-			if params[:resource] && !(self.respond_to? params[:resource])
-				@error = "Resource invalid"
-			elsif params[:search] && params[:search].length < 3
-				@error = "Please enter a searchword longer than 2 characters"
-			end
+	# checks if resource exists and search query is long enough
+	def validate_params
+		if params[:resource] && !(self.respond_to? params[:resource])
+			@error = "Resource invalid"
+		elsif params[:search] && params[:search].length < 3
+			@error = "Please enter a searchword longer than 2 characters"
 		end
+	end
 end
