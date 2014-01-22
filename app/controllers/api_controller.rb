@@ -28,8 +28,8 @@ class ApiController < ApplicationController
 
 	def flickr
 		require 'flickrie'
-		Flickrie.api_key = "9a9457aa5a5c1cc9b2a243a82a6a1dd5"
-		Flickrie.shared_secret = "093b1e94fea1a0d8"
+		Flickrie.api_key = ENV['FLICKR_API_KEY']
+		Flickrie.shared_secret = ENV['FLICKR_SHARED_SECRET']
 
 		query = params[:search]
 		result = Flickrie.search_photos(tags: query.split(' '), text:query)
@@ -51,9 +51,9 @@ class ApiController < ApplicationController
 		require 'twitter'
 
 		client = Twitter::REST::Client.new do |config|
-			config.consumer_key        = "jrQQLPvLRzJ9lLf6pd8r3Q"
-			config.consumer_secret     = "s5ylJSbIyX8t51bZIZY14hTwVFoG9k3SIUPbe6cNJo"
-			config.bearer_token        = "AAAAAAAAAAAAAAAAAAAAAIAETwAAAAAAgWaQPsghbCxRF5NAl%2FdfiagCVaE%3DjQ4CHqMZP6LwfWFmeARDgL0uTVD5x184l2UivAVGR5I2LkumrU"
+			config.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
+			config.consumer_secret     = ENV['TWITTER_CONSUMER_SECRET']
+			config.bearer_token        = ENV['TWITTER_BEARER_TOKEN']
 		end
 
 		tweets = []

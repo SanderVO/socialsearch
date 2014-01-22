@@ -1,0 +1,6 @@
+FLICKR_API_KEY: 'put your flickr api key here'
+FLICKR_SHARED_SECRET: 'put your flickr shared secret here'
+
+TWITTER_CONSUMER_KEY: 'put your twitter consumer key here'
+TWITTER_CONSUMER_SECRET: 'put your twitter consumer secret here'
+TWITTER_BEARER_TOKEN: 'put your twitter bearer token here'
