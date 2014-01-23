@@ -8,8 +8,8 @@ class ApiController < ApplicationController
 		if @error
 			@result = @error
 		else
-			if params[:resource]
-				@result = self.send(params[:resource])
+			if params[:provider]
+				@result = self.send(params[:provider])
 			else
 				@result = {
 					flickr: flickr,
@@ -24,7 +24,7 @@ class ApiController < ApplicationController
   		end
 	  	respond_to do |format|
 	  		format.json { render :json => {result: @result} }
-	  		format.html { render :partial => (params[:resource] ? params[:resource] : "search"), locals: { result: @result} }
+	  		format.html { render :partial => (params[:provider] ? params[:provider] : "search"), locals: { result: @result} }
 	  	end
 	end
 
@@ -53,26 +53,27 @@ class ApiController < ApplicationController
 	def tumblr
 		require 'tumblr_client'
 
-		Tumblr.configure do |config|
-		  config.consumer_key = ENV['TUMBLR_CONSUMER_KEY']
-		  config.consumer_secret = ENV['TUMBLR_CONSUMER_SECRET']
-		end
-
 		client = Tumblr::Client.new
 
 		tumblrs = []
 		tags = params[:search]
 		photo_url = ''
 
+		error = nil
+		
 		client.tagged(tags, :limit => 5).each do |blog|
-			if blog['photos'] != nil
-				blog['photos'].each do |photo|
-					photo_url = photo['alt_sizes'].first['url']
-				end
+			if blog.first == "status" || blog.first == "msg"
+				error = blog.last
+			else
+				tumblrs << TumblrBlog.new(blog)
 			end
-			tumblrs << TumblrPhoto.new(blog['blog_name'], blog['date'], blog['post_url'], photo_url, blog['caption'])
 		end
-		tumblrs
+		
+		if error
+			return_result status: error
+		else
+			return_result items: tumblrs
+		end
 	end
 
 	def twitter
@@ -147,7 +148,7 @@ class ApiController < ApplicationController
 			results << YoutubeResult.new(r)
 		end
 
-		results
+		return_result total_count: 15, items: results
 	end
 
 	def googleplus
@@ -185,9 +186,9 @@ class ApiController < ApplicationController
 		end
 		result
 	end
-	# checks if resource exists and search query is long enough
+	# checks if provider exists and search query is long enough
 	def validate_params
-		if params[:resource] && !(self.respond_to? params[:resource])
+		if params[:provider] && !(self.respond_to? params[:provider])
 			@error = "Resource invalid"
 		elsif !params[:search] || (params[:search] && params[:search].length < 3)
 			@error = "Please enter a searchword longer than 2 characters"
