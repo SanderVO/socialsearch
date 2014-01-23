@@ -24,11 +24,10 @@
 </div>
 
 <div class="container-fluid">
+  <p id="notice"><%= notice %></p>
   <% if content_for?(:main) %>
   	<%= yield :main %>
   <% end %>
-
-
   <% if content_for?(:sidebar) %>
   	<%= yield :sidebar %>
   <% end %>

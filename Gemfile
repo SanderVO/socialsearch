@@ -45,6 +45,8 @@ gem 'suspenders'
 gem 'devise'
 gem 'omniauth'
 
+# User roles
+gem "cancan"
 
 # omniauth stratigy's 
 gem 'omniauth-twitter', :github => 'arunagw/omniauth-twitter'
