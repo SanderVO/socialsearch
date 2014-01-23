@@ -1,17 +1,21 @@
 .logoResults {
 	margin-left: 20px;
 	height: 70px;
-	width: 200px;
+	max-width: 200px;
 }
 
-#searchResults #flickr {
+#searchResults #flickr, #searchResults #twitter, #searchResults #youtube {
 	float: left;
 	width: 25%;
 }
 
-#searchResults #twitter {
-	float:left;
-	width: 25%;
+.youtube-results {
+	float: left;
+	width: 100%;
+
+	ul, li {
+		width: 100%;
+	}
 }
 
 .flickr-results {
@@ -60,5 +64,9 @@
 		img {
 			width: 100%;
 		}
+	}
+
+	iframe {
+		width: 100%;
 	}
 }

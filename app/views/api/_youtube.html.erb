@@ -1,0 +1,13 @@
+<ul>
+	<% result.each do |r| %>
+		<li>
+			<% if r.type == 'youtube#video' %>
+				<%= r.description %>
+			<% elsif r.type == 'youtube#playlist' %>
+				<%= r.description %>
+			<% else %>
+				<iframe height="315" src="//www.youtube.com/embed/<%= r.id %>" frameborder="0" allowfullscreen></iframe>
+			<% end %>
+		</li>
+	<% end %>
+</ul>

@@ -17,6 +17,7 @@ class ApiController < ApplicationController
 					instagram: instagram,
 	  				facebook: facebook,
 	  				twitter: twitter,
+	  				youtube: youtube,
 	  				wikipedia: wikipedia
   				}
   			end
@@ -125,6 +126,28 @@ class ApiController < ApplicationController
 		end
 
 		return_result items: photos
+	end
+
+	def youtube
+		require 'google/api_client'
+
+		client = Google::APIClient.new
+
+		youtube = client.discovered_api('youtube', 'v3')
+
+		client.authorization = nil
+
+		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => youtube.search.list, :parameters => {:part => 'id,snippet', :q => params[:search], :maxResults => 10}
+
+		result = JSON.parse(res.data.to_json)
+
+		results = []
+
+		result['items'].each do |r|
+			results << YoutubeResult.new(r)
+		end
+
+		results
 	end
 
 	private
