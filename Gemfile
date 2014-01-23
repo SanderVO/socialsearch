@@ -32,7 +32,6 @@ gem "flickrie"
 gem 'instagram'
 
 gem 'google-api-client'
-gem 'trollop'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

@@ -235,7 +235,6 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    trollop (2.0)
     trout (0.3)
     turbolinks (2.2.0)
       coffee-rails
@@ -284,7 +283,6 @@ DEPENDENCIES
   sqlite3
   suspenders
   therubyracer
-  trollop
   turbolinks
   twitter
   twitter-bootstrap-rails!
