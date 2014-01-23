@@ -31,6 +31,9 @@ gem "flickrie"
 
 gem 'instagram'
 
+gem 'tumblr_client'
+gem 'google-api-client'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -47,6 +50,8 @@ gem 'suspenders'
 gem 'devise'
 gem 'omniauth'
 
+# User roles
+gem "cancan"
 
 # omniauth stratigy's 
 gem 'omniauth-twitter', :github => 'arunagw/omniauth-twitter'

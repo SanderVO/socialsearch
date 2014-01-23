@@ -15,19 +15,19 @@
     <ul class="nav">
       <li><a href="/searches">Search</a></li>
       <li><a href="/users">Users</a></li>
-	  <li><%= render 'devise/menu/registration_items' %></li>
-	  <li><%= render 'devise/menu/login_items' %></li>
+    </ul>
+    <ul class="nav pull-right">
+      <%= render 'devise/menu/login_items' %>
+      <%= render 'devise/menu/registration_items' %>
     </ul>
   </div>
 </div>
 
 <div class="container-fluid">
-
+  <p id="notice"><%= notice %></p>
   <% if content_for?(:main) %>
   	<%= yield :main %>
   <% end %>
-
-
   <% if content_for?(:sidebar) %>
   	<%= yield :sidebar %>
   <% end %>
