@@ -25,18 +25,20 @@ class AuthorizationsController < ApplicationController
       redirect_to '/users/sign_up/'
     # if user doesnt exists, register user
     elsif !authentication.user
-      users = User.where(email: user_info['email'])
-      if users.first
-        authentication.user = users.first
+      user = User.where(email: user_info['email']).first
+      if user
+        authentication.user = user
       else
-        authentication.user = User.new(email: user_info['email'], username: user_info['name'], first_name: user_info['first_name'], last_name: user_info['last_name'])
-        authentication.user.save
+        new_user = User.new(email: user_info['email'], username: user_info['name'], first_name: user_info['first_name'], last_name: user_info['last_name'])
+        new_user.save
+        authentication.user = new_user
       end
       authentication.save
     end
     # if user exists, sign in
     if authentication.user
       sign_in authentication.user
+      # raise "user exists? #{exists.to_s}, signed in? #{user_signed_in?.to_s}".inspect
       flash[:notice] = "Authorization successful." 
       redirect_to root_path
     end

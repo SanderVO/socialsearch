@@ -97,6 +97,11 @@ GEM
       http_parser.rb
     http_parser.rb (0.6.0)
     i18n (0.6.9)
+    instagram (0.10.0)
+      faraday (>= 0.7, < 0.9)
+      faraday_middleware (~> 0.8)
+      hashie (>= 0.4.0)
+      multi_json (~> 1.0, >= 1.0.3)
     jbuilder (1.5.3)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
@@ -210,6 +215,13 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     trout (0.3)
+    tumblr_client (0.8.2)
+      faraday (>= 0.8)
+      faraday_middleware (>= 0.8)
+      json
+      mime-types
+      oauth
+      simple_oauth
     turbolinks (2.2.0)
       coffee-rails
     twitter (5.5.1)
@@ -240,6 +252,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise
   flickrie
+  instagram
   jbuilder (~> 1.2)
   jquery-rails
   less-rails
@@ -255,6 +268,7 @@ DEPENDENCIES
   sqlite3
   suspenders
   therubyracer
+  tumblr_client
   turbolinks
   twitter
   twitter-bootstrap-rails!
