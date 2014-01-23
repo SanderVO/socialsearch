@@ -9,8 +9,8 @@ class ApiController < ApplicationController
 		if @error
 			@result = @error
 		else
-			if params[:resource]
-				@result = self.send(params[:resource])
+			if params[:provider]
+				@result = self.send(params[:provider])
 			else
 				@result = {
 					flickr: flickr,
@@ -23,7 +23,7 @@ class ApiController < ApplicationController
   		end
 	  	respond_to do |format|
 	  		format.json { render :json => {result: @result} }
-	  		format.html { render :partial => (params[:resource] ? params[:resource] : "search"), locals: { result: @result} }
+	  		format.html { render :partial => (params[:provider] ? params[:provider] : "search"), locals: { result: @result} }
 	  	end
 	end
 
@@ -111,9 +111,9 @@ class ApiController < ApplicationController
 		end
 		result
 	end
-	# checks if resource exists and search query is long enough
+	# checks if provider exists and search query is long enough
 	def validate_params
-		if params[:resource] && !(self.respond_to? params[:resource])
+		if params[:provider] && !(self.respond_to? params[:provider])
 			@error = "Resource invalid"
 		elsif !params[:search] || (params[:search] && params[:search].length < 3)
 			@error = "Please enter a searchword longer than 2 characters"
