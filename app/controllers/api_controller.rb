@@ -88,7 +88,7 @@ class ApiController < ApplicationController
 		tweets = []
 		topics = params[:search]
 
-		client.search(topics, :count => 3, :result_type => "recent").take(@limit).collect do |tweet|
+		client.search(topics, :count => @limit, :result_type => "recent").take(@limit).collect do |tweet|
 			tweets << Tweet.new(tweet)
 		end
 		tweets
