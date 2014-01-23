@@ -115,7 +115,7 @@ class ApiController < ApplicationController
 	def validate_params
 		if params[:resource] && !(self.respond_to? params[:resource])
 			@error = "Resource invalid"
-		elsif params[:search] && params[:search].length < 3
+		elsif !params[:search] || (params[:search] && params[:search].length < 3)
 			@error = "Please enter a searchword longer than 2 characters"
 		end
 	end
