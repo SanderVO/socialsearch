@@ -42,11 +42,12 @@ class ApiController < ApplicationController
 			info = Flickrie.get_photo_info(r.id)
 			photos << FlickrPhoto.new(info)
 		end
-		photos
+
+		return_result limit: @limit, items: photos
 	end
 
 	def facebook
-		[]
+		return_result items: []
 	end
 
 	def twitter
@@ -62,16 +63,15 @@ class ApiController < ApplicationController
 		topics = params[:search]
 
 		client.search(topics, :count => 3, :result_type => "recent").take(@limit).collect do |tweet|
-			#raise tweet.url.inspect
-			# puts tweet.text
-			tweets << Tweet.new(tweet) # {content: tweet.text, user: tweet.user.screen_name, datetime: tweet.created_at, url: twitter_url(tweet), id: tweet.id}
-			#Tweet.new(tweet.text, tweet.user.screen_name, tweet.id, tweet.created_at)
+			tweets << Tweet.new(tweet)
 		end
 		tweets
+
+		return_result items: tweets
 	end
 
 	def wikipedia
-		[]
+		return_result items: []
 	end
 
 	def instagram
@@ -100,7 +100,7 @@ class ApiController < ApplicationController
 			end
 		end
 
-		photos
+		return_result items: photos
 	end
 
 	def youtube
@@ -126,11 +126,19 @@ class ApiController < ApplicationController
 	end
 
 	private
+
+	def return_result params
+		result = {}
+		params.each do |k,v|
+			result[k] = v;
+		end
+		result
+	end
 	# checks if resource exists and search query is long enough
 	def validate_params
 		if params[:resource] && !(self.respond_to? params[:resource])
 			@error = "Resource invalid"
-		elsif params[:search] && params[:search].length < 3
+		elsif !params[:search] || (params[:search] && params[:search].length < 3)
 			@error = "Please enter a searchword longer than 2 characters"
 		end
 	end
