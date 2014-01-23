@@ -53,11 +53,6 @@ class ApiController < ApplicationController
 	def tumblr
 		require 'tumblr_client'
 
-		Tumblr.configure do |config|
-		  config.consumer_key = ENV['TUMBLR_CONSUMER_KEY']
-		  config.consumer_secret = ENV['TUMBLR_CONSUMER_SECRET']
-		end
-
 		client = Tumblr::Client.new
 
 		tumblrs = []
@@ -70,14 +65,10 @@ class ApiController < ApplicationController
 			if blog.first == "status" || blog.first == "msg"
 				error = blog.last
 			else
-				if blog['photos'] != nil
-					blog['photos'].each do |photo|
-						photo_url = photo['alt_sizes'].first['url']
-					end
-				end
-				tumblrs << TumblrPhoto.new(blog['blog_name'], blog['date'], blog['post_url'], photo_url, blog['caption'])
+				tumblrs << TumblrBlog.new(blog)
 			end
 		end
+		
 		if error
 			return_result status: error
 		else
