@@ -13,7 +13,7 @@ class ApiController < ApplicationController
 			else
 				@result = {
 					flickr: flickr,
-					tumblr: tumblr
+					tumblr: tumblr,
 					instagram: instagram,
 	  				facebook: facebook,
 	  				twitter: twitter,
@@ -148,6 +148,32 @@ class ApiController < ApplicationController
 		end
 
 		results
+	end
+
+	def googleplus
+		require 'google/api_client'
+
+		client = Google::APIClient.new
+		plus = client.discovered_api('plus', 'v1')
+		client.authorization = nil;
+
+		results = []
+
+		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => google.plus, :parameters => {:query => params[:search], :maxResults => 10}
+		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => google.activities, :parameters => {:query => params[:search], :maxResults => 10}
+
+		people = JSON.parse(res.data.to_json)
+		activities = JSON.parse(res.data.to_json)
+
+		people['items'].each do |p|
+			results << GoogleProfile.new(p)
+		end
+
+		activities['items'].each do |a|
+			results << GoogleActivity.new(a)
+		end
+
+		return_result items: results
 	end
 
 	private
