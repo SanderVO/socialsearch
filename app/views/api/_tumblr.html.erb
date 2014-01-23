@@ -1,0 +1,14 @@
+<ul>
+  <% result.each do |r| %>
+    <li>
+      <a href="<%= r.url %>" target="_blank">
+      <div class="tumblr-image">
+        <img src=<%= r.content %> class="tumblr-image" align="center" />
+        <div class="tumblr-content" style="display:none;">
+          <span class="title"><%= r.caption %></span>
+        </div>
+      </div>
+      </a>
+    </li>
+  <% end %>
+</ul>

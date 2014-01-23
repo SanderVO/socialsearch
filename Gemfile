@@ -31,6 +31,7 @@ gem "flickrie"
 
 gem 'instagram'
 
+gem 'tumblr_client'
 gem 'google-api-client'
 
 group :doc do
@@ -49,6 +50,8 @@ gem 'suspenders'
 gem 'devise'
 gem 'omniauth'
 
+# User roles
+gem "cancan"
 
 # omniauth stratigy's 
 gem 'omniauth-twitter', :github => 'arunagw/omniauth-twitter'

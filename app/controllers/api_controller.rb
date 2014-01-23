@@ -2,7 +2,6 @@ class ApiController < ApplicationController
 	respond_to :json
 	before_filter :validate_params
 
-
 	#search in all resources
 	def search
 		@limit = params[:limit] ? params[:limit].to_i : 10
@@ -14,6 +13,7 @@ class ApiController < ApplicationController
 			else
 				@result = {
 					flickr: flickr,
+					tumblr: tumblr
 					instagram: instagram,
 	  				facebook: facebook,
 	  				twitter: twitter,
@@ -48,6 +48,31 @@ class ApiController < ApplicationController
 
 	def facebook
 		return_result items: []
+	end
+
+	def tumblr
+		require 'tumblr_client'
+
+		Tumblr.configure do |config|
+		  config.consumer_key = ENV['TUMBLR_CONSUMER_KEY']
+		  config.consumer_secret = ENV['TUMBLR_CONSUMER_SECRET']
+		end
+
+		client = Tumblr::Client.new
+
+		tumblrs = []
+		tags = params[:search]
+		photo_url = ''
+
+		client.tagged(tags, :limit => 5).each do |blog|
+			if blog['photos'] != nil
+				blog['photos'].each do |photo|
+					photo_url = photo['alt_sizes'].first['url']
+				end
+			end
+			tumblrs << TumblrPhoto.new(blog['blog_name'], blog['date'], blog['post_url'], photo_url, blog['caption'])
+		end
+		tumblrs
 	end
 
 	def twitter
