@@ -82,10 +82,7 @@ class ApiController < ApplicationController
 			tag_media = Instagram.tag_recent_media(tag['name'])
 			tag_media[0..@limit].each do |media|
 				media['type'] = "media"
-				media['likes'] = media['likes']['count']
-				media['tags'] = media['tags'].length
-				media['comments'] = media['comments']['count']
-				photos << media
+				photos << InstagramPhoto.new(media)
 			end
 		end
 
@@ -98,11 +95,7 @@ class ApiController < ApplicationController
 			limit = user_media.length < 2 ? user_media.length : 2
 			user_media[0..limit].each do |media|
 				media['type'] = "user_media"
-				media['username'] = "username"
-				media['likes'] = media['likes']['count']
-				media['tags'] = media['tags'].length
-				media['comments'] = media['comments']['count']
-				photos << media
+				photos << InstagramPhoto.new(media)
 			end
 		end
 
