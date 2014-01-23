@@ -56,6 +56,10 @@ GEM
     addressable (2.3.5)
     arel (4.0.1)
     atomic (1.1.14)
+    autoparse (0.3.3)
+      addressable (>= 2.3.1)
+      extlib (>= 0.9.15)
+      multi_json (>= 1.0.0)
     bcrypt-ruby (3.1.2)
     bcrypt-ruby (3.1.2-x86-mingw32)
     bson (2.1.2)
@@ -81,6 +85,7 @@ GEM
     equalizer (0.0.9)
     erubis (2.7.0)
     execjs (2.0.2)
+    extlib (0.9.16)
     faraday (0.8.9)
       multipart-post (~> 1.2.0)
     faraday_middleware (0.8.8)
@@ -90,6 +95,16 @@ GEM
       faraday_middleware (>= 0.8.7, < 0.9)
       multi_xml (~> 0.4)
       simple_oauth (~> 0.1)
+    google-api-client (0.6.4)
+      addressable (>= 2.3.2)
+      autoparse (>= 0.3.3)
+      extlib (>= 0.9.15)
+      faraday (~> 0.8.4)
+      jwt (>= 0.1.5)
+      launchy (>= 2.1.1)
+      multi_json (>= 1.0.0)
+      signet (~> 0.4.5)
+      uuidtools (>= 2.1.0)
     hashie (2.0.5)
     hike (1.2.3)
     http (0.5.0)
@@ -110,6 +125,8 @@ GEM
     json (1.8.1)
     jwt (0.1.10)
       multi_json (>= 1.5)
+    launchy (2.4.2)
+      addressable (~> 2.3)
     less (2.4.0)
       commonjs (~> 0.2.7)
     less-rails (2.4.2)
@@ -187,6 +204,11 @@ GEM
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
+    signet (0.4.5)
+      addressable (>= 2.2.3)
+      faraday (~> 0.8.1)
+      jwt (>= 0.1.5)
+      multi_json (>= 1.0.0)
     simple_oauth (0.2.0)
     sprockets (2.10.1)
       hike (~> 1.2)
@@ -213,6 +235,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
+    trollop (2.0)
     trout (0.3)
     turbolinks (2.2.0)
       coffee-rails
@@ -231,6 +254,7 @@ GEM
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    uuidtools (2.1.4)
     warden (1.2.3)
       rack (>= 1.0)
 
@@ -243,6 +267,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise
   flickrie
+  google-api-client
   instagram
   jbuilder (~> 1.2)
   jquery-rails
@@ -259,6 +284,7 @@ DEPENDENCIES
   sqlite3
   suspenders
   therubyracer
+  trollop
   turbolinks
   twitter
   twitter-bootstrap-rails!
