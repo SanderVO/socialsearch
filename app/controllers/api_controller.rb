@@ -13,21 +13,22 @@ class ApiController < ApplicationController
 				@result = self.send(params[:resource])
 			else
 				@result = {
-					flickr: flickr
-  				#facebook: facebook,
-  				#twitter: twitter
-  				#wikipedia: wikipedia
-  			}
+					flickr: flickr,
+					instagram: instagram,
+	  				facebook: facebook,
+	  				twitter: twitter,
+	  				wikipedia: wikipedia
+  				}
+  			end
   		end
-  	end
-  	respond_to do |format|
-  		format.json { render :json => {result: @result} }
-  		format.html { render :partial => (params[:resource] ? params[:resource] : "search"), locals: { result: @result} }
-  	end
-  end
+	  	respond_to do |format|
+	  		format.json { render :json => {result: @result} }
+	  		format.html { render :partial => (params[:resource] ? params[:resource] : "search"), locals: { result: @result} }
+	  	end
+	end
 
 	def flickr
-		require 'flickrie'
+		# require 'flickrie'
 		Flickrie.api_key = ENV['FLICKR_API_KEY']
 		Flickrie.shared_secret = ENV['FLICKR_SHARED_SECRET']
 
@@ -38,7 +39,7 @@ class ApiController < ApplicationController
 		photos = []
 		result[0..@limit].each do |r|
 			info = Flickrie.get_photo_info(r.id)
-			photos << FlickrPhoto.new(info.title, info.description, info.owner.username, info.location, info.url, info["dates"]["posted"], "http://farm#{info.farm}.staticflickr.com/#{info.server}/#{info.id}_#{info.secret}.jpg")
+			photos << FlickrPhoto.new(info)
 		end
 		photos
 	end
@@ -48,7 +49,7 @@ class ApiController < ApplicationController
 	end
 
 	def twitter
-		require 'twitter'
+		#require 'twitter'
 
 		client = Twitter::REST::Client.new do |config|
 			config.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
@@ -59,9 +60,11 @@ class ApiController < ApplicationController
 		tweets = []
 		topics = params[:search]
 
-		client.search(topics, :count => 3, :result_type => "recent").collect do |tweet|
-			puts tweet.text
-			tweets << Tweet.new(tweet.text, tweet.user.screen_name, tweet.id, tweet.created_at)
+		client.search(topics, :count => 3, :result_type => "recent").take(@limit).collect do |tweet|
+			#raise tweet.url.inspect
+			# puts tweet.text
+			tweets << Tweet.new(tweet) # {content: tweet.text, user: tweet.user.screen_name, datetime: tweet.created_at, url: twitter_url(tweet), id: tweet.id}
+			#Tweet.new(tweet.text, tweet.user.screen_name, tweet.id, tweet.created_at)
 		end
 		tweets
 	end
