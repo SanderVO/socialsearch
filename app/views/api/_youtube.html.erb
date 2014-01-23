@@ -1,5 +1,5 @@
 <ul>
-	<% result.each do |r| %>
+	<% result[:items].each do |r| %>
 		<li>
 			<% if r.type == 'youtube#video' %>
 				<%= r.description %>

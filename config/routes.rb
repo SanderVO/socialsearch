@@ -22,8 +22,13 @@ Socialsearch::Application.routes.draw do
   get '/auth/:provider/callback' => 'authorizations#create'
 
   # api
-  match '/search' =>              'api#search',       via: [:get,:post]
-  match '/search/:resource' =>    'api#search',       via: [:get,:post]
+  get '/search/:search'  =>          'api#search'
+  post '/search/'         =>          'api#search'
+
+  get '/search/:provider/:search' => 'api#search'
+  post '/search/:provider'         => 'api#search'
+
+
   match '/auth/:provider/callback' => 'authorizations#create', via: [:get]
 
   # Example of regular route:
