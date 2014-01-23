@@ -13,7 +13,7 @@ class ApiController < ApplicationController
 			else
 				@result = {
 					flickr: flickr,
-					tumblr: tumblr
+					tumblr: tumblr,
 					instagram: instagram,
 	  				facebook: facebook,
 	  				twitter: twitter,
@@ -64,15 +64,25 @@ class ApiController < ApplicationController
 		tags = params[:search]
 		photo_url = ''
 
+		error = nil
+		
 		client.tagged(tags, :limit => 5).each do |blog|
-			if blog['photos'] != nil
-				blog['photos'].each do |photo|
-					photo_url = photo['alt_sizes'].first['url']
+			if blog.first == "status" || blog.first == "msg"
+				error = blog.last
+			else
+				if blog['photos'] != nil
+					blog['photos'].each do |photo|
+						photo_url = photo['alt_sizes'].first['url']
+					end
 				end
+				tumblrs << TumblrPhoto.new(blog['blog_name'], blog['date'], blog['post_url'], photo_url, blog['caption'])
 			end
-			tumblrs << TumblrPhoto.new(blog['blog_name'], blog['date'], blog['post_url'], photo_url, blog['caption'])
 		end
-		tumblrs
+		if error
+			return_result status: error
+		else
+			return_result items: tumblrs
+		end
 	end
 
 	def twitter
@@ -147,7 +157,7 @@ class ApiController < ApplicationController
 			results << YoutubeResult.new(r)
 		end
 
-		results
+		return_result total_count: 15, items: results
 	end
 
 	private
