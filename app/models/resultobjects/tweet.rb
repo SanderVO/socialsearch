@@ -1,6 +1,11 @@
 class Tweet < Result
-  BASIC_URL = "https://twitter.com/"
-  def initialize(content, username, id, datetime)
-    super(datetime, content, username, "#{BASIC_URL}#{username}/#{id}")
+
+  def initialize(tweet)
+    super(tweet.created_at, tweet.text, tweet.user.screen_name, tweet_url(tweet))
   end
+
+  private 
+	  def tweet_url tweet
+		tweet.url.scheme + "://" + tweet.url.host + tweet.url.path
+	  end
 end
