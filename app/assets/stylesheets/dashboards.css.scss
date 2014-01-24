@@ -45,6 +45,19 @@
 	width: 100%;
 }
 
+.tumblr-content-text {
+	text-align: center;
+	border: 1px solid black;
+
+	.title, .tumblr-question {
+		font-weight: bold;
+	}
+
+	.quote-text, .tumblr-question {
+		font-style: italic;
+	}
+}
+
 #searchResults ul {
 	float: left;
 	list-style: none;

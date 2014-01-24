@@ -31,6 +31,9 @@ Socialsearch::Application.routes.draw do
 
   match '/auth/:provider/callback' => 'authorizations#create', via: [:get]
 
+  # Admin
+  match '/create_admin' => 'users#create_admin', via: [:get, :post]
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

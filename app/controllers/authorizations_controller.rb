@@ -29,7 +29,7 @@ class AuthorizationsController < ApplicationController
       if user
         authentication.user = user
       else
-        new_user = User.new(email: user_info['email'], username: user_info['name'], first_name: user_info['first_name'], last_name: user_info['last_name'])
+        new_user = User.new(email: user_info['email'], username: user_info['name'], first_name: user_info['first_name'], last_name: user_info['last_name'], role: "registered")
         new_user.save
         authentication.user = new_user
       end
@@ -38,7 +38,7 @@ class AuthorizationsController < ApplicationController
     # if user exists, sign in
     if authentication.user
       sign_in authentication.user
-      # raise "user exists? #{exists.to_s}, signed in? #{user_signed_in?.to_s}".inspect
+      # raise "user signed in? #{user_signed_in?.to_s}".inspect
       flash[:notice] = "Authorization successful." 
       redirect_to root_path
     end

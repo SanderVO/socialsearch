@@ -1,20 +1,25 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  # before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
+
   def index
     @users = User.all
+    authorize! :show, @users
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
+    @user = User.find(params[:id])
+    authorize! :show, @user
   end
 
   # GET /users/new
   def new
     @user = User.new
+    authorize! :edit, @users
   end
 
   # GET /users/1/edit
@@ -59,6 +64,21 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url }
       format.json { head :no_content }
     end
+    authorize! :destroy, @users
+  end
+
+  # TEST ONLY - make admin
+  def create_admin
+    @user = User.new(email: "admin@socialsearch.com", password: "admin123", username: "Admin", role: "admin")
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @user }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
@@ -69,6 +89,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:username, :password, :salt, :email, :first_name, :last_name, :active, :activationkey, :city, :country, :street, :postal_code, :gender)
+      params.require(:user).permit(:username, :password, :salt, :email, :first_name, :last_name, :active, :activationkey, :city, :country, :street, :postal_code, :gender, :role)
     end
 end
