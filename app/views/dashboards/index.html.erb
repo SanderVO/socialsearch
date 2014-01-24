@@ -10,12 +10,12 @@
 
 		<div id="searchOptions" style="display:none;">
 			<label class="checkbox">
-			  <input type="checkbox" value="" name="flickr">
+			  <input type="checkbox" value="" name="flickr" checked>
 			  Flickr
 			</label>
 
 			<label class="checkbox">
-			  <input type="checkbox" value="" name="twitter">
+			  <input type="checkbox" value="" name="twitter" checked>
 			  Twitter
 			</label>
 
@@ -25,17 +25,17 @@
 			</label>
 
 			<label class="checkbox">
-			  <input type="checkbox" value="" name="facebook">
+			  <input type="checkbox" value="" name="googleplus" checked>
+			  Google+
+			</label>
+
+			<label class="checkbox">
+			  <input type="checkbox" value="" name="facebook" checked>
 			  Facebook
 			</label>
 
 			<label class="checkbox">
-			  <input type="checkbox" value="" name="google">
-			  Google
-			</label>
-
-			<label class="checkbox">
-			  <input type="checkbox" value="" name="instagram">
+			  <input type="checkbox" value="" name="instagram" checked>
 			  Instagram
 			</label>
 
@@ -46,53 +46,63 @@
 		</div>
 	</div>
 
+	<button onclick="showNext()" style="display:none;" class="nextLink">Next</button>
+
 	<div id="searchResults">
-		<div id="flickr" style="display:none;">
+		<div id="flickr" class="searchResultList" style="display:none;">
 			<img src="/assets/flickr-logo.png" class="logoResults" />
 
 			<hr />
 
-			<div class="flickr-results">
+			<div class="flickr-results searchData">
 			</div>
 		</div>
-		<div id="twitter" style="display:none;">
+		<div id="twitter" class="searchResultList" style="display:none;">
 			<img src="/assets/twitter-logo.png" class="logoResults" />
 
 			<hr />
 
-			<div class="twitter-results">
+			<div class="twitter-results searchData">
 			</div>
 		</div>
-		<div id="tumblr" style="display:none;">
+		<div id="tumblr" class="searchResultList" style="display:none;">
 			<img src="/assets/tumblr-logo.png" class="logoResults" />
 
 			<hr />
 
-			<div class="tumblr-results">
+			<div class="tumblr-results searchData">
 			</div>
 		</div>
-		<div id="youtube" style="display:none;">
+		<div id="youtube" class="searchResultList" style="display:none;">
 			<img src="/assets/youtube-logo.png" class="logoResults" />
 
 			<hr />
 
-			<div class="youtube-results">
+			<div class="youtube-results searchData">
 			</div>
 		</div>
-		<div id="instagram" style="display:none;">
+		<div id="googleplus" class="searchResultList" style="display:none;">
+			<img src="/assets/youtube-logo.png" class="logoResults" />
+
+			<hr />
+
+			<div class="googleplus-results searchData">
+			</div>
+		</div>
+		<div id="instagram" class="searchResultList" style="display:none;">
 			<img src="/assets/instagram-logo.png" class="logoResults" />
 
 			<hr />
 
-			<div class="instagram-results">
+			<div class="instagram-results searchData">
 			</div>
 		</div>
-		<div id="facebook" style="display:none;">
+		<div id="facebook" class="searchResultList" style="display:none;">
 			<img src="/assets/facebook-logo.png" class="logoResults" />
 
 			<hr />
 
-			<div class="youtube-results">
+			<div class="facebook-results searchData">
 			</div>
 		</div>
 	</div>

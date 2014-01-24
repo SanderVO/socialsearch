@@ -4,7 +4,7 @@
 			<a href="<%= r.url %>" target="_blank">
 				<% if r.type == "media" %>
 					<div class="flickr-image">
-						<img src=<%= r.images.standard_resolution.url %> class="flickr-image" align="center" />
+						<img src=<%= r.images.low_resolution.url %> class="flickr-image" align="center" />
 						<div class="flickr-content" style="display:none;">
 							<span class="title"><%= r.title %></span>
 							<p><%= r.content %></p>

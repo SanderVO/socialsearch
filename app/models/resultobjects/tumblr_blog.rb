@@ -1,5 +1,5 @@
 class TumblrBlog < Result
-  attr_reader :caption, :type, :embed_code, :source_url, :source, :source_title, :text, :title, :body, :player, :id3_title, :question, :answer, :asking_name, :asking_url
+  attr_reader :caption, :thumbnail, :type, :embed_code, :source_url, :source, :source_title, :text, :title, :body, :player, :id3_title, :question, :answer, :asking_name, :asking_url
   def initialize(info)
   	photo_url = ''
     embed_code = ''
@@ -15,6 +15,7 @@ class TumblrBlog < Result
     # Photo/General
     super(info['date'], photo_url, info['blog_name'], info['post_url'])
     @caption = info['caption'] == nil ? "" : info['caption'].html_safe
+    @caption = info['thumbnail_url']
     # Video
     @type = info['type']
     @embed_code = embed_code

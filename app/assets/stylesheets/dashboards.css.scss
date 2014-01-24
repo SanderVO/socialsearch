@@ -4,7 +4,7 @@
 	max-width: 200px;
 }
 
-#searchResults #flickr, #searchResults #twitter, #searchResults #youtube, #searchResults #tumblr {
+#searchResults #flickr, #searchResults #twitter, #searchResults #youtube, #searchResults #tumblr, #searchResults #googleplus {
 	float: left;
 	width: 25%;
 }
@@ -83,5 +83,42 @@
 
 	iframe {
 		width: 100%;
+	}
+}
+
+#searchResults #googleplus {
+	.google-profile-image {
+		float: left;
+
+		img {
+			height: 50px;
+			width: 50px;
+		}
+	}
+
+	.google-profile-name {
+		float: left;
+		padding: 12px;
+
+		a {
+			font-size: 14px;
+		}
+	}
+
+	.activity-header {
+		float: left;
+
+		.activity-profile-image {
+			float: left;
+
+			img {
+				height: 50px;
+				width: 50px;
+			}
+		}
+
+		.activity-profile-name {
+			float: left;
+		}
 	}
 }
