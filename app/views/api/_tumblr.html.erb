@@ -3,7 +3,7 @@
     <li>
       <a href="<%= r.url %>" target="_blank">
       <div class="tumblr-image">
-        <img src=<%= r.content %> class="tumblr-image" align="center" />
+        <% if r.thumbnail %><img src=<%= r.thumbnail %> class="tumblr-image" align="center" /><% end %>
         <div class="tumblr-content" style="display:none;">
           <span class="title"><%= r.caption %></span>
         </div>

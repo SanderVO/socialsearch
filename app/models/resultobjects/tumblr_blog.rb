@@ -1,5 +1,5 @@
 class TumblrBlog < Result
-  attr_reader :caption
+  attr_reader :caption, :thumbnail
   def initialize(info)
   	photo_url = ''
   	if info['type'] == 'photo'
@@ -9,5 +9,6 @@ class TumblrBlog < Result
   	end
     super(info['date'], photo_url, info['blog_name'], info['post_url'])
     @caption = info['caption']
+    @caption = info['thumbnail_url']
   end
 end
