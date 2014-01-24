@@ -160,11 +160,11 @@ class ApiController < ApplicationController
 
 		results = []
 
-		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => google.plus, :parameters => {:query => params[:search], :maxResults => 10}
-		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => google.activities, :parameters => {:query => params[:search], :maxResults => 10}
+		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.people.search, :parameters => {:query => params[:search], :maxResults => 10}
+		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.activities.search, :parameters => {:query => params[:search], :maxResults => 10}
 
 		people = JSON.parse(res.data.to_json)
-		activities = JSON.parse(res.data.to_json)
+		activities = JSON.parse(res2.data.to_json)
 
 		people['items'].each do |p|
 			results << GoogleProfile.new(p)
