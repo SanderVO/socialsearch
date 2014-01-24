@@ -1,12 +1,20 @@
 <ul>
   <% result[:items].each do |r| %>
     <li>
-      <a href="<%= r.url %>" target="_blank">
-        <div class="tweet">
-          <h4><%= r.username %></h4>
-          <p><%= r.content %></p>
+      <div class="tweet-container">
+        <div class="tweet-image">
+          <img src="<%= r.image %>" class="tweet-profile-image" />
         </div>
-      </a>
+        <div class="tweet-context">
+          <a href="<%= r.url %>" target="_blank">
+            <div class="tweet">
+              <h4><%= r.name %> <span class="tweet-username">@<%= r.username %></span></h4>
+              <p><%= r.content %></p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <hr />
     </li>
   <% end %>
 </ul>

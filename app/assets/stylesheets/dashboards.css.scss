@@ -1,6 +1,10 @@
+.clear {
+	clear: both;
+}
+
 .logoResults {
 	margin-left: 20px;
-	height: 70px;
+	height: 50px;
 	max-width: 200px;
 }
 
@@ -9,24 +13,31 @@
 	width: 25%;
 }
 
-.youtube-results {
+.searchData {
+	padding: 10px;
+}
+
+.youtube-results, .flickr-results {
 	float: left;
-	width: 100%;
+}
+
+.youtube-results {
+	width: 90%;
+}
+
+.searchData {
+	float: left;
 
 	ul, li {
 		width: 100%;
 	}
 }
 
-.flickr-results {
-	float: left;
-	width: 100%;
-}
-
 #searchResults ul {
 	float: left;
 	list-style: none;
 	margin: 0px;
+	width: 100%;
 
 	.flickr-image, .tumblr-image {
 		position: relative;
@@ -61,10 +72,54 @@
 		clear: both;
 		float: left;
 		margin-bottom: 15px;
-		margin: 0px 10px 10px 10px;
+		width: 100%;
 
 		img {
 			width: 100%;
+		}
+
+		.tweet-image {
+			float: left;
+		}
+
+		.tweet-image {
+			width: 50px;
+
+			.tweet-profile-image {
+				height: 48px;
+				width: 48px;
+			}
+		}
+
+		.tweet-container, .google-container {
+			width: 100%;
+		}
+
+		.tweet-container {
+			min-height: 50px;
+		}
+
+		.tweet-context {
+			margin-left: 50px;
+			padding-left: 10px;
+
+			a:hover {
+				color: #CCCCCC;
+			}
+
+			.tweet {
+				h4 {
+					font-size: 14px;
+					font-weight: 600;
+					margin: 0;
+				}
+
+				.tweet-username {
+					font-size: 12px;
+					font-weight: 300;
+					color: #999;
+				}
+			}
 		}
 	}
 
