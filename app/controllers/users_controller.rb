@@ -67,6 +67,20 @@ class UsersController < ApplicationController
     authorize! :destroy, @users
   end
 
+  # TEST ONLY - make admin
+  def create_admin
+    @user = User.new(email: "admin@socialsearch.com", password: "admin123", username: "Admin", role: "admin")
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @user }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
