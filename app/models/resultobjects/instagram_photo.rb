@@ -3,7 +3,7 @@ class InstagramPhoto < Result
 
   def initialize(info)
    # super(info["dates"]["posted"], "http://farm#{info.farm}.staticflickr.com/#{info.server}/#{info.id}_#{info.secret}.jpg", info.owner.username, info.url)
-    super(info.created_time, info['caption']['text'], info['user']['username'], info['link'])
+    super(info.created_time, (info['caption'] ? info['caption']['text'] : ""), (info['user'] ? info['user']['username'] : ""), info['link'])
     @title = info.title
     @likes = info['likes']['count']
 	@tags = info['tags'].length

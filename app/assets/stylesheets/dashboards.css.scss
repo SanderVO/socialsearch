@@ -1,12 +1,34 @@
+@import "bootstrap";
+
 .logoResults {
 	margin-left: 20px;
 	height: 70px;
 	max-width: 200px;
 }
 
-#searchResults #flickr, #searchResults #twitter, #searchResults #youtube, #searchResults #tumblr, #searchResults #googleplus {
+#searchResults .searchResultList {
 	float: left;
 	width: 25%;
+	min-height: 300px;
+	position: relative;
+}
+#searchResults {
+	div.loader {
+		display: none;
+	}
+	div.loading div.loader{
+		position: absolute;
+		top: 90px;
+		left: 5px;
+		right: 5px;
+		bottom: 0px;
+		background: #000;
+		color: #fff;
+		opacity: 0.3;
+		text-align: center;
+		line-height: 200px;
+		display: block;
+	}
 }
 
 .youtube-results {
@@ -14,7 +36,7 @@
 	width: 100%;
 
 	ul, li {
-		width: 100%;
+		width: 90%;
 	}
 }
 
@@ -27,6 +49,7 @@
 	float: left;
 	list-style: none;
 	margin: 0px;
+	padding: 0px;
 
 	.flickr-image, .tumblr-image {
 		position: relative;

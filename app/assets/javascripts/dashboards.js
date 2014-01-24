@@ -1,3 +1,9 @@
+
+var animation_delay = 300;
+var column_count = 4;
+
+var current_page = 0;
+
 function search() {
 	var value = $('#mainSearch').val(),
 		counter = 0,
@@ -6,17 +12,38 @@ function search() {
 	if(value) {
 		$('#searchResults .searchData').html('');
 		$('#searchResults .searchResultList').removeClass('active').hide();
-		total > 4 ? $('.nextLink').show() : $('.nextLink').hide();
+		total > column_count ? $('.nextLink').show() : $('.nextLink').hide();
+
+		$('#searchResults .searchData').html("");
+
+		var delay = animation_delay;
 
 		$('#searchOptions input:checked').each(function() {
 		    var name = $(this).attr('name'),
 		    	url = '/search/' + name,
-		    	data = { search : value };
+		    	data = { search : value };	    
+
+	    	
+	    	// build class name. Can be one or more of these: (active last loading)
+	    	var class_name = 'active loading';
+	    	if(counter == column_count-1){
+	    		class_name += ' last';
+	    	}
+	    	$('#searchResults #' + name).addClass(class_name);
+
+	    	// fade column in if needed
+	    	if(counter < column_count){
+	    		$('#searchResults #' + name).fadeIn(delay+=100);
+	    	}
+
+	    	//send request
+	    	sendRequest(name, url, data, counter, total);
 
 	    	counter++;
-
-	    	sendRequest(name, url, data, counter, total);
 		});
+
+		if(counter <= 4) $('#nextLink').hide(animation_delay);
+		else $('#nextLink').show(animation_delay);
 	}
 }
 
@@ -29,45 +56,73 @@ function sendRequest(name, url, data, counter, total) {
 		contentType: 'application/json',
 
 		success: function(data, status, xhr) {
-			$('#searchResults #' + name).addClass('active');
-
-			if(counter == 4)
-				$('#searchResults #' + name).addClass('last');
+			$('#searchResults #' + name).removeClass('loading');
 
 			$('#searchResults #' + name + ' .' + name + '-results').append(data);
 
-			if(counter ==  total) {
+			if(counter == total) {
 				setHovers();
-				$('#searchResults .searchResultList:lt(4)').show();
+				//$('#searchResults .searchResultList:lt('+column_count+')').show();
 			}
 		},
 
 		error: function() {
-			console.log('error!');
+			console.log('error loading data from '+name+'!');
+			$('#searchResults #' + name).removeClass('loading').html("Failed to load!");
 		}
 	});
 }
 
 function showNext() {
-	var divs = $("#searchResults .searchResultList.last").nextAll('.active');
+	current_page+=1;
+	showPage(current_page);
+}
 
-	$("#searchResults .searchResultList").hide();
-	
-	if(divs.length > 4) {
 
+function showPrevious() {
+	current_page-=1;
+	showPage(current_page);
+}
+
+function showPage(pagenr){
+	var divs = $("#searchResults .searchResultList.active");
+	var total = divs.length;
+	var delay = animation_delay;
+	var npages = Math.ceil(total/column_count);
+
+	var start = (pagenr) * column_count;
+	var end = start + 4;
+	console.log(pagenr + " - "+npages);
+	console.log(start+" - "+end);
+	$.each(divs, function(index) {
+		if(index >= start && index < end){
+			console.log("Showing "+$(this).attr("id")+" on index "+index);
+			$(this).show(delay+=100);
+			//$(this).next().animate({'margin-left': '-'},delay+=100);
+		}else{
+			console.log("Hiding "+$(this).attr("id")+" on index "+index);
+			$(this).hide(delay+=100);
+			//$(this).next().animate({width: '25%'},delay+=100);
+		}
+	});
+
+	if(npages == 1 || pagenr == 0){
+		$('.previousLink').hide(animation_delay);
+		console.log("Hiding previous link");
+	}else{
+		$('.previousLink').show(animation_delay);
+		console.log("Showing previous link");
 	}
-	else {
-		var counter = 0;
-		$.each(divs, function(index, value) {
-			$(value).show();
-			
-			if(counter == 0)
-				$(value).addClass('first');
 
-			counter++;
-		});
+	if(npages == 1 || pagenr >= npages-1){
+		$('.nextLink').hide(animation_delay);
+		console.log("Hiding next link");
+	}else{
+		$('.nextLink').show(animation_delay);
+		console.log("Showing next link");
 	}
 }
+
 
 function setHovers() {
 	$(".flickr-image").mouseleave(function() {
