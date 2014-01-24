@@ -1,14 +1,82 @@
 <ul>
   <% result[:items].each do |r| %>
     <li>
-      <a href="<%= r.url %>" target="_blank">
-      <div class="tumblr-image">
-        <% if r.thumbnail %><img src=<%= r.thumbnail %> class="tumblr-image" align="center" /><% end %>
-        <div class="tumblr-content" style="display:none;">
-          <span class="title"><%= r.caption %></span>
-        </div>
-      </div>
-      </a>
+      <!-- Photo -->
+      <% if r.type == "photo" %>
+        <a href="<%= r.url %>" target="_blank">
+          <div class="tumblr-image">
+            <img src=<%= r.content %> class="tumblr-image" align="center" />
+            <div class="tumblr-content" style="display:none;">
+              <span class="title"><%= r.username %></span>
+              <p><%= r.caption %></p>
+            </div>
+          </div>
+        </a>
+      <!-- Video -->
+      <% elsif r.type == "video" && r.embed_code != "" && r.embed_code != nil %>
+        <%= r.embed_code.html_safe %>
+      <!-- Quote -->
+      <% elsif r.type == "quote" %>
+        <a href="<%= r.url %>" target="_blank">
+          <div class="tumblr-content-text">
+            <span class="title"><%= r.username %></span>
+            <p>
+              <span class="quote-text">"<%= r.text %>"</span>
+              <span class="quote-author"> - <%= r.source_title %></span>
+              <% if r.source_url != "" %>
+                <span class="quote-source"> ( <%= r.source_url %> )</span>
+              <% end %>
+            </p>
+          </div>
+        </a>
+      <!-- Text -->
+      <% elsif r.type == "text" %>
+        <a href="<%= r.url %>" target="_blank">
+          <div class="tumblr-content-text">
+            <span class="title"><%= r.username %></span>
+            <p><%= r.caption %></p>
+            <p><%= r.body.html_safe %></p>
+          </div>
+        </a>
+      <!-- Audio -->
+      <% elsif r.type == "audio" %>
+        <a href="<%= r.url %>" target="_blank">
+          <div class="tumblr-content-text">
+            <span class="title">by <%= r.username %></span>
+            <p>
+              <%= r.id3_title %></br>
+              <%= r.player.html_safe %>
+            </p>
+          </div>
+        </a>
+      <!-- Anwser -->
+      <% elsif r.type == "answer" %>
+        <a href="<%= r.url %>" target="_blank">
+          <div class="tumblr-content-text tumblr-answers">
+            <span class="title"><%= r.username %></span>
+            <p>
+              <span class="tumblr-question">
+                <%= r.question.html_safe %>
+              </span> 
+              - 
+              <span class="tumblr-asker">
+                <%= r.asking_name %>
+              </span>
+            </p>
+            <p>
+              <span class="tumblr-answer"><%= r.answer.html_safe %></span>
+            </p>
+          </div>
+        </a>
+      <!-- Misc. -->
+      <% else %>
+        <a href="<%= r.url %>" target="_blank">
+          <div class="tumblr-content-text">
+            <span class="title"><%= r.username %></span>
+            <p><%= r.caption %></p>
+          </div>
+        </a>
+      <% end %>
     </li>
   <% end %>
 </ul>

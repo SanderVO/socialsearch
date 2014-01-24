@@ -22,20 +22,29 @@
               <a href="<%= r.profileurl %>"><%= r.username %></a>
             </div>
           </div>
+          <div class="clear"></div>
           <div class="activity-body">
             <p><%= r.content.html_safe %></p>
-            <hr />
-            <% r.attachments.each do |a| %>
-              <% if a['objectType'] == 'article' %>
-                <h2><%= a['displayName'] %></h2>
-                <a href="<%= a['url'] %>"><%= a['url'] %></a>
+
+            <% if r.attachments.length > 0 %>
+              <hr />
+              <% r.attachments.each do |a| %>
+                <% if a['objectType'] == 'article' %>
+                  <div class="activity-article-image">
+                    <a href="<%= a['url'] %>" target="_blank"><img src="<%= a['image']['url'] %>" /></a>
+                  </div>
+                  <div class="activity-article-context">
+                    <h2><%= a['displayName'] %></h2>
+                    <a href="<%= a['url'] %>"><%= a['url'] %></a>
+                  </div>
+                <% elsif a['objectType'] == 'video' %>
+                  <a href="<%= a['url'] %>" target="_blank"><img src="<%= a['image']['url'] %>" /></a>
+                <% end %>
               <% end %>
             <% end %>
           </div>
         <% end %>
       </div>
-      <div class="clear"></div>
-      <hr />
     </li>
   <% end %>
 </ul>

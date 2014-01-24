@@ -25,11 +25,33 @@
 	width: 90%;
 }
 
-.searchData {
+.twitter-results {
+	border: 1px solid #ccc;
 	float: left;
+	margin-top: 10px;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
 
-	ul, li {
-		width: 100%;
+.searchData {
+	width: 100%;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    padding: 10px;
+}
+
+.tumblr-content-text {
+	text-align: center;
+	border: 1px solid black;
+
+	.title, .tumblr-question {
+		font-weight: bold;
+	}
+
+	.quote-text, .tumblr-question {
+		font-style: italic;
 	}
 }
 
@@ -74,6 +96,10 @@
 		margin-bottom: 15px;
 		width: 100%;
 
+		hr {
+			margin: 10px 0;
+		}
+
 		img {
 			width: 100%;
 		}
@@ -93,6 +119,15 @@
 
 		.tweet-container, .google-container {
 			width: 100%;
+		}
+
+		.google-container {
+			border: 1px solid #ccc;
+			float: left;
+			-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+		    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+		    box-sizing: border-box;         /* Opera/IE 8+ */
+		    padding: 10px;
 		}
 
 		.tweet-container {
@@ -140,15 +175,57 @@
 
 	.google-profile-name {
 		float: left;
-		padding: 12px;
+		padding: 15px;
 
 		a {
 			font-size: 14px;
 		}
 	}
 
+	.activity-body {
+		float: left;
+		width: 100%;
+		word-wrap:break-word;
+
+		img {
+			width: auto!important;
+		}
+
+		p, a {
+			margin-top: 10px;
+		}
+
+		h2 {
+			color: #404040;
+			font-size: 16px;
+			font-weight: 300;
+			margin: 0;
+			margin-bottom: 20px;
+			line-height: 20px;
+		}
+
+		.activity-article-image {
+			float: left;
+			height: 120px;
+			width: 120px;
+		}
+
+		.activity-article-context {
+
+			a {
+				color: #404040!important;
+				font-size: 12px;
+			}
+
+			margin-left: 140px;
+			min-height: 120px;
+			word-wrap:break-word;
+		}
+	}
+
 	.activity-header {
 		float: left;
+		clear: both;
 
 		.activity-profile-image {
 			float: left;
@@ -161,6 +238,8 @@
 
 		.activity-profile-name {
 			float: left;
+			margin-left: 15px;
+			margin-top: 15px;
 		}
 	}
 }
