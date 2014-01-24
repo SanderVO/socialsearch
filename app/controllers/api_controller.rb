@@ -151,6 +151,32 @@ class ApiController < ApplicationController
 		return_result total_count: 15, items: results
 	end
 
+	def googleplus
+		require 'google/api_client'
+
+		client = Google::APIClient.new
+		plus = client.discovered_api('plus', 'v1')
+		client.authorization = nil;
+
+		results = []
+
+		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.people.search, :parameters => {:query => params[:search], :maxResults => 10}
+		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.activities.search, :parameters => {:query => params[:search], :maxResults => 10}
+
+		people = JSON.parse(res.data.to_json)
+		activities = JSON.parse(res2.data.to_json)
+
+		people['items'].each do |p|
+			results << GoogleProfile.new(p)
+		end
+
+		activities['items'].each do |a|
+			results << GoogleActivity.new(a)
+		end
+
+		return_result items: results
+	end
+
 	private
 
 	def return_result params

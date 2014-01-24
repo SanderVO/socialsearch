@@ -1,17 +1,26 @@
 function search() {
-	var value = $('#mainSearch').val();
+	var value = $('#mainSearch').val(),
+		counter = 0,
+		total = $('#searchOptions input:checked').length;
 
 	if(value) {
+		$('#searchResults .searchData').html('');
+		$('#searchResults .searchResultList').removeClass('active').hide();
+		total > 4 ? $('.nextLink').show() : $('.nextLink').hide();
+
 		$('#searchOptions input:checked').each(function() {
 		    var name = $(this).attr('name'),
 		    	url = '/search/' + name,
 		    	data = { search : value };
-	    	sendRequest(name, url, data);
+
+	    	counter++;
+
+	    	sendRequest(name, url, data, counter, total);
 		});
 	}
 }
 
-function sendRequest(name, url, data) {
+function sendRequest(name, url, data, counter, total) {
 	$.ajax({
 		url: url,
 		type: 'POST',
@@ -20,16 +29,44 @@ function sendRequest(name, url, data) {
 		contentType: 'application/json',
 
 		success: function(data, status, xhr) {
-			$('#searchResults #' + name + ' .' + name + '-results').html('');
-			$('#searchResults #' + name).show();
+			$('#searchResults #' + name).addClass('active');
+
+			if(counter == 4)
+				$('#searchResults #' + name).addClass('last');
+
 			$('#searchResults #' + name + ' .' + name + '-results').append(data);
-			setHovers();
+
+			if(counter ==  total) {
+				setHovers();
+				$('#searchResults .searchResultList:lt(4)').show();
+			}
 		},
 
 		error: function() {
 			console.log('error!');
 		}
 	});
+}
+
+function showNext() {
+	var divs = $("#searchResults .searchResultList.last").nextAll('.active');
+
+	$("#searchResults .searchResultList").hide();
+	
+	if(divs.length > 4) {
+
+	}
+	else {
+		var counter = 0;
+		$.each(divs, function(index, value) {
+			$(value).show();
+			
+			if(counter == 0)
+				$(value).addClass('first');
+
+			counter++;
+		});
+	}
 }
 
 function setHovers() {
