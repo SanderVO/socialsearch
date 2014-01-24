@@ -61,14 +61,14 @@ class ApiController < ApplicationController
 
 		error = nil
 		
-		client.tagged(tags, :limit => 5).each do |blog|
+		client.tagged(tags, :limit => 5, :filter => "raw").each do |blog|
 			if blog.first == "status" || blog.first == "msg"
 				error = blog.last
 			else
 				tumblrs << TumblrBlog.new(blog)
 			end
 		end
-		
+
 		if error
 			return_result status: error
 		else

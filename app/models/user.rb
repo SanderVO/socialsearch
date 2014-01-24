@@ -48,6 +48,7 @@ class User
   field :street, type: String
   field :postal_code, type: String
   field :gender, type: String
+  field :role, type: String
   embeds_many :searches
   has_many :authorizations
 

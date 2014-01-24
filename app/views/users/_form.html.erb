@@ -89,6 +89,12 @@
       <%= f.text_field :gender %>
     </div>
   </div>
+  <div class="control-group">
+    <%= f.label :role, class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :role %>
+    </div>
+  </div>
   <div class="form-actions">
     <%= f.submit "Submit", :class => 'btn btn-primary' %>
     <%= link_to 'Back', users_path, { :class => 'btn'} %>
