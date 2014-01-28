@@ -10,7 +10,7 @@ gem 'sqlite3'
 gem 'sass-rails', '~> 4.0.0'
 
 # To use bootstrap
-#gem 'bootstrap-sass', '~> 3.0.3.0'
+gem 'bootstrap-sass', '~> 3.0.3.0'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -68,9 +68,9 @@ gem 'omniauth-google-oauth2'
 gem 'twitter'
 
 # Bootstrap
-gem "therubyracer"
-gem "less-rails"
-#gem 'twitter-bootstrap-rails', :git => "git://github.com/seyhunak/twitter-bootstrap-rails.git", :branch => "static"
+# gem "therubyracer"
+# gem "less-rails"
+gem 'twitter-bootstrap-rails', :git => "git://github.com/seyhunak/twitter-bootstrap-rails.git", :branch => "static"
 
 
 # Use ActiveModel has_secure_password
