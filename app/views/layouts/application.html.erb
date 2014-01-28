@@ -9,30 +9,41 @@
 </head>
 <body>
 
-<div class="navbar">
-  <div class="navbar-inner">
-    <a class="brand" href="/">Social Search</a>
-    <ul class="nav">
-      <% if can? :read, @users %>
-        <li><a href="/users">Users</a></li>
-      <% end %>
-    </ul>
-    <ul class="nav pull-right">
+<nav class="navbar navbar-default navbar-embossed" role="navigation">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+      <span class="sr-only">Toggle navigation</span>
+    </button>
+    <a class="navbar-brand" href="#">Social Search</a>
+  </div>
+  <div class="collapse navbar-collapse" id="navbar-collapse-01">
+    <ul class="nav navbar-nav">           
+        <% if can? :read, @users %>
+          <li><a href="/users">Users</a></li>
+        <% end %>
+     </ul> 
+     <ul class="nav navbar-nav navbar-right">
       <%= render 'devise/menu/login_items' %>
       <%= render 'devise/menu/registration_items' %>
     </ul>
-  </div>
-</div>
+    <span id="search-bin"></span>         
+  </div><!-- /.navbar-collapse -->
+</nav><!-- /navbar -->
 
 <div class="container-fluid">
-  <p id="notice"><%= notice %></p>
-  <% if content_for?(:main) %>
-  	<%= yield :main %>
-  <% end %>
-  <% if content_for?(:sidebar) %>
-  	<%= yield :sidebar %>
-  <% end %>
-</div>
+  <div class="row">
+    <div class="col-md-12">
+      <p id="notice"><%= notice %></p>
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="col-md-12">
+      <% if content_for?(:main) %>
+      	<%= yield :main %>
+      <% end %>
+    </div>
+  </div>
+</div>
 </body>
 </html>

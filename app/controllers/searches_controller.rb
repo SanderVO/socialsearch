@@ -4,7 +4,24 @@ class SearchesController < ApplicationController
   # GET /searches
   # GET /searches.json
   def index
-    @searches = Search.all
+    if current_user 
+      if current_user.role == "admin"
+        @searches = Search.all
+      else
+        @searches = Search.where(user: current_user)
+      end
+    else
+      @searches = []
+    end
+  end
+
+  def index_all
+    if current_user && current_user.role == "admin"
+      @searches = Search.all
+    else 
+      @searches = []
+    end
+    render 'index'
   end
 
   # GET /searches/1

@@ -34,6 +34,9 @@ Socialsearch::Application.routes.draw do
   # Admin
   match '/create_admin' => 'users#create_admin', via: [:get, :post]
 
+  # all searches
+  get '/all_searches/'  =>  'searches#index_all'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

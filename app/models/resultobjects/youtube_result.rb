@@ -3,13 +3,13 @@ class YoutubeResult < Result
 
   def initialize(info)
   	if info['id']['kind'] == 'youtube#channel'
-  		url = 'http://www.youtube.com/user/#{info["snippet"]["channelTitle"]}'
+  		url = "http://www.youtube.com/user/#{info["snippet"]["channelTitle"]}"
   		@id = info['id']['channelId']
 	elsif info['id']['kind'] == 'youtube#playlist'
-		url = 'http://www.youtube.com/view_play_list?p=#{info["id"]["playlistId"]}'
+		url = "http://www.youtube.com/view_play_list?p=#{info["id"]["playlistId"]}"
 		@id = info['id']['playlistId']
 	else
-  		url = 'http://www.youtube.com/watch?v=#{info["id"]["videoId"]}'
+  		url = "http://www.youtube.com/watch?v=#{info["id"]["videoId"]}"
   		@id = info['id']['videoId']
 	end
 

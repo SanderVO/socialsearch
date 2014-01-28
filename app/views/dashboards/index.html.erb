@@ -1,56 +1,68 @@
 <% content_for :main do %>
-	<div class="hero-unit">
-	  <h1>Welcome traveler!</h1>
-	  <p>What are you waiting for? Start searching!</p>
-	  	<div class="input-append">
-		  <input class="span6" id="mainSearch" type="text">
-		  <button class="btn" type="submit" onclick="search()">Search!</button>
-		  <button class="btn" type="button" onclick="js:$('#searchOptions').toggle()">Options</button>
-		</div>
 
-		<div id="searchOptions" style="display:none;">
-			<label class="checkbox">
-			  <input type="checkbox" value="" name="flickr" checked>
-			  Flickr
-			</label>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="jumbotron">
+			  	<h1>Social Search</h1>
+			  	<p>The search engine for all your social needs!</p>
+			  	<form role="form" id="searchForm" method="post">
+		  			<div class="form-group search-group">
+		  				<div class="input-group">
+							<input type="text" class="form-control" id="mainSearch" placeholder="Enter search term ...">
+						  	<span class="input-group-btn">
+		        				 <button class="btn btn-default btn-search hidden" type="button" id="options_button">Options</button>
+		        				 <button class="btn btn-default btn-search" type="submit">Search</button>
+		      				</span>
+						</div>
+		  			</div>
+		  			<div class="form-group" id="searchOptions">
+		  				<label class="checkbox">
+						  <input type="checkbox" value="" name="flickr" data-toggle="checkbox">
+						  Flickr
+						</label>
 
-			<label class="checkbox">
-			  <input type="checkbox" value="" name="twitter" checked>
-			  Twitter
-			</label>
+						<label class="checkbox">
+						  <input type="checkbox" value="" name="twitter" data-toggle="checkbox">
+						  Twitter
+						</label>
 
-			<label class="checkbox">
-			  <input type="checkbox" value="" name="youtube">
-			  YouTube
-			</label>
+						<label class="checkbox">
+						  <input type="checkbox" value="" name="youtube" data-toggle="checkbox">
+						  YouTube
+						</label>
 
-			<label class="checkbox">
-			  <input type="checkbox" value="" name="googleplus" checked>
-			  Google+
-			</label>
+						<label class="checkbox">
+						  <input type="checkbox" value="" name="googleplus" data-toggle="checkbox">
+						  Google+
+						</label>
 
-			<label class="checkbox">
-			  <input type="checkbox" value="" name="facebook" checked>
-			  Facebook
-			</label>
+						<label class="checkbox">
+						  <input type="checkbox" value="" name="facebook" data-toggle="checkbox">
+						  Facebook
+						</label>
 
-			<label class="checkbox">
-			  <input type="checkbox" value="" name="instagram" checked>
-			  Instagram
-			</label>
+						<label class="checkbox">
+						  <input type="checkbox" value="" name="instagram" data-toggle="checkbox">
+						  Instagram
+						</label>
 
-			<label class="checkbox">
-			  <input type="checkbox" value="" name="tumblr" checked>
-			  Tumblr
-			</label>
+						<label class="checkbox">
+						  <input type="checkbox" value="" name="tumblr" data-toggle="checkbox">
+						  Tumblr
+						</label>
+		  			</div>
+		  		</form>
+			</div>
 		</div>
 	</div>
 
-	<button onclick="showNext()" style="display:none;" class="nextLink">Next</button>
+	<%= button_tag "Previous", class: "previousLink", onclick: "showPrevious()", style: "display:none;" %>
+	<%= button_tag "Next", class: "nextLink", onclick: "showNext()", style: "display:none;" %>
 
 	<div id="searchResults">
 		<div id="flickr" class="searchResultList" style="display:none;">
 			<img src="/assets/flickr-logo.png" class="logoResults" />
+			<div class="loader">Loading...</div>
 
 			<hr />
 
@@ -58,6 +70,7 @@
 			</div>
 		</div>
 		<div id="twitter" class="searchResultList" style="display:none;">
+			<div class="loader">Loading...</div>
 			<img src="/assets/twitter-logo.png" class="logoResults" />
 
 			<hr />
@@ -65,15 +78,9 @@
 			<div class="twitter-results searchData">
 			</div>
 		</div>
-		<div id="tumblr" class="searchResultList" style="display:none;">
-			<img src="/assets/tumblr-logo.png" class="logoResults" />
-
-			<hr />
-
-			<div class="tumblr-results searchData">
-			</div>
-		</div>
+		
 		<div id="youtube" class="searchResultList" style="display:none;">
+			<div class="loader">Loading...</div>
 			<img src="/assets/youtube-logo.png" class="logoResults" />
 
 			<hr />
@@ -81,15 +88,29 @@
 			<div class="youtube-results searchData">
 			</div>
 		</div>
+
 		<div id="googleplus" class="searchResultList" style="display:none;">
-			<img src="/assets/youtube-logo.png" class="logoResults" />
+			<div class="loader">Loading...</div>
+			<img src="/assets/google-logo.png" class="logoResults" />
 
 			<hr />
 
 			<div class="googleplus-results searchData">
 			</div>
 		</div>
+
+		<div id="facebook" class="searchResultList" style="display:none;">
+			<div class="loader">Loading...</div>
+			<img src="/assets/facebook-logo.png" class="logoResults" />
+
+			<hr />
+
+			<div class="facebook-results searchData">
+			</div>
+		</div>
+
 		<div id="instagram" class="searchResultList" style="display:none;">
+			<div class="loader">Loading...</div>
 			<img src="/assets/instagram-logo.png" class="logoResults" />
 
 			<hr />
@@ -97,12 +118,14 @@
 			<div class="instagram-results searchData">
 			</div>
 		</div>
-		<div id="facebook" class="searchResultList" style="display:none;">
-			<img src="/assets/facebook-logo.png" class="logoResults" />
+
+		<div id="tumblr" class="searchResultList" style="display:none;">
+			<div class="loader">Loading...</div>
+			<img src="/assets/tumblr-logo.png" class="logoResults" />
 
 			<hr />
 
-			<div class="facebook-results searchData">
+			<div class="tumblr-results searchData">
 			</div>
 		</div>
 	</div>

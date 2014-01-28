@@ -1,37 +1,53 @@
 <ul>
   <% result["googleplus"][:items].each do |r| %>
     <li>
-      <% if r.type == 'plus#person' %>
-        <div class="google-profile-image">
-          <a href="<%= r.url %>">
-            <img src="<%= r.image %>" />
-          </a>
-        </div>
-        <div class="google-profile-name">
-          <a href="<%= r.url %>" class="plus-profile-name">
-            <%= r.username %>
-          </a>
-        </div>
-      <% else %>
-        <div class="activity-header">
-          <div class="activity-profile-image">
-            <a href="<%= r.profileurl %>"><img src="<%= r.profileimage %>" /></a>
+      <div class="google-container">
+        <% if r.type == 'plus#person' %>
+          <div class="google-profile-image">
+            <a href="<%= r.url %>">
+              <img src="<%= r.image %>" />
+            </a>
           </div>
-          <div class="activity-profile-name">
-            <a href="<%= r.profileurl %>"><%= r.username %></a>
+          <div class="google-profile-name">
+            <a href="<%= r.url %>" class="plus-profile-name">
+              <%= r.username %>
+            </a>
           </div>
-        </div>
-        <div class="activity-body">
-          <p><%= r.content.html_safe %></p>
-          <hr />
-          <% r.attachments.each do |a| %>
-            <% if a['objectType'] == 'article' %>
-              <h2><%= a['displayName'] %></h2>
-              <a href="<%= a['url'] %>"><%= a['url'] %></a>
+        <% else %>
+          <div class="activity-header">
+            <div class="activity-profile-image">
+              <a href="<%= r.profileurl %>"><img src="<%= r.profileimage %>" /></a>
+            </div>
+            <div class="activity-profile-name">
+              <a href="<%= r.profileurl %>"><%= r.username %></a>
+            </div>
+          </div>
+          <div class="clear"></div>
+          <div class="activity-body">
+            <p><%= r.content.html_safe %></p>
+
+            <% if r.attachments.length > 0 %>
+              <hr />
+              <% r.attachments.each do |a| %>
+                <% if a['objectType'] == 'article' %>
+                  <div class="activity-article-image">
+                    <a href="<%= a['url'] %>" target="_blank"><img src="<%= a['image']['url'] %>" /></a>
+                  </div>
+                  <div class="activity-article-context">
+                    <h2><%= a['displayName'] %></h2>
+                    <a href="<%= a['url'] %>"><%= a['url'] %></a>
+                  </div>
+                <% elsif a['objectType'] == 'video' %>
+                  <a href="<%= a['url'] %>" target="_blank"><img src="<%= a['image']['url'] %>" /></a>
+                <% end %>
+              <% end %>
             <% end %>
-          <% end %>
-        </div>
-      <% end %>
+          </div>
+        <% end %>
+      </div>
     </li>
+  <% end %>
+  <% if result[:items].length == 0 %>
+    <li>No results</li>
   <% end %>
 </ul>
