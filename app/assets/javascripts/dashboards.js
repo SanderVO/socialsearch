@@ -6,6 +6,10 @@ var current_page = 0;
 $(document).ready(function() {
 	$(':checkbox').checkbox('check');
 
+	$('#options_button').click(function(){
+		$('#searchOptions').slideToggle(300);
+	})
+
 	$('#searchForm').submit(function(e) {
 		e.preventDefault();
 		searchAll();
@@ -23,12 +27,6 @@ function searchAll() {
 		$('#searchResults .searchResultList').removeClass('active').hide();
 		total > column_count ? $('.nextLink').show() : $('.nextLink').hide();
 
-		// move input bar to nav
-		$(".input-append, #searchOptions").hide();
-		$(".input-append").detach().appendTo('#search-bin');
-		$("#searchOptions").detach().appendTo('.input-append');
-		$(".input-append").fadeIn(800);
-		$('.hero-unit').slideUp(300);
 
 		$('#searchResults .searchData').html("");
 
@@ -57,6 +55,15 @@ function searchAll() {
 
 	    	counter++;
 		});
+
+				// move input bar to nav
+		$("#searchForm, #searchOptions").hide();
+		$("#searchForm").detach().appendTo('#search-bin');
+		$("#searchOptions").detach().appendTo('#searchForm .input-group');
+		$("#searchForm,#options_button").hide().removeClass('hidden').fadeIn(800);
+		$('.jumbotron').slideUp(300);
+		$('.container-fluid').css('background','none');
+
 
 		if(counter <= 4) $('#nextLink').hide(animation_delay);
 		else $('#nextLink').show(animation_delay);
