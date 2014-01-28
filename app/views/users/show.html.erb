@@ -47,15 +47,27 @@
     <ul class="profile_links_ul">
       <li>
         <span><strong>Facebook:</strong></span>
-        <a class="zocial facebook" href="/auth/facebook/"><%= @user.fb ? "Unlink" : "Link"  %> with Facebook</a>
+        <% if !@user.fb %>  
+          <a class="zocial facebook" href="/auth/facebook/">Link with Facebook</a>
+        <% else %>
+          <%= link_to("Unlink with Facebook", current_user.fb, method: :delete, data: { confirm: "Are you sure?" }, class: "zocial facebook") %>
+        <% end %>
       </li>
       <li>
         <span><strong>Twitter:</strong></span>
-        <a class="zocial twitter" href="/auth/twitter/"><%= @user.twitter ? "Unlink" : "Link"  %> with Twitter</a>
+        <% if !@user.twitter %>  
+          <a class="zocial twitter" href="/auth/twitter/">Link with Twitter</a>
+        <% else %>
+          <%= link_to("Unlink with Twitter", current_user.twitter, method: :delete, data: { confirm: "Are you sure?" }, class: "zocial twitter") %>
+        <% end %>
       </li>
       <li>
         <span><strong>Google:</strong></span>
-        <a class="zocial google" href="/auth/google_oauth2/"><%= @user.google ? "Unlink" : "Link"  %> with Google</a>
+        <% if !@user.google %>  
+          <a class="zocial google" href="/auth/google_oauth2/">Link with Google</a>
+        <% else %>
+          <%= link_to("Unlink with Google", current_user.google, method: :delete, data: { confirm: "Are you sure?" }, class: "zocial google") %>
+        <% end %>
       </li>
     </ul>
   </div>
