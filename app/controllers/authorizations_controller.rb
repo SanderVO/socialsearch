@@ -54,10 +54,10 @@ class AuthorizationsController < ApplicationController
   # DELETE /authentications/1
   # DELETE /authentications/1.json
   def destroy
-     @authentication = Authorization.find(params[:id])
-     @authentication.destroy
+    @authentication = Authorization.find(params[:id])
+    @authentication.destroy
     flash[:notice] = "Successfully destroyed authentication."
-    redirect_to root_path
+    redirect_to '/users/'+current_user.id
   end
   
   private
