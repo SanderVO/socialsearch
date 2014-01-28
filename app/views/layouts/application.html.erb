@@ -8,32 +8,35 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div id="container">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <a class="brand" href="/">Social Search</a>
+      <ul class="nav">
+        <li><a href="/searches">Search</a></li>
+        <% if can? :read, @users %>
+          <li><a href="/users">Users</a></li>
+        <% end %>
+      </ul>
+      <ul class="nav pull-right">
+        <%= render 'devise/menu/login_items' %>
+        <%= render 'devise/menu/registration_items' %>
+      </ul>
+      <span id="search-bin">
 
-<div class="navbar">
-  <div class="navbar-inner">
-    <a class="brand" href="/">Social Search</a>
-    <ul class="nav">
-      <li><a href="/searches">Search</a></li>
-      <% if can? :read, @users %>
-        <li><a href="/users">Users</a></li>
-      <% end %>
-    </ul>
-    <ul class="nav pull-right">
-      <%= render 'devise/menu/login_items' %>
-      <%= render 'devise/menu/registration_items' %>
-    </ul>
+      </span>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <p id="notice"><%= notice %></p>
+    <% if content_for?(:main) %>
+    	<%= yield :main %>
+    <% end %>
+    <% if content_for?(:sidebar) %>
+    	<%= yield :sidebar %>
+    <% end %>
   </div>
 </div>
-
-<div class="container-fluid">
-  <p id="notice"><%= notice %></p>
-  <% if content_for?(:main) %>
-  	<%= yield :main %>
-  <% end %>
-  <% if content_for?(:sidebar) %>
-  	<%= yield :sidebar %>
-  <% end %>
-</div>
-
 </body>
 </html>

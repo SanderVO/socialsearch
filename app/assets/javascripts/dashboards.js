@@ -9,10 +9,17 @@ function search() {
 		counter = 0,
 		total = $('#searchOptions input:checked').length;
 
-	if(value) {
+	if(value && total > 0) {
 		$('#searchResults .searchData').html('');
 		$('#searchResults .searchResultList').removeClass('active').hide();
 		total > column_count ? $('.nextLink').show() : $('.nextLink').hide();
+
+		// move input bar to nav
+		$(".input-append, #searchOptions").hide();
+		$(".input-append").detach().appendTo('#search-bin');
+		$("#searchOptions").detach().appendTo('.input-append');
+		$(".input-append").fadeIn(800);
+		$('.hero-unit').slideUp(300);
 
 		$('#searchResults .searchData').html("");
 
