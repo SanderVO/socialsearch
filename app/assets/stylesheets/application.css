@@ -30,6 +30,10 @@ body {
 	border-radius: 0px;
 }
 
+.navbar-inverse {
+	background-color: #117864!important;
+}
+
 .container-fluid {
 	background: #1abc9c;
 	color: #fff;

@@ -4,6 +4,10 @@
   </li>
 <% else %>
   <li>
-  <%= link_to('Login', new_user_session_path, :class => 'btn btn-embossed btn-primary')  %>  
+  <%= link_to('Login', new_user_session_path)  %>  
   </li>
+  <li><a href="/searches">Search</a></li>
+	<% if can? :read, @users %>
+	  <li><a href="/users">Users</a></li>
+	<% end %>
 <% end %>

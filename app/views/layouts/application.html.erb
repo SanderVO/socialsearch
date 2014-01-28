@@ -9,7 +9,9 @@
 </head>
 <body>
 
-<nav class="navbar navbar-default navbar-embossed" role="navigation">
+<div class="container-fluid">
+
+  <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
       <span class="sr-only">Toggle navigation</span>
@@ -17,12 +19,6 @@
     <a class="navbar-brand" href="#">Social Search</a>
   </div>
   <div class="collapse navbar-collapse" id="navbar-collapse-01">
-    <ul class="nav navbar-nav">           
-      <li class="active"><a href="/searches">Search</a></li>
-        <% if can? :read, @users %>
-          <li><a href="/users">Users</a></li>
-        <% end %>
-     </ul> 
      <ul class="nav navbar-nav navbar-right">
       <%= render 'devise/menu/login_items' %>
       <%= render 'devise/menu/registration_items' %>
@@ -31,7 +27,6 @@
   </div><!-- /.navbar-collapse -->
 </nav><!-- /navbar -->
 
-<div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
       <p id="notice"><%= notice %></p>
