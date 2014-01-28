@@ -13,9 +13,13 @@
  *= zocial.css
  */
 
- body, html {
+body, html {
  	height: 100%;
- }
+}
+
+body {
+	background-color: #f5f5f5!important;
+}
 
 .navbar {
 	border-radius: 0px!important;
@@ -24,6 +28,10 @@
 .navbar-default .navbar-nav > li > a.btn {
 	color: #fff;
 	border-radius: 0px;
+}
+
+.navbar-inverse {
+	background-color: #117864!important;
 }
 
 .container-fluid {

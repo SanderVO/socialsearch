@@ -1,5 +1,5 @@
 <ul>
-  <% result[:items].each do |r| %>
+  <% result["tumblr"][:items].each do |r| %>
     <li>
       <!-- Photo -->
       <% if r.type == "photo" %>
@@ -79,7 +79,7 @@
       <% end %>
     </li>
   <% end %>
-  <% if result[:items].length == 0 %>
+  <% if result["tumblr"][:items].length == 0 %>
     <li>No results</li>
   <% end %>
 </ul>

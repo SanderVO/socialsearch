@@ -95,6 +95,7 @@
 		margin-bottom: -7px;
 		margin-top: 7px;
 		text-align: center;
+		width: 60%;
 		
 		z-index: 10;
 		div {
@@ -142,15 +143,30 @@
 
 .youtube-results {
 	width: 90%;
+
+	ul {
+		padding-left: 0;
+	}
+}
+
+.googleplus-results, .flickr-results {
+	ul {
+		padding-left: 0;
+	}
 }
 
 .twitter-results {
+	background-color: #fff;
 	border: 1px solid #ccc;
 	float: left;
 	margin-top: 10px;
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
+
+    ul {
+    	padding-left: 0;
+    }
 }
 
 .searchData {
@@ -241,6 +257,7 @@
 		}
 
 		.google-container {
+			background: #fff;
 			border: 1px solid #ccc;
 			float: left;
 			-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -310,6 +327,10 @@
 			width: auto!important;
 		}
 
+		p {
+			color: #404040;
+		}
+
 		p, a {
 			margin-top: 10px;
 		}
@@ -360,5 +381,11 @@
 			margin-left: 15px;
 			margin-top: 15px;
 		}
+	}
+}
+
+.profile_links_ul {
+	div {
+		width: 50px;
 	}
 }

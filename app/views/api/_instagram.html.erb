@@ -1,5 +1,5 @@
 <ul>
-	<% result[:items].each do |r| %>
+	<% result["instagram"][:items].each do |r| %>
 		<li>
 			<a href="<%= r.url %>" target="_blank">
 				<% if r.type == "media" %>
@@ -14,7 +14,7 @@
 			</a>
 		</li>
 	<% end %>
-	<% if result[:items].length == 0 %>
+	<% if result["instagram"][:items].length == 0 %>
 		<li>No results</li>
 	<% end %>
 </ul>

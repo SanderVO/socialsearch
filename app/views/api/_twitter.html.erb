@@ -1,5 +1,5 @@
 <ul>
-  <% result[:items].each do |r| %>
+  <% result["twitter"][:items].each do |r| %>
     <li>
       <div class="tweet-container">
         <div class="tweet-image">
@@ -17,7 +17,7 @@
       <hr />
     </li>
   <% end %>
-  <% if result[:items].length == 0 %>
+  <% if result["twitter"][:items].length == 0 %>
     <li>No results</li>
   <% end %>
 </ul>

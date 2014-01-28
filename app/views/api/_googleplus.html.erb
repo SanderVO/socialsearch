@@ -1,5 +1,5 @@
 <ul>
-  <% result[:items].each do |r| %>
+  <% result["googleplus"][:items].each do |r| %>
     <li>
       <div class="google-container">
         <% if r.type == 'plus#person' %>
@@ -49,7 +49,7 @@
       </div>
     </li>
   <% end %>
-  <% if result[:items].length == 0 %>
+  <% if result["googleplus"][:items].length == 0 %>
     <li>No results</li>
   <% end %>
 </ul>

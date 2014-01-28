@@ -1,5 +1,5 @@
 <ul>
-	<% result[:items].each do |r| %>
+	<% result["flickr"][:items].each do |r| %>
 		<li>
 			<a href="<%= r.url %>" target="_blank">
 			<div class="flickr-image">
@@ -12,7 +12,7 @@
 			</a>
 		</li>
 	<% end %>
-	<% if result[:items].length == 0 %>
+	<% if result["flickr"][:items].length == 0 %>
 		<li>No results</li>
 	<% end %>
 </ul>
