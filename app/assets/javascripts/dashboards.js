@@ -1,6 +1,5 @@
 var animation_delay = 300;
 var column_count = 4;
-
 var current_page = 0;
 
 $(document).ready(function() {
@@ -26,6 +25,8 @@ function searchAll() {
 		$('#searchResults .searchData').html('');
 		$('#searchResults .searchResultList').removeClass('active').hide();
 		total > column_count ? $('.nextLink').show() : $('.nextLink').hide();
+
+		current_page = 0;
 
 
 		$('#searchResults .searchData').html("");

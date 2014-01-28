@@ -31,7 +31,9 @@
               <% r.attachments.each do |a| %>
                 <% if a['objectType'] == 'article' %>
                   <div class="activity-article-image">
-                    <a href="<%= a['url'] %>" target="_blank"><img src="<%= a['image']['url'] %>" /></a>
+                    <% if a['image'] %>
+                      <a href="<%= a['url'] %>" target="_blank"><img src="<%= a['image']['url'] %>" /></a>
+                    <% end %>
                   </div>
                   <div class="activity-article-context">
                     <h2><%= a['displayName'] %></h2>
