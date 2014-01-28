@@ -1,10 +1,19 @@
-
 var animation_delay = 300;
 var column_count = 4;
 
 var current_page = 0;
 
-function search() {
+$(document).ready(function() {
+	$(':checkbox').checkbox('check');
+
+	$('#searchForm').submit(function(e) {
+		e.preventDefault();
+		searchAll();
+		return false;
+	});
+});
+
+function searchAll() {
 	var value = $('#mainSearch').val(),
 		counter = 0,
 		total = $('#searchOptions input:checked').length;

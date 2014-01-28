@@ -1,4 +1,47 @@
-//@import "bootstrap";
+.jumbotron {
+	background: none;
+	text-align: center;
+	line-height: 0px;
+
+	h1 {
+		margin-bottom: 5px;
+	}
+
+	p {
+		font-size: 21px;
+		line-height: 1.4;
+	}
+
+	form {
+		width: 600px;
+		margin: 0 auto;
+		padding-top: 30px;
+	}
+
+	.checkbox .icons, .radio .icons {
+		color: #fff;
+	}
+
+	.checkbox.checked, .radio.checked {
+		color: #fff;
+	}
+
+	.checkbox.checked .second-icon {
+		color: #fff;
+	}
+
+	label {
+		width: 120px;
+	}
+
+	.search-group {
+		margin-bottom: 5px;
+	}
+}
+
+#searchOptions {
+	padding: 10px;
+}
 
 .clear {
 	clear: both;
