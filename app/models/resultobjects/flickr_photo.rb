@@ -11,6 +11,11 @@ class FlickrPhoto < Result
   end
 
   def get_place location
-  	location['locality']['_content']+ ", "+ location['region']['_content']+ ", "+ location['country']['_content']
+    result = ""
+    result += location['locality']['_content']+", " if location['locality']
+    result += location['region']['_content']+", " if location['region']
+    result += location['country']['_content'] if location['country']
+  	result
+
   end
 end

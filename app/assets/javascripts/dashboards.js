@@ -62,7 +62,7 @@ function searchAll() {
 		$("#searchOptions").detach().appendTo('#searchForm .input-group');
 		$("#searchForm,#options_button").hide().removeClass('hidden').fadeIn(800);
 		$('.jumbotron').slideUp(300);
-		$('.container-fluid').css('background','none');
+		$('.container-fluid').css('background','none').css('color','#333');
 
 
 		if(counter <= 4) $('#nextLink').hide(animation_delay);
@@ -91,7 +91,8 @@ function sendRequest(name, url, data, counter, total) {
 
 		error: function() {
 			console.log('error loading data from '+name+'!');
-			$('#searchResults #' + name).removeClass('loading').html("Failed to load!");
+			$('#searchResults #' + name).removeClass('loading');
+			$('#searchResults #' + name + ' .' + name + '-results').html("Failed to load!");
 		}
 	});
 }
