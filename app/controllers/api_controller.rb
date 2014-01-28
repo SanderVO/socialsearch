@@ -9,7 +9,8 @@ class ApiController < ApplicationController
 			@result = @error
 		else
 			if params[:provider]
-				@result = self.send(params[:provider])
+				@result = {}
+				@result["#{params[:provider]}"] = self.send(params[:provider])
 			else
 				@result = {
 					flickr: flickr,

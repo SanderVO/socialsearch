@@ -35,12 +35,19 @@ class AuthorizationsController < ApplicationController
       end
       authentication.save
     end
-    # if user exists, sign in
+    # if user exists, sign in. Gives a Mongoid glitch of not signing in after registration. So double sign in
     if authentication.user
-      sign_in authentication.user
-      # raise "user signed in? #{user_signed_in?.to_s}".inspect
-      flash[:notice] = "Authorization successful." 
-      redirect_to root_path
+      if !current_user
+        sign_in authentication.user
+        sign_out authentication.user
+        sign_in authentication.user
+        # raise "user signed in? #{user_signed_in?.to_s}".inspect
+        flash[:notice] = "Authorization successful." 
+        redirect_to root_path
+      else
+        flash[:notice] = "Linked successfully." 
+        redirect_to '/users/'+current_user.id
+      end
     end
   end
 

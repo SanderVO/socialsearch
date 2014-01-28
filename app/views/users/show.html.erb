@@ -43,18 +43,18 @@
 
   <h2>Link Accounts</h2>
   <div class="profile_links well well-small">
-    <ul class="profile_info_ul">
+    <ul class="profile_links_ul">
       <li>
-        <strong>Facebook:</strong>
-        <%= @user.fb ? "Linked" : "Not Linked" %>
+        <span><strong>Facebook:</strong></span>
+        <a class="zocial facebook" href="/auth/facebook/"><%= @user.fb ? "Unlink" : "Link"  %> with Facebook</a>
       </li>
       <li>
-        <strong>Twitter:</strong>
-        <%= @user.twitter ? "Linked" : "Not Linked" %>
+        <span><strong>Twitter:</strong></span>
+        <a class="zocial twitter" href="/auth/twitter/"><%= @user.twitter ? "Unlink" : "Link"  %> with Twitter</a>
       </li>
       <li>
-        <strong>Google:</strong>
-        <%= @user.google ? "Linked" : "Not Linked" %>
+        <span><strong>Google:</strong></span>
+        <a class="zocial google" href="/auth/google_oauth2/"><%= @user.google ? "Unlink" : "Link"  %> with Google</a>
       </li>
     </ul>
   </div>
