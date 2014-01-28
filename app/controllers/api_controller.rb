@@ -8,6 +8,31 @@ class ApiController < ApplicationController
 		if @error
 			@result = @error
 		else
+
+			# store search
+			
+			if current_user && params[:provider]
+				@search = Search.where(user: current_user, query: params[:search], :created_at.gt => Time.now-15.seconds).first
+				if @search
+					@search.providers
+					@search.providers << params[:provider]
+					@search.providers.uniq!
+					@search.save
+				else
+					new_search = true
+				end
+			else
+				new_search = true
+			end
+
+			if new_search
+				@search = Search.new(query: params[:search])
+				@search.user = current_user if current_user
+				@search.providers = params[:provider] ? [params[:provider]] : []
+				@search.save
+			end
+			
+
 			if params[:provider]
 				@result = self.send(params[:provider])
 			else
