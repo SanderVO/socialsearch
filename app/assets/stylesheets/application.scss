@@ -50,9 +50,11 @@ body {
   background-color: #bdc3c7;
   color: black;
   height: 60px;
-  margin-top: -30px;
 }
 
+.navbar {
+  margin-bottom: 0px !important;
+}
 // HACK HACK HACK
 .navbar-nav.navbar-right:last-child {
   margin-right: 0px !important;
