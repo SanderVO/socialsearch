@@ -17,7 +17,7 @@ GIT
 
 GIT
   remote: https://github.com/mongoid/mongoid.git
-  revision: 56862bd5a6f09ae83e7c371d52fa472631e7761e
+  revision: e7aef3bc79f159709dcf394807926f305762eaa7
   specs:
     mongoid (4.0.0.alpha2)
       activemodel (>= 4.0.0)
@@ -63,7 +63,7 @@ GEM
     bcrypt-ruby (3.1.2-x86-mingw32)
     bootstrap-sass (3.0.3.0)
       sass (~> 3.2)
-    bson (2.1.2)
+    bson (2.2.0)
     bson_ext (1.5.1)
     buftok (0.2.0)
     builder (3.1.4)
@@ -74,7 +74,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.6.3)
+    coffee-script-source (1.7.0)
     connection_pool (1.2.0)
     daemons (1.1.9)
     descendants_tracker (0.0.3)
@@ -92,11 +92,10 @@ GEM
     extlib (0.9.16)
     faraday (0.8.9)
       multipart-post (~> 1.2.0)
-    faraday_middleware (0.8.8)
+    faraday_middleware (0.9.0)
       faraday (>= 0.7.4, < 0.9)
-    flickrie (1.6.0)
-      faraday (>= 0.7.6, < 0.9)
-      faraday_middleware (>= 0.8.7, < 0.9)
+    flickrie (0.7.1)
+      faraday_middleware
       multi_xml (~> 0.4)
       simple_oauth (~> 0.1)
     google-api-client (0.6.4)
@@ -123,11 +122,11 @@ GEM
     jbuilder (1.5.3)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
-    jquery-rails (3.0.4)
+    jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.1)
-    jwt (0.1.10)
+    jwt (0.1.11)
       multi_json (>= 1.5)
     launchy (2.4.2)
       addressable (~> 2.3)
@@ -193,7 +192,7 @@ GEM
     rake (10.1.1)
     rdoc (4.1.1)
       json (~> 1.4)
-    sass (3.2.13)
+    sass (3.2.14)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
       sass (>= 3.1.10)
