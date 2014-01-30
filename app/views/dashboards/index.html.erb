@@ -56,8 +56,8 @@
 		</div>
 	</div>
 
-	<%= button_tag "Previous", class: "previousLink", onclick: "showPrevious()", style: "display:none;" %>
-	<%= button_tag "Next", class: "nextLink", onclick: "showNext()", style: "display:none;" %>
+	<%= button_tag "Previous", class: "previousLink btn btn-success", onclick: "showPrevious()", style: "display:none; margin:5px" %>
+	<%= button_tag "Next", class: "nextLink btn btn-success", onclick: "showNext()", style: "display:none; margin:5px" %>
 
 	<div id="searchResults">
 		<div id="flickr" class="searchResultList" style="display:none;">
@@ -78,7 +78,7 @@
 			<div class="twitter-results searchData">
 			</div>
 		</div>
-		
+
 		<div id="youtube" class="searchResultList" style="display:none;">
 			<div class="loader">Loading...</div>
 			<img src="/assets/youtube-logo.png" class="logoResults" />

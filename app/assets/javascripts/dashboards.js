@@ -1,6 +1,5 @@
 var animation_delay = 300;
 var column_count = 4;
-
 var current_page = 0;
 
 $(document).ready(function() {
@@ -27,6 +26,7 @@ function searchAll() {
 		$('#searchResults .searchResultList').removeClass('active').hide();
 		total > column_count ? $('.nextLink').show() : $('.nextLink').hide();
 
+		current_page = 0;
 
 		$('#searchResults .searchData').html("");
 
@@ -64,9 +64,9 @@ function searchAll() {
 		$('.jumbotron').slideUp(300);
 		$('.container-fluid').css('background','none').css('color','#333');
 
-
-		if(counter <= 4) $('#nextLink').hide(animation_delay);
-		else $('#nextLink').show(animation_delay);
+		$('.previousLink').hide(animation_delay);
+		if(counter <= 4) $('.nextLink').hide(animation_delay);
+		else $('.nextLink').show(animation_delay);
 	}
 }
 
@@ -83,10 +83,10 @@ function sendRequest(name, url, data, counter, total) {
 
 			$('#searchResults #' + name + ' .' + name + '-results').append(data);
 
-			if(counter == total) {
 				setHovers();
+				$('#outerWidgetContainer').css('width', 'auto');
 				//$('#searchResults .searchResultList:lt('+column_count+')').show();
-			}
+			
 		},
 
 		error: function() {
@@ -109,6 +109,7 @@ function showPrevious() {
 }
 
 function showPage(pagenr){
+	console.log("Showing page "+pagenr);
 	var divs = $("#searchResults .searchResultList.active");
 	var total = divs.length;
 	var delay = animation_delay;
@@ -116,48 +117,53 @@ function showPage(pagenr){
 
 	var start = (pagenr) * column_count;
 	var end = start + 4;
-	console.log(pagenr + " - "+npages);
-	console.log(start+" - "+end);
+	console.log(" >> "+pagenr + " - "+npages);
+	console.log(" >> "+start+" - "+end);
 	$.each(divs, function(index) {
 		if(index >= start && index < end){
-			console.log("Showing "+$(this).attr("id")+" on index "+index);
+			console.log(" >> Showing "+$(this).attr("id")+" on index "+index);
 			$(this).show(delay+=100);
 			//$(this).next().animate({'margin-left': '-'},delay+=100);
 		}else{
-			console.log("Hiding "+$(this).attr("id")+" on index "+index);
+			console.log(" >> Hiding "+$(this).attr("id")+" on index "+index);
 			$(this).hide(delay+=100);
 			//$(this).next().animate({width: '25%'},delay+=100);
 		}
 	});
 
+	console.log(npages+" - "+pagenr);
 	if(npages == 1 || pagenr == 0){
 		$('.previousLink').hide(animation_delay);
-		console.log("Hiding previous link");
+		console.log(" >> Hiding previous link");
 	}else{
 		$('.previousLink').show(animation_delay);
-		console.log("Showing previous link");
+		console.log(" >> HShowing previous link");
 	}
 
 	if(npages == 1 || pagenr >= npages-1){
 		$('.nextLink').hide(animation_delay);
-		console.log("Hiding next link");
+		console.log(" >> HHiding next link");
 	}else{
 		$('.nextLink').show(animation_delay);
-		console.log("Showing next link");
+		console.log(" >> HShowing next link");
 	}
 }
 
 
 function setHovers() {
+	$(".flickr-image").unbind('mouseleave');
 	$(".flickr-image").mouseleave(function() {
 		$(this).find(".flickr-content").stop().slideUp(250);
 	});
+	$(".flickr-image").unbind('mouseenter');
 	$(".flickr-image").mouseenter(function() {
 		$(this).find(".flickr-content").stop().show().slideUp(0).slideDown(250);
 	});
+	$(".tumblr-image").unbind('mouseleave');
 	$(".tumblr-image").mouseleave(function() {
 		$(this).find(".tumblr-content").stop().slideUp(250);
 	});
+	$(".tumblr-image").unbind('mouseenter');
 	$(".tumblr-image").mouseenter(function() {
 		$(this).find(".tumblr-content").stop().show().slideUp(0).slideDown(250);
 	});
