@@ -41,10 +41,9 @@ class ApiController < ApplicationController
 					flickr: flickr,
 					tumblr: tumblr,
 					instagram: instagram,
-	  				facebook: facebook,
 	  				twitter: twitter,
 	  				youtube: youtube,
-	  				wikipedia: wikipedia
+	  				google: google
   				}
   			end
   		end

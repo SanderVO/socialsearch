@@ -6,9 +6,9 @@ class SearchesController < ApplicationController
   def index
     if current_user 
       if current_user.role == "admin"
-        @searches = Search.all
+        @searches = Search.all.desc(:created_at).page params[:page]
       else
-        @searches = Search.where(user: current_user)
+        @searches = Search.where(user: current_user).desc(:created_at).page params[:page]
       end
     else
       @searches = []
@@ -17,7 +17,7 @@ class SearchesController < ApplicationController
 
   def index_all
     if current_user && current_user.role == "admin"
-      @searches = Search.all
+      @searches = Search.all.desc(:created_at).page params[:page]
     else 
       @searches = []
     end

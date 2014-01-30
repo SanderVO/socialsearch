@@ -83,8 +83,11 @@ function sendRequest(name, url, data, counter, total) {
 
 			$('#searchResults #' + name + ' .' + name + '-results').append(data);
 
-				setHovers();
-				$('#outerWidgetContainer').css('width', 'auto');
+			setHovers();
+			$('.searchdata iframe').load(function(){
+				$(this).find('#outerWidgetContainer').css('width', 'auto');
+			});
+			
 				//$('#searchResults .searchResultList:lt('+column_count+')').show();
 			
 		},
