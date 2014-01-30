@@ -86,7 +86,10 @@ function sendRequest(name, url, data, counter, total) {
 
 			if(counter == (total-1)) {
 				setHovers();
-				$('#outerWidgetContainer').css('width', 'auto');
+				$('.spotify_audio_player').load(function() {
+					console.log($('#outerWidgetContainer'));
+					$('#outerWidgetContainer').removeAttr('style');
+				});
 				//$('#searchResults .searchResultList:lt('+column_count+')').show();
 			}
 		},
