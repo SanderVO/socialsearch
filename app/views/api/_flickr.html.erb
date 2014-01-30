@@ -6,7 +6,7 @@
 				<img src=<%= r.content %> class="flickr-image" align="center" />
 				<div class="flickr-content" style="display:none;">
 					<span class="title"><%= r.title %></span>
-					<p><%= r.description %></p>
+					<p><%= r.description.html_safe %></p>
 				</div>
 			</div>
 			</a>

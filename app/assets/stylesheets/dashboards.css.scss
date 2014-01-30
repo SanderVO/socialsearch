@@ -31,7 +31,8 @@
 	}
 
 	label {
-		width: 120px;
+		width: 116px;
+		float: left;
 	}
 
 	.search-group {
@@ -67,6 +68,7 @@
 	width: 25%;
 	min-height: 300px;
 	position: relative;
+	overflow-x:hidden;
 }
 #searchResults {
 	margin-top: 20px;

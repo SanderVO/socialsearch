@@ -15,7 +15,6 @@
 
 body, html {
  	height: 100%;
- 	font-family: "Lato", Helvetica, Arial, sans-serif!important;
 }
 
 body {
@@ -42,14 +41,10 @@ body {
 	margin-bottom: 60px;
 }
 
-.container-fluid .row {
-	margin-left: 0;
-	margin-right: 0;
-}
-
 .btn-submit {
   background-color: #2980b9;
 }
+
 
 .notice {
   background-color: #bdc3c7;
@@ -65,6 +60,19 @@ body {
   margin-right: 0px !important;
 }
 
-.nav-pills {
-	padding-top: 5px;
+.row {
+  /*background-color: #1abc9c;*/
+}
+.well {
+	color: #333;
+}
+.profile_title {
+	float: left;
+	width:50%;
+}
+.profile_info {
+	margin-right: 8%;
+	a.btn.btn-success {
+		color: #fff;
+	}
 }
