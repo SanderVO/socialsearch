@@ -83,7 +83,7 @@ function sendRequest(name, url, data, counter, total) {
 
 			$('#searchResults #' + name + ' .' + name + '-results').append(data);
 
-			if(counter == total) {
+			if(counter == (total-1)) {
 				setHovers();
 				//$('#searchResults .searchResultList:lt('+column_count+')').show();
 			}

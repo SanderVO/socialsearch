@@ -40,3 +40,8 @@ body {
 	height: 100%;
 	margin-bottom: 60px;
 }
+
+.container-fluid .row {
+	margin-left: 0;
+	margin-right: 0;
+}
