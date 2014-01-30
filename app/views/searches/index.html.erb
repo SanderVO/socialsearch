@@ -3,7 +3,7 @@
 
   <hr />
 
-  <table class="table table-bordered">
+  <table class="table table-striped searches">
     <thead>
       <tr>
         <th>Query</th>
@@ -29,7 +29,6 @@
     </tbody>
   </table>
 
-  <br>
-
-  <%= link_to 'New Search', new_search_path %>
+  <%= paginate @searches %>
+  <div class="clear"> </div>
 <% end %>

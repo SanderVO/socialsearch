@@ -37,6 +37,9 @@ gem 'instagram'
 gem 'tumblr_client'
 gem 'google-api-client'
 
+# Pagination
+gem 'kaminari'
+
 group :production do
   gem 'thin'
 end
