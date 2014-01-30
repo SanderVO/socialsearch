@@ -97,7 +97,7 @@ class ApiController < ApplicationController
 
 		error = nil
 		
-		client.tagged(tags, :limit => 5, :filter => "raw").each do |blog|
+		client.tagged(tags, :limit => @limit, :filter => "raw").each do |blog|
 			if blog.first == "status" || blog.first == "msg"
 				error = blog.last
 			else
