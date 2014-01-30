@@ -10,6 +10,14 @@
 							<p><%= r.content %></p>
 						</div>
 					</div>
+				<% elsif r.type == "user" %>
+					<div class="flickr-image">
+						<img src=<%= r.profile_picture %> class="flickr-image" align="center" />
+						<div class="flickr-content" style="display:none;">
+							<span class="title">User: <%= r.full_name %></span>
+							<p><%= r.bio %></p>
+						</div>
+					</div>
 				<% end %>
 			</a>
 		</li>

@@ -3,8 +3,14 @@
     <h1><%= @user.username == nil ? @user.email : @user.username %></h1>
   </div>
 
-  <h2>Info</h2>
-  <div class="profile_info well well-small">
+  <div class="profile_title ">
+    <h2>Link Accounts</h2>
+  </div>
+
+  <div class="clear"></div>
+
+  <div class="profile_info well well-small col-xs-6">
+    <%= button_to 'Edit', edit_user_path(@user), class: ' btn btn-success', style: 'float:right' %>
     <ul class="profile_info_ul">
       <li>
         <strong>Email:</strong>
@@ -39,11 +45,10 @@
         <%= @user.gender %>
       </li>
     </ul>
-  </div>
-  <%= link_to 'Edit', edit_user_path(@user) %>
 
-  <h2>Link Accounts</h2>
-  <div class="profile_links well well-small">
+  </div>
+  
+  <div class="profile_links well well-small col-xs-6">
     <ul class="profile_links_ul">
       <li>
         <span><strong>Facebook:</strong></span>

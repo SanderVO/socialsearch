@@ -1,44 +1,39 @@
 <% content_for :main do %>
-	<h2>Sign in</h2>
+<% if !devise_error_messages!.empty? %>
+  <div class="dialog notice_block">
+    <%= devise_error_messages! %>
+  </div>
+<% end %>
+<div class="row">
+  <div class="col-lg-4 col-md-4 col-sm-2 col-xs-2"></div>
+  <div class="col-lg-4 col-md-4 form-wrapper">
+    <h2>Sign in</h2>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="form-group">
+        <%= f.email_field :email, autofocus: true, class: "form-control flat", placeholder: "Email" %>
+      </div>
 
-	<hr />
-
-	<%= form_for(resource, :as => resource_name, :url => session_path(resource_name), html: { class: 'form-horizontal' }) do |f| %>
-	  <div class="control-group">
-	  	<%= f.label :email, class: 'control-label' %>
-	  	<div class="controls">
-	  		<%= f.email_field :email, :autofocus => true %>
-	  	</div>
-	</div>
-
-	  <div class="control-group">
-	  	<%= f.label :password, class: 'control-label' %>
-	  	<div class="controls">
-	  		<%= f.password_field :password %>
-	  	</div>
-	  </div>
-
-	  <% if devise_mapping.rememberable? -%>
-	    <div class="control-group">
-	    	<div class="controls">
-	    		<%= f.label(:remember_me, class: 'checkbox') do %>
-	    			Remember me
-	    			<%= f.check_box :remember_me %> 
-	    		<% end %>
-	    	</div>
-	    </div>
-	  <% end -%>
-
-	  <div class="form-actions">
-	  	<%= f.submit "Sign in", :class => 'btn btn-primary' %>
-	  	<%= render "devise/shared/links" %>
-	  </div>
-	<% end %>
-
-	<div class="col two">
+      <div class="form-group">
+        <%= f.password_field :password, class: "form-control flat", placeholder:"Password" %>
+       </div>
+      <div class="form-group">
+        <div><%= f.submit "Sign in", id: "sign_in", class: "btn-submit btn btn-success btn-block btn-lg" %></div>
+      </div>
+      <% end %>
+      <div class="form-group">
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="row">
+ <div class="col-lg-4 col-md-4 col-sm-2 col-xs-2"></div>
+	<div class="col two col-lg-4 col-md-4 ">
 		Did you link your account to social media? <br />
 		<a class="zocial facebook" href="/auth/facebook/">Login with facebook</a>
 		<a class="zocial google" href="/auth/google_oauth2/">Login with google</a>
 	</div>
+</div>
 
 <% end %>

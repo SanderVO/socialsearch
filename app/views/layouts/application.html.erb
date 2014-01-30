@@ -16,22 +16,23 @@
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
       <span class="sr-only">Toggle navigation</span>
     </button>
-    <a class="navbar-brand" href="#">Social Search</a>
+    <a class="navbar-brand" href="/">Social Search</a>
   </div>
   <div class="collapse navbar-collapse" id="navbar-collapse-01">
      <ul class="nav navbar-nav navbar-right">
       <%= render 'devise/menu/login_items' %>
       <%= render 'devise/menu/registration_items' %>
     </ul>
-    <span id="search-bin"></span>         
+    <span id="search-bin"></span>
   </div><!-- /.navbar-collapse -->
 </nav><!-- /navbar -->
-
-  <div class="row">
-    <div class="col-md-12">
-      <p id="notice"><%= notice %></p>
+<% if notice %>
+  <div class="dialog notice">
+    <div class="container">
+      <p><%= notice %></p>
     </div>
   </div>
+<% end %>
 
   <div class="row">
     <div class="col-md-12">

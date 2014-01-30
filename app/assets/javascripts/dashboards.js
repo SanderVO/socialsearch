@@ -84,10 +84,10 @@ function sendRequest(name, url, data, counter, total) {
 
 			$('#searchResults #' + name + ' .' + name + '-results').append(data);
 
-			if(counter == total) {
+			
 				setHovers();
 				//$('#searchResults .searchResultList:lt('+column_count+')').show();
-			}
+			
 		},
 
 		error: function() {
@@ -150,15 +150,19 @@ function showPage(pagenr){
 
 
 function setHovers() {
+	$(".flickr-image").unbind('mouseleave');
 	$(".flickr-image").mouseleave(function() {
 		$(this).find(".flickr-content").stop().slideUp(250);
 	});
+	$(".flickr-image").unbind('mouseenter');
 	$(".flickr-image").mouseenter(function() {
 		$(this).find(".flickr-content").stop().show().slideUp(0).slideDown(250);
 	});
+	$(".tumblr-image").unbind('mouseleave');
 	$(".tumblr-image").mouseleave(function() {
 		$(this).find(".tumblr-content").stop().slideUp(250);
 	});
+	$(".tumblr-image").unbind('mouseenter');
 	$(".tumblr-image").mouseenter(function() {
 		$(this).find(".tumblr-content").stop().show().slideUp(0).slideDown(250);
 	});

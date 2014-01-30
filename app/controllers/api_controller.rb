@@ -60,15 +60,25 @@ class ApiController < ApplicationController
 		Flickrie.shared_secret = ENV['FLICKR_SHARED_SECRET']
 
 		query = params[:search]
-		result = Flickrie.search_photos(tags: query.split(' '), text:query)
-		@limit = result.length if result.length < @limit
+		text_result = Flickrie.search_photos(text:query)
+		tag_result = Flickrie.search_photos(tags: query.split(' '))
+		text_limit = @limit
+		text_limit = text_result.length if text_result.length < @limit
+		text_limit -= (tag_result.length <= @limit/2) ? tag_result.length : @limit/2
+		tag_limit = @limit - text_limit
+		tag_limit = tag_result.length if tag_limit > tag_result.length
+		# raise [tag_limit,text_limit].inspect
 
 		photos = []
-		result[0..@limit].each do |r|
+		text_result[0..text_limit].each do |r|
 			info = Flickrie.get_photo_info(r.id)
 			photos << FlickrPhoto.new(info)
 		end
 
+		tag_result[0..tag_limit].each do |r|
+			info = Flickrie.get_photo_info(r.id)
+			photos << FlickrPhoto.new(info)
+		end
 		return_result limit: @limit, items: photos
 	end
 
@@ -129,13 +139,14 @@ class ApiController < ApplicationController
 	def instagram
 		photos = []
 
-		result = Instagram.tag_search(params[:search])
+		result = Instagram.tag_search(params[:search].gsub(/ /,'_'))
 		@limit = result.length if result.length < @limit
 		result[0..2].each do |tag|
 			tag_media = Instagram.tag_recent_media(tag['name'])
 			tag_media[0..@limit].each do |media|
 				media['type'] = "media"
 				photos << InstagramPhoto.new(media)
+				
 			end
 		end
 
@@ -144,10 +155,11 @@ class ApiController < ApplicationController
 		result[0..limit].each do |r|
 			r['type'] = "user"
 			photos << r
-			user_media = Instagram.user_recent_media(777)
+			user_media = Instagram.user_recent_media(r['id'])
 			limit = user_media.length < 2 ? user_media.length : 2
 			user_media[0..limit].each do |media|
 				media['type'] = "user_media"
+				
 				photos << InstagramPhoto.new(media)
 			end
 		end

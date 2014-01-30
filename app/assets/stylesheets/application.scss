@@ -40,3 +40,33 @@ body {
 	height: 100%;
 	margin-bottom: 60px;
 }
+
+.btn-submit {
+  background-color: #2980b9;
+}
+
+
+.notice {
+  background-color: #bdc3c7;
+  color: black;
+  height: 60px;
+}
+
+.navbar {
+  margin-bottom: 0px !important;
+}
+// HACK HACK HACK
+.navbar-nav.navbar-right:last-child {
+  margin-right: 0px !important;
+}
+
+.row {
+  background-color: #1abc9c;
+}
+.well {
+	color: #333;
+}
+.profile_title {
+	float: left;
+	width:50%;
+}
