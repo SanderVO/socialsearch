@@ -68,14 +68,19 @@
             </p>
           </div>
         </a>
+      <% elsif r.type == "link" %>
+         <a href="<%= r.url %>" target="_blank">
+          <div class="tumblr-content-text">
+            <span class="title"><%= r.title %></span>
+            <p class="content-text-link"><a href="<%= r.url %>" target="_blank"><%= r.url %></a></p>
+          </div>
+        </a>
       <!-- Misc. -->
       <% else %>
-        <a href="<%= r.url %>" target="_blank">
           <div class="tumblr-content-text">
             <span class="title"><%= r.username %></span>
             <p><%= r.caption %></p>
           </div>
-        </a>
       <% end %>
     </li>
   <% end %>

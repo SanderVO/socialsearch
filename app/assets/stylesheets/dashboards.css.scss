@@ -56,6 +56,12 @@
 	max-width: 200px;
 }
 
+.searchData {
+	ul {
+		padding-left: 0;
+	}
+}
+
 #searchResults .searchResultList {
 	float: left;
 	width: 25%;
@@ -63,6 +69,8 @@
 	position: relative;
 }
 #searchResults {
+	margin-top: 20px;
+
 	div.loader {
 		display: none;
 	}
@@ -83,7 +91,7 @@
 
 .navbar {
 	ul {
-		z-index: 1;
+		z-index: 50;
 	}
 	#search-bin {
 		display: block;
@@ -97,7 +105,10 @@
 		text-align: center;
 		width: 60%;
 		
-		z-index: 0;
+		z-index: 10;
+		div {
+			z-index: 10;
+		}
 		.input-group {
 			position: relative;	
 		}
@@ -176,14 +187,44 @@
 
 .tumblr-content-text {
 	text-align: center;
-	border: 1px solid black;
+	background: #fff;
+	border: 1px solid #ccc;
+	padding: 10px;
+	overflow-x: hidden;
 
 	.title, .tumblr-question {
 		font-weight: bold;
 	}
 
+	.title {
+		color: #404040;
+		display: block;
+		font-size: 20px;
+		margin-top: 10px;
+		font-weight: 300;
+		font-family: "Lato", Helvetica, Arial, sans-serif;
+	}
+
+	img {
+		width: auto!important;
+	}
+
+	p {
+		color: #4C4C4C;
+		font-size: 12px;
+
+		img {
+			margin-bottom: 10px;
+			margin-top: 10px;
+		}
+	}
+
 	.quote-text, .tumblr-question {
 		font-style: italic;
+	}
+
+	.content-text-link {
+		margin-top: 20px;
 	}
 }
 
