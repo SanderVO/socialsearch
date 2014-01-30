@@ -143,26 +143,25 @@ class ApiController < ApplicationController
 		@limit = result.length if result.length < @limit
 		result[0..2].each do |tag|
 			tag_media = Instagram.tag_recent_media(tag['name'])
-			tag_media[0..@limit].each do |media|
+			tag_media[0..(@limit/2)].each do |media|
 				media['type'] = "media"
 				photos << InstagramPhoto.new(media)
-				
 			end
 		end
 
-		result = Instagram.user_search(params[:search])
-		limit = result.length < 2 ? result.length : 2
-		result[0..limit].each do |r|
-			r['type'] = "user"
-			photos << r
-			user_media = Instagram.user_recent_media(r['id'])
-			limit = user_media.length < 2 ? user_media.length : 2
-			user_media[0..limit].each do |media|
-				media['type'] = "user_media"
+		# result = Instagram.user_search(params[:search])
+		# limit = result.length < 2 ? result.length : 2
+		# result[0..limit].each do |r|
+		# 	r['type'] = "user"
+		# 	photos << r
+		# 	user_media = Instagram.user_recent_media(r['id'])
+		# 	limit = user_media.length < 2 ? user_media.length : 2
+		# 	user_media[0..limit].each do |media|
+		# 		media['type'] = "user_media"
 				
-				photos << InstagramPhoto.new(media)
-			end
-		end
+		# 		photos << InstagramPhoto.new(media)
+		# 	end
+		# end
 
 		return_result items: photos
 	end
@@ -198,7 +197,7 @@ class ApiController < ApplicationController
 
 		results = []
 
-		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.people.search, :parameters => {:query => params[:search], :maxResults => 10}
+		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.people.search, :parameters => {:query => params[:search], :maxResults => 4}
 		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.activities.search, :parameters => {:query => params[:search], :maxResults => 10}
 
 		people = JSON.parse(res.data.to_json)

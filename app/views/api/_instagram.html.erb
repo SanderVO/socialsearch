@@ -7,7 +7,7 @@
 						<img src=<%= r.images.low_resolution.url %> class="flickr-image" align="center" />
 						<div class="flickr-content" style="display:none;">
 							<span class="title"><%= r.title %></span>
-							<p><%= r.content %></p>
+							<p><%= r.content.html_safe %></p>
 						</div>
 					</div>
 				<% elsif r.type == "user" %>
@@ -15,7 +15,7 @@
 						<img src=<%= r.profile_picture %> class="flickr-image" align="center" />
 						<div class="flickr-content" style="display:none;">
 							<span class="title">User: <%= r.full_name %></span>
-							<p><%= r.bio %></p>
+							<p><%= r.bio.html_safe %></p>
 						</div>
 					</div>
 				<% end %>

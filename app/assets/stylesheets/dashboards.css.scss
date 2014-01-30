@@ -57,6 +57,12 @@
 	max-width: 200px;
 }
 
+.searchData {
+	ul {
+		padding-left: 0;
+	}
+}
+
 #searchResults .searchResultList {
 	float: left;
 	width: 25%;
@@ -65,6 +71,8 @@
 	overflow-x:hidden;
 }
 #searchResults {
+	margin-top: 20px;
+
 	div.loader {
 		display: none;
 	}
@@ -181,14 +189,44 @@
 
 .tumblr-content-text {
 	text-align: center;
-	border: 1px solid black;
+	background: #fff;
+	border: 1px solid #ccc;
+	padding: 10px;
+	overflow-x: hidden;
 
 	.title, .tumblr-question {
 		font-weight: bold;
 	}
 
+	.title {
+		color: #404040;
+		display: block;
+		font-size: 20px;
+		margin-top: 10px;
+		font-weight: 300;
+		font-family: "Lato", Helvetica, Arial, sans-serif;
+	}
+
+	img {
+		width: auto!important;
+	}
+
+	p {
+		color: #4C4C4C;
+		font-size: 12px;
+
+		img {
+			margin-bottom: 10px;
+			margin-top: 10px;
+		}
+	}
+
 	.quote-text, .tumblr-question {
 		font-style: italic;
+	}
+
+	.content-text-link {
+		margin-top: 20px;
 	}
 }
 
@@ -325,10 +363,6 @@
 		width: 100%;
 		word-wrap:break-word;
 
-		img {
-			width: auto!important;
-		}
-
 		p {
 			color: #404040;
 		}
@@ -350,6 +384,10 @@
 			float: left;
 			height: 120px;
 			width: 120px;
+
+			img {
+				width: auto;
+			}
 		}
 
 		.activity-article-context {
