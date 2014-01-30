@@ -60,13 +60,12 @@ class ApiController < ApplicationController
 
 		query = params[:search]
 		text_result = Flickrie.search_photos(text:query)
-		tag_result = Flickrie.search_photos(tags: query.split(' '))
+		tag_result = Flickrie.search_photos(tags: ((query.include? " ") ? query.split(' ') : query))
 		text_limit = @limit
 		text_limit = text_result.length if text_result.length < @limit
 		text_limit -= (tag_result.length <= @limit/2) ? tag_result.length : @limit/2
 		tag_limit = @limit - text_limit
 		tag_limit = tag_result.length if tag_limit > tag_result.length
-		# raise [tag_limit,text_limit].inspect
 
 		photos = []
 		text_result[0..text_limit].each do |r|
