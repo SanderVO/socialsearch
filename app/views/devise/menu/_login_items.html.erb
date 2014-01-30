@@ -6,7 +6,9 @@
   <li>
   <%= link_to('Login', new_user_session_path)  %>  
   </li>
-  <li><a href="/searches">Search</a></li>
+  <% if current_user %>
+    <li><a href="/searches">Searches</a></li>
+  <% end %>
 	<% if can? :read, @users %>
 	  <li><a href="/users">Users</a></li>
 	<% end %>
