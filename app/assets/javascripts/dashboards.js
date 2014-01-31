@@ -16,6 +16,11 @@ $(document).ready(function() {
 	});
 });
 
+function changeToVideo(id) {
+	$('#' + id + ' .youtube-video-thumb').remove();
+	$('#' + id).append('<iframe height="265" src="//www.youtube.com/embed/' + id + '" frameborder="0" allowfullscreen></iframe>');
+}
+
 function searchAll() {
 	var value = $('#mainSearch').val(),
 		counter = 0,
@@ -83,11 +88,20 @@ function sendRequest(name, url, data, counter, total) {
 
 			$('#searchResults #' + name + ' .' + name + '-results').append(data);
 
-				setHovers();
-				$('.spotify_audio_player').load(function() {
-					console.log($('#outerWidgetContainer'));
-					$('#outerWidgetContainer').removeAttr('style');
-				});
+			setHovers();
+			$('.searchdata iframe').load(function(){
+				$(this).find('#outerWidgetContainer').css('width', 'auto');
+			});
+
+			$('#searchResults').infinitescroll({
+			  // other options
+			  dataType: 'json',
+			  appendCallback: false
+			}, function(json, opts) {
+			  // Get current page
+			  var page = opts.state.currPage; 
+			  // Do something with JSON data, create DOM elements, etc ..
+			});
 				//$('#searchResults .searchResultList:lt('+column_count+')').show();
 			
 		},

@@ -187,6 +187,31 @@
     padding: 10px;
 }
 
+.youtube-channel {
+	background: #fff;
+	border: 1px solid #ccc;
+	padding: 10px;
+	float: left;
+	width: 100%;
+
+	.youtube-channel-image {
+		float: left;
+		height: 120px;
+		width: 120px;
+	}
+
+	.youtube-channel-title {
+		font-size: 16px;
+		margin-left: 140px;
+
+		p {
+			margin-top: 10px;
+			font-size: 12px;
+			font-style: italic;
+		}
+	}
+}
+
 .tumblr-content-text {
 	text-align: center;
 	background: #fff;

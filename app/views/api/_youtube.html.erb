@@ -2,11 +2,22 @@
 	<% result["youtube"][:items].each do |r| %>
 		<li>
 			<% if r.type == 'youtube#video' %>
-				<%= r.description %>
+				<div class="youtube-video" id="<%= r.id %>">
+					<img src="<%= r.thumbnails['medium']['url'] %>" class="youtube-video-thumb" onclick="changeToVideo('<%= r.id %>'); return false;" />
+				</div>
 			<% elsif r.type == 'youtube#playlist' %>
-				<%= r.description %>
+				<a href="<%= r.url %>" target="_blank"><img src="<%= r.thumbnails['high']['url'] %>" /></a>
 			<% else %>
-				<iframe height="265" src="//www.youtube.com/embed/<%= r.id %>" frameborder="0" allowfullscreen></iframe>
+				<div class="youtube-channel">
+					<div class="youtube-channel-image">
+						<a href="<%= r.url %>" target="_blank"><img src="<%= r.thumbnails['default']['url'] %>" /></a>
+					</div>
+					<div class="youtube-channel-title">
+						<a href="<%= r.url %>" target="_blank"><%= r.title %></a>
+
+						<p><%= r.description %></p>
+					</div>	
+				</div>
 			<% end %>
 		</li>
 	<% end %>
