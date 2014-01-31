@@ -23,3 +23,6 @@
 
 # Ignore gemfile.lock for windows/mac differences
 Gemfile.lock
+
+# .DS_Store mac
+.DS_Store

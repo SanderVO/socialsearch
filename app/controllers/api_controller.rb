@@ -43,7 +43,8 @@ class ApiController < ApplicationController
 					instagram: instagram,
 	  				twitter: twitter,
 	  				youtube: youtube,
-	  				google: google
+	  				wikipedia: wikipedia,
+	  				googleplus: googleplus
   				}
   			end
   		end
