@@ -1,4 +1,5 @@
 class ApiController < ApplicationController
+	doorkeeper_for :all, :if => lambda { request.format == "json" }
 	respond_to :json
 	before_filter :validate_params
 
@@ -10,7 +11,6 @@ class ApiController < ApplicationController
 		else
 
 			# store search
-			
 			if current_user && params[:provider]
 				@search = Search.where(user: current_user, query: params[:search], :created_at.gt => Time.now-15.seconds).first
 				if @search
