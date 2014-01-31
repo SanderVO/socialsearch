@@ -40,6 +40,9 @@ gem 'google-api-client'
 # Pagination
 gem 'kaminari'
 
+# OAuth in api
+gem 'doorkeeper'
+
 group :production do
   gem 'thin'
 end
