@@ -10,7 +10,7 @@
 							<input type="text" class="form-control" id="mainSearch" placeholder="Enter search term ...">
 						  	<span class="input-group-btn">
 		        				 <button class="btn btn-default btn-search hidden" type="button" id="options_button">Options</button>
-		        				 <button class="btn btn-default btn-search" type="submit">Search</button>
+		        				 <button class="btn btn-default btn-search" id="search_button" type="submit">Search</button>
 		      				</span>
 						</div>
 		  			</div>
@@ -134,4 +134,10 @@
 			</div>
 		</div>
 	</div>
+
+	<script type="text/javascript">
+	$(document).ready(function(){
+		<%= "simulateSearch('#{params[:search]}');".html_safe if params[:search] %>
+	});
+	</script>
 <% end %>

@@ -88,6 +88,7 @@ class ApiController < ApplicationController
 
 	def facebook
 		facebook_posts = []
+
 		if session[:fb_token]
 			query = params[:search]
 
@@ -156,8 +157,12 @@ class ApiController < ApplicationController
 	def instagram
 		photos = []
 		tag_limit = 2
-
-		result = Instagram.tag_search(params[:search].gsub(/ /,'_'))
+		result = []
+		tags = ((params[:search].include? " ") ? params[:search].split(' ') : [params[:search]] )
+		tags.each do |t|
+			result = Instagram.tag_search(t)
+		end
+				
 		debug = []
 		tag_limit = result.length if result.length < tag_limit
 		debug << "found #{result.length} tags"

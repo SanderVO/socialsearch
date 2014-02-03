@@ -16,6 +16,17 @@ $(document).ready(function() {
 	});
 });
 
+function simulateSearch(text){
+	console.log('Search for '+text);
+	$('#mainSearch').val('');
+	for ( var i = 0; i < text.length; i++ ){
+		var l = text.charAt(i);
+		console.log("Letter: "+l);
+		$('#mainSearch').val($('#mainSearch').val()+l);
+	}
+	searchAll();
+}
+
 function searchAll() {
 	var value = $('#mainSearch').val(),
 		counter = 0,
@@ -62,7 +73,7 @@ function searchAll() {
 		});
 
 				// move input bar to nav
-		$("#searchForm, #searchOptions").hide();
+		$("#searchForm, #searchOptions, .searchData").hide();
 		$("#searchForm").detach().appendTo('#search-bin');
 		$("#searchOptions").detach().appendTo('#searchForm .input-group');
 		$("#searchForm,#options_button").hide().removeClass('hidden').fadeIn(800);
