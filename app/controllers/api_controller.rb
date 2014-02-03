@@ -1,5 +1,4 @@
 class ApiController < ApplicationController
-	doorkeeper_for :all, :if => lambda { request.format == "json" }
 	respond_to :json
 	before_filter :validate_params
 
