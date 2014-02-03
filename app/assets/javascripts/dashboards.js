@@ -115,7 +115,9 @@ function sendRequest(name, url, data, counter, total, limit) {
 		error: function() {
 			console.log('error loading data from '+name+'!');
 			$('#searchResults #' + name).removeClass('loading');
-			$('#searchResults #' + name + ' .' + name + '-results').html("Failed to load!");
+			$('#searchResults #' + name + ' .' + name + '-results').html("<li>No results found</li>");
+			$('#searchResults #' + name + ' .' + name + '-results').show(300)
+			$('#searchResults #' + name + ' .' + name + '-results ul li').show(300)
 		}
 	});
 }

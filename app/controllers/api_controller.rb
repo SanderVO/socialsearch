@@ -88,6 +88,7 @@ class ApiController < ApplicationController
 
 	def facebook
 		facebook_posts = []
+		error = nil
 
 		if session[:fb_token]
 			query = params[:search]
@@ -99,9 +100,15 @@ class ApiController < ApplicationController
 			results.each do |result|
 				facebook_posts << Facebook.new(result)
 			end
+		else
+			error = 'You need to sign in with facebook to use facebook search'
 		end
 
-		return_result items: facebook_posts
+		if error
+			return_result error: error
+		else
+			return_result items: facebook_posts
+		end
 	end
 
 	def tumblr
@@ -162,7 +169,7 @@ class ApiController < ApplicationController
 		tags.each do |t|
 			result = Instagram.tag_search(t)
 		end
-				
+
 		debug = []
 		tag_limit = result.length if result.length < tag_limit
 		debug << "found #{result.length} tags"
