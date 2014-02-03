@@ -1,6 +1,6 @@
 <ul>
   <% if result["facebook"][:error] %>
-    <li><%= result["facebook"][:error] %></li>
+    <li class="error"><%= result["facebook"][:error] %></li>
   <% else %>
     <% result["facebook"][:items].each do |r| %>
       <li>
@@ -27,7 +27,7 @@
       </li>
     <% end %>
     <% if result["facebook"][:items].length == 0 %>
-      <li>No results</li>
+      <li class="error">No results</li>
     <% end %>
   <% end %>
 </ul>

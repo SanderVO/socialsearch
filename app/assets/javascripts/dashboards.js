@@ -21,7 +21,7 @@ $(document).scroll(function(e){
 		var name = $(this).attr('id'),
 			counter = 0;
 
-		if ($(this).css('display') == "block" && element_in_scroll("#" + name + " .searchData ul li:last")) {
+		if ($(this).css('display') == "block" && $(this).find("ul li.error").length == 0 && element_in_scroll("#" + name + " .searchData ul li:last")) {
 			if($('#' + name + ' .loader').css('display') != "block") {
 				getNextResults(name, counter);
 				counter++;
@@ -105,6 +105,7 @@ function searchAll() {
 	    	
 	    	// build class name. Can be one or more of these: (active last loading)
 	    	var class_name = 'active loading';
+	    	$('#searchResults #' + name + ' .loader').show();
 	    	if(counter == column_count-1){
 	    		class_name += ' last';
 	    	}
