@@ -224,6 +224,9 @@ input#limit {
 
 	ul {
 		padding-left: 0;
+		li .youtube-video img {
+			cursor: pointer;
+		}
 	}
 }
 

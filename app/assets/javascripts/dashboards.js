@@ -31,11 +31,8 @@ function getNextResults() {
 		total = $('#searchOptions input:checked').length,
 		limit = $('input#limit').val();
 
-		console.log(value);
-		console.log(total);
 	if(value && total > 0) {
 		$('#searchOptions input:checked').each(function() {
-			console.log('what');
 		    var name = $(this).attr('name'),
 		    	url = '/search/' + name,
 		    	token = $('#' + name + ' .searchData ul li:last').attr('nextpagetoken'),

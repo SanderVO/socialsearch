@@ -49,10 +49,13 @@ class UsersController < ApplicationController
     if params[:user][:password].blank?
         params[:user].delete(:password)
         params[:user].delete(:password_confirmation)
-      end
+    else
+      password_updated = true
+    end
 
     respond_to do |format|
       if @user.update_attributes(user_params)
+        sign_in @user if password_updated
         
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
