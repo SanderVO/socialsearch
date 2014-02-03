@@ -1,0 +1,33 @@
+<ul>
+  <% result["facebook"][:items].each do |r| %>
+    <li>
+      <div class="facebook-container">
+        <div class="facebook-user">
+          <div class="facebook-user-image">
+            <a href="<%= r.user_link %>"><img src="<%= r.user_image %>"></img></a>
+          </div>
+          <div class="facebook-username-block">
+            <a href="<%= r.user_link %>"><div class="facebook-username"><%= r.username %></div></a>
+            <a href="<%= r.url %>"<div class="facebook-datetime"><%= time_ago_in_words(r.datetime) %> ago</div>
+          </div>
+        </div>
+
+        <div class="facebook-content">
+          <div class="facebook-text">
+            <%= r.content %>
+          </div>
+          <div class="facebook-image">
+            <img width="250px" src="<%= r.image %>" class="facebook_image" />
+          </div>
+        </div>
+      </div>
+    </li>
+  <% end %>
+  <% if result["facebook"][:items].length == 0 %>
+    <li>No results</li>
+  <% end %>
+</ul>
+
+
+
+

@@ -1,5 +1,5 @@
 class InstagramPhoto < Result
-  attr_reader :title, :comments, :likes, :tags, :type, :images
+  attr_reader :title, :comments, :likes, :tags, :type, :images, :pagetoken
 
   def initialize(info)
    # super(info["dates"]["posted"], "http://farm#{info.farm}.staticflickr.com/#{info.server}/#{info.id}_#{info.secret}.jpg", info.owner.username, info.url)
@@ -10,5 +10,6 @@ class InstagramPhoto < Result
 	@comments = info['comments']['count']
 	@type = info['type']
 	@images = info['images']
+  @pagetoken = info['created_time']
   end
 end

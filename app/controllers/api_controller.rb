@@ -31,7 +31,7 @@ class ApiController < ApplicationController
 				@search.providers = params[:provider] ? [params[:provider]] : []
 				@search.save
 			end
-			
+
 
 			if params[:provider]
 				@result = {}
@@ -41,10 +41,11 @@ class ApiController < ApplicationController
 					flickr: flickr,
 					tumblr: tumblr,
 					instagram: instagram,
-	  				twitter: twitter,
-	  				youtube: youtube,
-	  				wikipedia: wikipedia,
-	  				googleplus: googleplus
+	  			twitter: twitter,
+	  			youtube: youtube,
+	  			wikipedia: wikipedia,
+	  			googleplus: googleplus,
+	  			facebook: facebook
   				}
   			end
   		end
@@ -68,12 +69,16 @@ class ApiController < ApplicationController
 		tag_limit = @limit - text_limit
 		tag_limit = tag_result.length if tag_limit > tag_result.length
 
+		# raise [text_limit,tag_limit].inspect
+		text_limit -= 1
 		photos = []
 		text_result[0..text_limit].each do |r|
 			info = Flickr.photos.get_info(r.id)
 			photos << FlickrPhoto.new(info)
 		end
+		# raise photos.length.inspect
 
+		tag_limit -= 1
 		tag_result[0..tag_limit].each do |r|
 			info = Flickr.photos.get_info(r.id)
 			photos << FlickrPhoto.new(info)
@@ -82,7 +87,20 @@ class ApiController < ApplicationController
 	end
 
 	def facebook
-		return_result items: []
+		facebook_posts = []
+		if session[:fb_token]
+			query = params[:search]
+
+			graph = Koala::Facebook::API.new(session[:fb_token])
+
+			results = graph.search(query)
+
+			results.each do |result|
+				facebook_posts << Facebook.new(result)
+			end
+		end
+
+		return_result items: facebook_posts
 	end
 
 	def tumblr
@@ -95,8 +113,8 @@ class ApiController < ApplicationController
 		photo_url = ''
 
 		error = nil
-		
-		client.tagged(tags, :limit => @limit, :filter => "raw").each do |blog|
+
+		client.tagged(tags, :limit => @limit, :filter => "raw", :before => (params[:nextpagetoken] ? params[:nextpagetoken] : '')).each do |blog|
 			if blog.first == "status" || blog.first == "msg"
 				error = blog.last
 			else
@@ -137,16 +155,22 @@ class ApiController < ApplicationController
 
 	def instagram
 		photos = []
+		tag_limit = 2
 
 		result = Instagram.tag_search(params[:search].gsub(/ /,'_'))
-		@limit = result.length if result.length < @limit
-		test = []
-		result[0..2].each do |tag|
-			tag_media = Instagram.tag_recent_media(tag['name'])
-			tag_media[0..(@limit/2)].each do |media|
+		debug = []
+		tag_limit = result.length if result.length < tag_limit
+		debug << "found #{result.length} tags"
+		result[0..tag_limit].each do |tag|
+			tag_media = Instagram.tag_recent_media(tag['name'], {:max_id => (params[:nextpagetoken] ? params[:nextpagetoken] : '')})
+			@max_id = tag_media.pagination.next_max_tag_id
+			limit = (result.length > 1 ? (@limit/2) : @limit)
+			limit = tag_media.length if tag_media.length < limit
+			limit -= 1
+			tag_media[0..limit].each do |media|
 				media['type'] = "media"
-				test << media
 				photos << InstagramPhoto.new(media)
+				debug << "image from tag #{tag}"
 			end
 		end
 
@@ -159,12 +183,12 @@ class ApiController < ApplicationController
 		# 	limit = user_media.length < 2 ? user_media.length : 2
 		# 	user_media[0..limit].each do |media|
 		# 		media['type'] = "user_media"
-				
+
 		# 		photos << InstagramPhoto.new(media)
 		# 	end
 		# end
 
-		return_result items: test
+		return_result pagetoken: @max_id, items: photos
 	end
 
 	def youtube

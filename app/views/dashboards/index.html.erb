@@ -1,5 +1,4 @@
 <% content_for :main do %>
-
 	<div class="row">
 		<div class="col-md-12">
 			<div class="jumbotron">
@@ -50,19 +49,25 @@
 						  <input type="checkbox" value="" name="tumblr" data-toggle="checkbox">
 						  Tumblr
 						</label>
+						<div class="clear"></div>
+						<label class="text" id="limit_label">
+						  Limit to <input type="text" value="10" name="limit" id="limit"> results
+						</label>
 		  			</div>
 		  		</form>
 			</div>
 		</div>
 	</div>
 
-	<%= button_tag "Previous", class: "previousLink btn btn-success", onclick: "showPrevious()", style: "display:none; margin:5px" %>
 	<%= button_tag "Next", class: "nextLink btn btn-success", onclick: "showNext()", style: "display:none; margin:5px" %>
+	<%= button_tag "Previous", class: "previousLink btn btn-success", onclick: "showPrevious()", style: "display:none; margin:5px" %>
+	
+	<div class="clear"></div>
 
 	<div id="searchResults">
 		<div id="flickr" class="searchResultList" style="display:none;">
 			<img src="/assets/flickr-logo.png" class="logoResults" />
-			<div class="loader">Loading...</div>
+			<div class="loader"><%= image_tag "loader.gif" %></div>
 
 			<hr />
 
@@ -70,7 +75,7 @@
 			</div>
 		</div>
 		<div id="twitter" class="searchResultList" style="display:none;">
-			<div class="loader">Loading...</div>
+			<div class="loader"><%= image_tag "loader.gif" %></div>
 			<img src="/assets/twitter-logo.png" class="logoResults" />
 
 			<hr />
@@ -80,7 +85,7 @@
 		</div>
 
 		<div id="youtube" class="searchResultList" style="display:none;">
-			<div class="loader">Loading...</div>
+			<div class="loader"><%= image_tag "loader.gif" %></div>
 			<img src="/assets/youtube-logo.png" class="logoResults" />
 
 			<hr />
@@ -90,7 +95,7 @@
 		</div>
 
 		<div id="googleplus" class="searchResultList" style="display:none;">
-			<div class="loader">Loading...</div>
+			<div class="loader"><%= image_tag "loader.gif" %></div>
 			<img src="/assets/google-logo.png" class="logoResults" />
 
 			<hr />
@@ -100,7 +105,7 @@
 		</div>
 
 		<div id="facebook" class="searchResultList" style="display:none;">
-			<div class="loader">Loading...</div>
+			<div class="loader"><%= image_tag "loader.gif" %></div>
 			<img src="/assets/facebook-logo.png" class="logoResults" />
 
 			<hr />
@@ -110,7 +115,7 @@
 		</div>
 
 		<div id="instagram" class="searchResultList" style="display:none;">
-			<div class="loader">Loading...</div>
+			<div class="loader"><%= image_tag "loader.gif" %></div>
 			<img src="/assets/instagram-logo.png" class="logoResults" />
 
 			<hr />
@@ -120,7 +125,7 @@
 		</div>
 
 		<div id="tumblr" class="searchResultList" style="display:none;">
-			<div class="loader">Loading...</div>
+			<div class="loader"><%= image_tag "loader.gif" %></div>
 			<img src="/assets/tumblr-logo.png" class="logoResults" />
 
 			<hr />
