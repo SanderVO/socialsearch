@@ -60,9 +60,10 @@ class ApiController < ApplicationController
 		Flickr.api_key = ENV['FLICKR_API_KEY']
 		Flickr.shared_secret = ENV['FLICKR_SHARED_SECRET']
 
+		page = (params[:nextpagetoken] ? (params[:nextpagetoken].to_i + 1) : 2)
 		query = params[:search]
-		text_result = Flickr.photos.search(text:query)
-		tag_result = Flickr.photos.search(tags: query)
+		text_result = Flickr.photos.search(text:query, page: (params[:nextpagetoken] ? params[:nextpagetoken] : 1), per_page: @limit)
+		tag_result = Flickr.photos.search(tags: query, page: (params[:nextpagetoken] ? params[:nextpagetoken] : 1), per_page: @limit)
 		text_limit = @limit
 		text_limit = text_result.length if text_result.length < @limit
 		text_limit -= (tag_result.length <= @limit/2) ? tag_result.length : @limit/2
@@ -83,7 +84,7 @@ class ApiController < ApplicationController
 			info = Flickr.photos.get_info(r.id)
 			photos << FlickrPhoto.new(info)
 		end
-		return_result limit: @limit, items: photos
+		return_result limit: @limit, page: page, items: photos
 	end
 
 	def facebook
