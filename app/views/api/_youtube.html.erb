@@ -1,6 +1,6 @@
 <ul>
 	<% result["youtube"][:items].each do |r| %>
-		<li>
+		<li nextpagetoken="<%= result['youtube'][:page_token] %>">
 			<% if r.type == 'youtube#video' %>
 				<div class="youtube-video" id="<%= r.id %>">
 					<img src="<%= r.thumbnails['medium']['url'] %>" class="youtube-video-thumb" onclick="changeToVideo('<%= r.id %>'); return false;" />

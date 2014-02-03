@@ -1,6 +1,6 @@
 <ul>
   <% result["twitter"][:items].each do |r| %>
-    <li>
+    <li nextpagetoken="<%= r.id %>">
       <div class="tweet-container">
         <div class="tweet-image">
           <img src="<%= r.image %>" class="tweet-profile-image" />

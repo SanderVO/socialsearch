@@ -1,5 +1,5 @@
 class ApiController < ApplicationController
-	doorkeeper_for :all, :if => lambda { request.format == "json" }
+	#doorkeeper_for :all, :if => lambda { request.format == "json" }
 	respond_to :json
 	before_filter :validate_params
 
@@ -56,12 +56,12 @@ class ApiController < ApplicationController
 
 	def flickr
 		# require 'flickrie'
-		Flickrie.api_key = ENV['FLICKR_API_KEY']
-		Flickrie.shared_secret = ENV['FLICKR_SHARED_SECRET']
+		Flickr.api_key = ENV['FLICKR_API_KEY']
+		Flickr.shared_secret = ENV['FLICKR_SHARED_SECRET']
 
 		query = params[:search]
-		text_result = Flickrie.search_photos(text:query)
-		tag_result = Flickrie.search_photos(tags: query)
+		text_result = Flickr.photos.search(text:query)
+		tag_result = Flickr.photos.search(tags: query)
 		text_limit = @limit
 		text_limit = text_result.length if text_result.length < @limit
 		text_limit -= (tag_result.length <= @limit/2) ? tag_result.length : @limit/2
@@ -70,12 +70,12 @@ class ApiController < ApplicationController
 
 		photos = []
 		text_result[0..text_limit].each do |r|
-			info = Flickrie.get_photo_info(r.id)
+			info = Flickr.photos.get_info(r.id)
 			photos << FlickrPhoto.new(info)
 		end
 
 		tag_result[0..tag_limit].each do |r|
-			info = Flickrie.get_photo_info(r.id)
+			info = Flickr.photos.get_info(r.id)
 			photos << FlickrPhoto.new(info)
 		end
 		return_result limit: @limit, items: photos
@@ -123,7 +123,7 @@ class ApiController < ApplicationController
 		tweets = []
 		topics = params[:search]
 
-		client.search(topics, :count => @limit, :result_type => "recent").take(@limit).collect do |tweet|
+		client.search(topics, :count => @limit, :result_type => "recent", :max_id => (params[:nextpagetoken] ? params[:nextpagetoken] : '')).take(@limit).collect do |tweet|
 			tweets << Tweet.new(tweet)
 		end
 		tweets
@@ -140,10 +140,12 @@ class ApiController < ApplicationController
 
 		result = Instagram.tag_search(params[:search].gsub(/ /,'_'))
 		@limit = result.length if result.length < @limit
+		test = []
 		result[0..2].each do |tag|
 			tag_media = Instagram.tag_recent_media(tag['name'])
 			tag_media[0..(@limit/2)].each do |media|
 				media['type'] = "media"
+				test << media
 				photos << InstagramPhoto.new(media)
 			end
 		end
@@ -162,7 +164,7 @@ class ApiController < ApplicationController
 		# 	end
 		# end
 
-		return_result items: photos
+		return_result items: test
 	end
 
 	def youtube
@@ -174,7 +176,7 @@ class ApiController < ApplicationController
 
 		client.authorization = nil
 
-		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => youtube.search.list, :parameters => {:part => 'id,snippet', :q => params[:search], :maxResults => 20}
+		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => youtube.search.list, :parameters => {:part => 'id,snippet', :q => params[:search], :maxResults => 20, :pageToken => (params[:nextpagetoken] ? params[:nextpagetoken] : '')}
 
 		result = JSON.parse(res.data.to_json)
 
@@ -184,7 +186,7 @@ class ApiController < ApplicationController
 			results << YoutubeResult.new(r)
 		end
 
-		return_result total_count: 15, items: results
+		return_result page_token: result['nextPageToken'], items: results
 	end
 
 	def googleplus
@@ -196,8 +198,8 @@ class ApiController < ApplicationController
 
 		results = []
 
-		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.people.search, :parameters => {:query => params[:search], :maxResults => 20}
-		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.activities.search, :parameters => {:query => params[:search], :maxResults => 20}
+		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.people.search, :parameters => {:query => params[:search], :maxResults => 20, :pageToken => (params[:nextpagetoken] ? params[:nextpagetoken] : '')}
+		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.activities.search, :parameters => {:query => params[:search], :maxResults => 20, :pageToken => (params[:secondtoken] ? params[:secondtoken] : '')}
 
 		people = JSON.parse(res.data.to_json)
 		activities = JSON.parse(res2.data.to_json)
@@ -210,7 +212,7 @@ class ApiController < ApplicationController
 			results << GoogleActivity.new(a)
 		end
 
-		return_result items: results
+		return_result page_token: people['nextPageToken'], second_token: activities['nextPageToken'], items: results
 	end
 
 	private

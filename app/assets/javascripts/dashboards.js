@@ -16,6 +16,56 @@ $(document).ready(function() {
 	});
 });
 
+$(document).scroll(function(e){
+	//console.log($('.flickr-results ul li:last'));
+    if (element_in_scroll(".flickr-results ul li:last")) {
+    	//console.log('the end');
+            //Here you must do what you need to achieve the infinite scroll effect...
+    }
+});
+
+function getNextResults() {
+	console.log('test');
+	var value = $('#mainSearch').val(),
+		counter = 0,
+		total = $('#searchOptions input:checked').length;
+
+		console.log(value);
+		console.log(total);
+	if(value && total > 0) {
+		$('#searchOptions input:checked').each(function() {
+			console.log('what');
+		    var name = $(this).attr('name'),
+		    	url = '/search/' + name,
+		    	token = $('#' + name + ' .searchData ul li:last').attr('nextpagetoken'),
+		    	token2 = $('#' + name + ' .searchData ul li:last').attr('secondpagetoken'),
+		    	data = { search : value, nextpagetoken : (token ? token : ''), secondtoken: (token2 ? token2 : '') };
+
+	    	//send request
+	    	sendRequest(name, url, data, counter, total);
+
+	    	counter++;
+		});
+	}
+}
+
+function element_in_scroll(elem)
+{
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+ 
+    var elemTop = $(elem).offset().top;
+    var elemBottom = elemTop + $(elem).height();
+
+    /*console.log('b' + elemBottom);
+    console.log(docViewBottom);
+
+    console.log(elemTop);
+    console.log(docViewTop);*/
+ 
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+}
+
 function changeToVideo(id) {
 	$('#' + id + ' .youtube-video-thumb').remove();
 	$('#' + id).append('<iframe height="265" src="//www.youtube.com/embed/' + id + '" frameborder="0" allowfullscreen></iframe>');
@@ -76,6 +126,7 @@ function searchAll() {
 }
 
 function sendRequest(name, url, data, counter, total) {
+	console.log('request');
 	$.ajax({
 		url: url,
 		type: 'POST',
@@ -91,16 +142,6 @@ function sendRequest(name, url, data, counter, total) {
 			setHovers();
 			$('.searchdata iframe').load(function(){
 				$(this).find('#outerWidgetContainer').css('width', 'auto');
-			});
-
-			$('#searchResults').infinitescroll({
-			  // other options
-			  dataType: 'json',
-			  appendCallback: false
-			}, function(json, opts) {
-			  // Get current page
-			  var page = opts.state.currPage; 
-			  // Do something with JSON data, create DOM elements, etc ..
 			});
 				//$('#searchResults .searchResultList:lt('+column_count+')').show();
 			
