@@ -10,10 +10,11 @@ class AuthorizationsController < ApplicationController
   # POST /authentications
   # POST /authentications.json
   def create
-    auth = request.env["omniauth.auth"] 
+    auth = request.env["omniauth.auth"]
     user_info = auth["info"] ? auth["info"] : auth["user_info"]
     authentication = Authorization.where(:provider => auth['provider'], :uid => auth['uid']).first
     authentication = Authorization.new(:provider => auth['provider'], :uid => auth['uid']) if !authentication
+    session[:fb_token] = auth['credentials']['token'] if auth['credentials']['token'] != nil
     # if the user exists, but does not have a link with the social service
     if !authentication.user && current_user
       authentication.user = current_user
@@ -42,10 +43,10 @@ class AuthorizationsController < ApplicationController
         sign_out authentication.user
         sign_in authentication.user
         # raise "user signed in? #{user_signed_in?.to_s}".inspect
-        flash[:notice] = "Authorization successful." 
+        flash[:notice] = "Authorization successful."
         redirect_to root_path
       else
-        flash[:notice] = "Linked successfully." 
+        flash[:notice] = "Linked successfully."
         redirect_to '/users/'+current_user.id
       end
     end
@@ -59,7 +60,7 @@ class AuthorizationsController < ApplicationController
     flash[:notice] = "Successfully destroyed authentication."
     redirect_to '/users/'+current_user.id
   end
-  
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_authorization

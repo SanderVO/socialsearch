@@ -94,9 +94,9 @@ GEM
       multipart-post (~> 1.2.0)
     faraday_middleware (0.8.8)
       faraday (>= 0.7.4, < 0.9)
-    flickrie (1.6.0)
-      faraday (>= 0.7.6, < 0.9)
-      faraday_middleware (>= 0.8.7, < 0.9)
+    flickr-objects (0.4.0)
+      faraday (>= 0.7.6)
+      faraday_middleware (>= 0.8)
       multi_xml (~> 0.4)
       simple_oauth (~> 0.1)
     google-api-client (0.6.4)
@@ -132,6 +132,10 @@ GEM
     kaminari (0.15.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    koala (1.8.0)
+      addressable
+      faraday
+      multi_json
     launchy (2.4.2)
       addressable (~> 2.3)
     mail (2.5.4)
@@ -275,12 +279,13 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise
   doorkeeper
-  flickrie
+  flickr-objects
   google-api-client
   instagram
   jbuilder (~> 1.2)
   jquery-rails
   kaminari
+  koala (~> 1.8.0rc1)
   mongoid!
   omniauth
   omniauth-facebook

@@ -1,7 +1,7 @@
 Socialsearch::Application.routes.draw do
-  
+
   devise_for :users
-  
+
   root :to => 'dashboards#index'
 
   resources :authorizations
@@ -20,6 +20,8 @@ Socialsearch::Application.routes.draw do
 
   # oauth
   get '/auth/:provider/callback' => 'authorizations#create'
+
+
 
   # api
   get '/search/:search'  =>          'api#search'

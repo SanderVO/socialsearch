@@ -1,13 +1,15 @@
 <ul>
 	<% result["instagram"][:items].each do |r| %>
-		<li>
+		<li nextpagetoken="<%= result['instagram'][:pagetoken] %>">
 			<a href="<%= r.url %>" target="_blank">
 				<% if r.type == "media" %>
 					<div class="flickr-image">
 						<img src=<%= r.images.low_resolution.url %> class="flickr-image" align="center" />
 						<div class="flickr-content" style="display:none;">
 							<span class="title"><%= r.title %></span>
-							<p><%= r.content.html_safe %></p>
+							<% if r.content != nil %>
+								<p><%= r.content.html_safe %></p>
+							<% end %>
 						</div>
 					</div>
 				<% elsif r.type == "user" %>

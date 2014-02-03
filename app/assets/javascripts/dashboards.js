@@ -16,6 +16,76 @@ $(document).ready(function() {
 	});
 });
 
+$(document).scroll(function(e){
+	//console.log($('.flickr-results ul li:last'));
+    if (element_in_scroll(".flickr-results ul li:last")) {
+    	//console.log('the end');
+            //Here you must do what you need to achieve the infinite scroll effect...
+    }
+});
+
+function getNextResults() {
+	console.log('test');
+	var value = $('#mainSearch').val(),
+		counter = 0,
+		total = $('#searchOptions input:checked').length,
+		limit = $('input#limit').val();
+
+		console.log(value);
+		console.log(total);
+	if(value && total > 0) {
+		$('#searchOptions input:checked').each(function() {
+			console.log('what');
+		    var name = $(this).attr('name'),
+		    	url = '/search/' + name,
+		    	token = $('#' + name + ' .searchData ul li:last').attr('nextpagetoken'),
+		    	token2 = $('#' + name + ' .searchData ul li:last').attr('secondpagetoken'),
+		    	data = { search : value, nextpagetoken : (token ? token : ''), secondtoken: (token2 ? token2 : '') };
+
+	    	if(isNaN(limit) || (!isNaN(limit) && limit <= 0)) limit = 10;
+	    	else if(limit > 100) limit = 100;
+
+	    	//send request
+	    	sendRequest(name, url, data, counter, total, limit);
+
+	    	counter++;
+		});
+	}
+}
+
+function element_in_scroll(elem)
+{
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+ 
+    var elemTop = $(elem).offset().top;
+    var elemBottom = elemTop + $(elem).height();
+
+    /*console.log('b' + elemBottom);
+    console.log(docViewBottom);
+
+    console.log(elemTop);
+    console.log(docViewTop);*/
+ 
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+}
+
+function changeToVideo(id) {
+	$('#' + id + ' .youtube-video-thumb').remove();
+	$('#' + id).append('<iframe height="265" src="//www.youtube.com/embed/' + id + '" frameborder="0" allowfullscreen></iframe>');
+}
+
+function simulateSearch(text){
+	console.log('Search for '+text);
+	$('#mainSearch').val('');
+	for ( var i = 0; i < text.length; i++ ){
+		var l = text.charAt(i);
+		console.log("Letter: "+l);
+		$('#mainSearch').val($('#mainSearch').val()+l);
+	}
+	searchAll();
+}
+
 function searchAll() {
 	var value = $('#mainSearch').val(),
 		counter = 0,
@@ -29,12 +99,14 @@ function searchAll() {
 		current_page = 0;
 
 		$('#searchResults .searchData').html("");
+		$('.dialog.notice').slideUp(300);
 
 		var delay = animation_delay;
 
 		$('#searchOptions input:checked').each(function() {
 		    var name = $(this).attr('name'),
 		    	url = '/search/' + name,
+		    	limit = $('input#limit').val(),
 		    	data = { search : value };	    
 
 	    	
@@ -50,14 +122,17 @@ function searchAll() {
 	    		$('#searchResults #' + name).fadeIn(delay+=100);
 	    	}
 
+	    	if(isNaN(limit) || (!isNaN(limit) && limit <= 0)) limit = 10;
+	    	else if(limit > 100) limit = 100;
+
 	    	//send request
-	    	sendRequest(name, url, data, counter, total);
+	    	sendRequest(name, url, data, counter, total, limit);
 
 	    	counter++;
 		});
 
 				// move input bar to nav
-		$("#searchForm, #searchOptions").hide();
+		$("#searchForm, #searchOptions, .searchData").hide();
 		$("#searchForm").detach().appendTo('#search-bin');
 		$("#searchOptions").detach().appendTo('#searchForm .input-group');
 		$("#searchForm,#options_button").hide().removeClass('hidden').fadeIn(800);
@@ -70,9 +145,9 @@ function searchAll() {
 	}
 }
 
-function sendRequest(name, url, data, counter, total) {
+function sendRequest(name, url, data, counter, total, limit) {
 	$.ajax({
-		url: url,
+		url: url+"?limit="+limit,
 		type: 'POST',
 		data: JSON.stringify(data, null, 2),
 		dataType: 'html',
@@ -81,13 +156,16 @@ function sendRequest(name, url, data, counter, total) {
 		success: function(data, status, xhr) {
 			$('#searchResults #' + name).removeClass('loading');
 
-			$('#searchResults #' + name + ' .' + name + '-results').append(data);
+			$('#searchResults #' + name + ' .' + name + '-results').show(0).append(data);
+			var delay = animation_delay
+			$('#searchResults #' + name + ' .' + name + '-results ul li').each(function(){
+				$(this).slideDown(delay+=100);
+			})
 
 			setHovers();
 			$('.searchdata iframe').load(function(){
 				$(this).find('#outerWidgetContainer').css('width', 'auto');
 			});
-			
 				//$('#searchResults .searchResultList:lt('+column_count+')').show();
 			
 		},
@@ -95,7 +173,9 @@ function sendRequest(name, url, data, counter, total) {
 		error: function() {
 			console.log('error loading data from '+name+'!');
 			$('#searchResults #' + name).removeClass('loading');
-			$('#searchResults #' + name + ' .' + name + '-results').html("Failed to load!");
+			$('#searchResults #' + name + ' .' + name + '-results').html("<li>No results found</li>");
+			$('#searchResults #' + name + ' .' + name + '-results').show(300)
+			$('#searchResults #' + name + ' .' + name + '-results ul li').show(300)
 		}
 	});
 }

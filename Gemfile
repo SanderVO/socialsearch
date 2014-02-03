@@ -30,7 +30,8 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
-gem "flickrie"
+#gem "flickrie"
+gem "flickr-objects"
 
 gem 'instagram'
 
@@ -42,6 +43,8 @@ gem 'kaminari'
 
 # OAuth in api
 gem 'doorkeeper'
+
+gem "koala", "~> 1.8.0rc1"
 
 group :production do
   gem 'thin'
@@ -66,7 +69,7 @@ gem 'omniauth'
 # User roles
 gem "cancan"
 
-# omniauth stratigy's 
+# omniauth stratigy's
 gem 'omniauth-twitter', :github => 'arunagw/omniauth-twitter'
 gem 'omniauth-facebook'
 gem 'omniauth-linkedin'

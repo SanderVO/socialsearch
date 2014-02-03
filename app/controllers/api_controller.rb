@@ -1,10 +1,11 @@
 class ApiController < ApplicationController
+	#doorkeeper_for :all, :if => lambda { request.format == "json" }
 	respond_to :json
 	before_filter :validate_params
 
 	#search in all resources
 	def search
-		@limit = params[:limit] ? params[:limit].to_i : 10
+		@limit = params[:limit] ? params[:limit].to_i : 20
 		if @error
 			@result = @error
 		else
@@ -30,7 +31,7 @@ class ApiController < ApplicationController
 				@search.providers = params[:provider] ? [params[:provider]] : []
 				@search.save
 			end
-			
+
 
 			if params[:provider]
 				@result = {}
@@ -40,10 +41,11 @@ class ApiController < ApplicationController
 					flickr: flickr,
 					tumblr: tumblr,
 					instagram: instagram,
-	  				twitter: twitter,
-	  				youtube: youtube,
-	  				wikipedia: wikipedia,
-	  				googleplus: googleplus
+	  			twitter: twitter,
+	  			youtube: youtube,
+	  			wikipedia: wikipedia,
+	  			googleplus: googleplus,
+	  			facebook: facebook
   				}
   			end
   		end
@@ -55,33 +57,58 @@ class ApiController < ApplicationController
 
 	def flickr
 		# require 'flickrie'
-		Flickrie.api_key = ENV['FLICKR_API_KEY']
-		Flickrie.shared_secret = ENV['FLICKR_SHARED_SECRET']
+		Flickr.api_key = ENV['FLICKR_API_KEY']
+		Flickr.shared_secret = ENV['FLICKR_SHARED_SECRET']
 
 		query = params[:search]
-		text_result = Flickrie.search_photos(text:query)
-		tag_result = Flickrie.search_photos(tags: query)
+		text_result = Flickr.photos.search(text:query)
+		tag_result = Flickr.photos.search(tags: query)
 		text_limit = @limit
 		text_limit = text_result.length if text_result.length < @limit
 		text_limit -= (tag_result.length <= @limit/2) ? tag_result.length : @limit/2
 		tag_limit = @limit - text_limit
 		tag_limit = tag_result.length if tag_limit > tag_result.length
 
+		# raise [text_limit,tag_limit].inspect
+		text_limit -= 1
 		photos = []
 		text_result[0..text_limit].each do |r|
-			info = Flickrie.get_photo_info(r.id)
+			info = Flickr.photos.get_info(r.id)
 			photos << FlickrPhoto.new(info)
 		end
+		# raise photos.length.inspect
 
+		tag_limit -= 1
 		tag_result[0..tag_limit].each do |r|
-			info = Flickrie.get_photo_info(r.id)
+			info = Flickr.photos.get_info(r.id)
 			photos << FlickrPhoto.new(info)
 		end
 		return_result limit: @limit, items: photos
 	end
 
 	def facebook
-		return_result items: []
+		facebook_posts = []
+		error = nil
+
+		if session[:fb_token]
+			query = params[:search]
+
+			graph = Koala::Facebook::API.new(session[:fb_token])
+
+			results = graph.search(query)
+
+			results.each do |result|
+				facebook_posts << Facebook.new(result)
+			end
+		else
+			error = 'You need to sign in with facebook to use facebook search'
+		end
+
+		if error
+			return_result error: error
+		else
+			return_result items: facebook_posts
+		end
 	end
 
 	def tumblr
@@ -94,8 +121,8 @@ class ApiController < ApplicationController
 		photo_url = ''
 
 		error = nil
-		
-		client.tagged(tags, :limit => @limit, :filter => "raw").each do |blog|
+
+		client.tagged(tags, :limit => @limit, :filter => "raw", :before => (params[:nextpagetoken] ? params[:nextpagetoken] : '')).each do |blog|
 			if blog.first == "status" || blog.first == "msg"
 				error = blog.last
 			else
@@ -122,7 +149,7 @@ class ApiController < ApplicationController
 		tweets = []
 		topics = params[:search]
 
-		client.search(topics, :count => @limit, :result_type => "recent").take(@limit).collect do |tweet|
+		client.search(topics, :count => @limit, :result_type => "recent", :max_id => (params[:nextpagetoken] ? params[:nextpagetoken] : '')).take(@limit).collect do |tweet|
 			tweets << Tweet.new(tweet)
 		end
 		tweets
@@ -136,14 +163,26 @@ class ApiController < ApplicationController
 
 	def instagram
 		photos = []
+		tag_limit = 2
+		result = []
+		tags = ((params[:search].include? " ") ? params[:search].split(' ') : [params[:search]] )
+		tags.each do |t|
+			result = Instagram.tag_search(t)
+		end
 
-		result = Instagram.tag_search(params[:search].gsub(/ /,'_'))
-		@limit = result.length if result.length < @limit
-		result[0..2].each do |tag|
-			tag_media = Instagram.tag_recent_media(tag['name'])
-			tag_media[0..(@limit/2)].each do |media|
+		debug = []
+		tag_limit = result.length if result.length < tag_limit
+		debug << "found #{result.length} tags"
+		result[0..tag_limit].each do |tag|
+			tag_media = Instagram.tag_recent_media(tag['name'], {:max_id => (params[:nextpagetoken] ? params[:nextpagetoken] : '')})
+			@max_id = tag_media.pagination.next_max_tag_id
+			limit = (result.length > 1 ? (@limit/2) : @limit)
+			limit = tag_media.length if tag_media.length < limit
+			limit -= 1
+			tag_media[0..limit].each do |media|
 				media['type'] = "media"
 				photos << InstagramPhoto.new(media)
+				debug << "image from tag #{tag}"
 			end
 		end
 
@@ -156,12 +195,12 @@ class ApiController < ApplicationController
 		# 	limit = user_media.length < 2 ? user_media.length : 2
 		# 	user_media[0..limit].each do |media|
 		# 		media['type'] = "user_media"
-				
+
 		# 		photos << InstagramPhoto.new(media)
 		# 	end
 		# end
 
-		return_result items: photos
+		return_result pagetoken: @max_id, items: photos
 	end
 
 	def youtube
@@ -173,7 +212,7 @@ class ApiController < ApplicationController
 
 		client.authorization = nil
 
-		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => youtube.search.list, :parameters => {:part => 'id,snippet', :q => params[:search], :maxResults => 10}
+		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => youtube.search.list, :parameters => {:part => 'id,snippet', :q => params[:search], :maxResults => 20, :pageToken => (params[:nextpagetoken] ? params[:nextpagetoken] : '')}
 
 		result = JSON.parse(res.data.to_json)
 
@@ -183,7 +222,7 @@ class ApiController < ApplicationController
 			results << YoutubeResult.new(r)
 		end
 
-		return_result total_count: 15, items: results
+		return_result page_token: result['nextPageToken'], items: results
 	end
 
 	def googleplus
@@ -195,8 +234,8 @@ class ApiController < ApplicationController
 
 		results = []
 
-		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.people.search, :parameters => {:query => params[:search], :maxResults => 4}
-		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.activities.search, :parameters => {:query => params[:search], :maxResults => 10}
+		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.people.search, :parameters => {:query => params[:search], :maxResults => 20, :pageToken => (params[:nextpagetoken] ? params[:nextpagetoken] : '')}
+		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.activities.search, :parameters => {:query => params[:search], :maxResults => 20, :pageToken => (params[:secondtoken] ? params[:secondtoken] : '')}
 
 		people = JSON.parse(res.data.to_json)
 		activities = JSON.parse(res2.data.to_json)
@@ -209,7 +248,7 @@ class ApiController < ApplicationController
 			results << GoogleActivity.new(a)
 		end
 
-		return_result items: results
+		return_result page_token: people['nextPageToken'], second_token: activities['nextPageToken'], items: results
 	end
 
 	private

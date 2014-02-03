@@ -18,7 +18,7 @@
     <tbody>
       <% @searches.each do |search| %>
         <tr>
-          <td><%= search.query %></td>
+          <td><%= link_to(search.query,"/?search=#{search.query}") %></td>
           <td><%= search.created_at.to_formatted_s(:short) %></td>
           <td><%= search.providers ? search.providers.join(", ") : "All" %></td>
           <td><%= link_to 'Show', search %></td>

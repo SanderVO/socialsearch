@@ -1,5 +1,5 @@
 class TumblrBlog < Result
-  attr_reader :caption, :thumbnail, :type, :embed_code, :source_url, :source, :source_title, :text, :title, :body, :player, :id3_title, :question, :answer, :asking_name, :asking_url
+  attr_reader :caption, :thumbnail, :type, :embed_code, :source_url, :source, :source_title, :text, :title, :body, :player, :id3_title, :question, :answer, :asking_name, :asking_url, :timestamp
   def initialize(info)
   	photo_url = ''
     embed_code = ''
@@ -35,5 +35,6 @@ class TumblrBlog < Result
     @answer = info['answer']
     @asking_name = info['asking_name']
     @asking_url = info['asking_url']
+    @timestamp = info['timestamp']
   end
 end
