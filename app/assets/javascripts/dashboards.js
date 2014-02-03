@@ -17,36 +17,38 @@ $(document).ready(function() {
 });
 
 $(document).scroll(function(e){
-	//console.log($('.flickr-results ul li:last'));
-    if (element_in_scroll(".flickr-results ul li:last")) {
-    	//console.log('the end');
-            //Here you must do what you need to achieve the infinite scroll effect...
-    }
+	$('.searchResultList.active').each(function() {
+		var name = $(this).attr('id'),
+			counter = 0;
+
+		if ($(this).css('display') == "block" && element_in_scroll("#" + name + " .searchData ul li:last")) {
+			if($('#' + name + ' .loader').css('display') != "block") {
+				getNextResults(name, counter);
+				counter++;
+			}
+    	}
+	});
 });
 
-function getNextResults() {
+function getNextResults(name, counter) {
 	console.log('test');
 	var value = $('#mainSearch').val(),
-		counter = 0,
 		total = $('#searchOptions input:checked').length,
 		limit = $('input#limit').val();
 
 	if(value && total > 0) {
-		$('#searchOptions input:checked').each(function() {
-		    var name = $(this).attr('name'),
-		    	url = '/search/' + name,
-		    	token = $('#' + name + ' .searchData ul li:last').attr('nextpagetoken'),
-		    	token2 = $('#' + name + ' .searchData ul li:last').attr('secondpagetoken'),
-		    	data = { search : value, nextpagetoken : (token ? token : ''), secondtoken: (token2 ? token2 : '') };
 
-	    	if(isNaN(limit) || (!isNaN(limit) && limit <= 0)) limit = 10;
-	    	else if(limit > 100) limit = 100;
+	    var url = '/search/' + name,
+	    	token = $('#' + name + ' .searchData ul li:last').attr('nextpagetoken'),
+	    	token2 = $('#' + name + ' .searchData ul li:last').attr('secondpagetoken'),
+	    	data = { search : value, nextpagetoken : (token ? token : ''), secondtoken: (token2 ? token2 : '') };
 
-	    	//send request
-	    	sendRequest(name, url, data, counter, total, limit);
+		if(isNaN(limit) || (!isNaN(limit) && limit <= 0)) limit = 10;
+		else if(limit > 100) limit = 100;
 
-	    	counter++;
-		});
+		$('#' + name + ' .loader').show();
+
+		sendRequest(name, url, data, counter, total, limit);
 	}
 }
 
@@ -57,12 +59,6 @@ function element_in_scroll(elem)
  
     var elemTop = $(elem).offset().top;
     var elemBottom = elemTop + $(elem).height();
-
-    /*console.log('b' + elemBottom);
-    console.log(docViewBottom);
-
-    console.log(elemTop);
-    console.log(docViewTop);*/
  
     return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
 }
@@ -156,13 +152,16 @@ function sendRequest(name, url, data, counter, total, limit) {
 			$('#searchResults #' + name + ' .' + name + '-results').show(0).append(data);
 			var delay = animation_delay
 			$('#searchResults #' + name + ' .' + name + '-results ul li').each(function(){
-				$(this).slideDown(delay+=100);
+				if($(this).css('display') != "block"){
+					$(this).slideDown(delay+=100);
+				}
 			})
 
 			setHovers();
 			$('.searchdata iframe').load(function(){
 				$(this).find('#outerWidgetContainer').css('width', 'auto');
 			});
+			$('#searchResults #' + name + ' .loader').hide();
 				//$('#searchResults .searchResultList:lt('+column_count+')').show();
 			
 		},

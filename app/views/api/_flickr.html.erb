@@ -1,6 +1,6 @@
 <ul>
 	<% result["flickr"][:items].each do |r| %>
-		<li>
+		<li nextpagetoken="<%= result['flickr'][:page] %>">
 			<a href="<%= r.url %>" target="_blank">
 			<div class="flickr-image">
 				<img src=<%= r.content %> class="flickr-image" align="center" />

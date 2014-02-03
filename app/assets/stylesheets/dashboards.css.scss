@@ -141,12 +141,7 @@ input#limit {
 	div.loader {
 		display: none;
 	}
-	div.loading div.loader{
-		position: absolute;
-		top: 90px;
-		left: 5px;
-		right: 5px;
-		bottom: 0px;
+	div.loading div.loader, div.loader{
 		background: #ddd;
 		color: #fff;
 		opacity: 0.3;
@@ -159,6 +154,7 @@ input#limit {
 .navbar {
 	ul {
 		z-index: 50;
+		margin-top: 6px;
 	}
 	#search-bin {
 		display: block;
