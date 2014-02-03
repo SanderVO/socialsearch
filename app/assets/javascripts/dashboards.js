@@ -153,7 +153,7 @@ function sendRequest(name, url, data, counter, total, limit) {
 			$('#searchResults #' + name + ' .' + name + '-results').show(0).append(data);
 			var delay = animation_delay
 			$('#searchResults #' + name + ' .' + name + '-results ul li').each(function(){
-				if($(this).css('display') != "block"){
+				if($(this).css('display') == "none"){
 					$(this).slideDown(delay+=100);
 				}
 			})
