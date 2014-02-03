@@ -36,6 +36,7 @@ function searchAll() {
 		$('#searchOptions input:checked').each(function() {
 		    var name = $(this).attr('name'),
 		    	url = '/search/' + name,
+		    	limit = $('input#limit').val(),
 		    	data = { search : value };	    
 
 	    	
@@ -51,8 +52,11 @@ function searchAll() {
 	    		$('#searchResults #' + name).fadeIn(delay+=100);
 	    	}
 
+	    	if(isNaN(limit) || (!isNaN(limit) && limit <= 0)) limit = 10;
+	    	else if(limit > 100) limit = 100;
+
 	    	//send request
-	    	sendRequest(name, url, data, counter, total);
+	    	sendRequest(name, url, data, counter, total, limit);
 
 	    	counter++;
 		});
@@ -71,9 +75,9 @@ function searchAll() {
 	}
 }
 
-function sendRequest(name, url, data, counter, total) {
+function sendRequest(name, url, data, counter, total, limit) {
 	$.ajax({
-		url: url,
+		url: url+"?limit="+limit,
 		type: 'POST',
 		data: JSON.stringify(data, null, 2),
 		dataType: 'html',
@@ -82,7 +86,11 @@ function sendRequest(name, url, data, counter, total) {
 		success: function(data, status, xhr) {
 			$('#searchResults #' + name).removeClass('loading');
 
-			$('#searchResults #' + name + ' .' + name + '-results').append(data);
+			$('#searchResults #' + name + ' .' + name + '-results').show(0).append(data);
+			var delay = animation_delay
+			$('#searchResults #' + name + ' .' + name + '-results ul li').each(function(){
+				$(this).slideDown(delay+=100);
+			})
 
 			setHovers();
 			$('.searchdata iframe').load(function(){

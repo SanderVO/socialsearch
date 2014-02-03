@@ -68,12 +68,16 @@ class ApiController < ApplicationController
 		tag_limit = @limit - text_limit
 		tag_limit = tag_result.length if tag_limit > tag_result.length
 
+		# raise [text_limit,tag_limit].inspect
+		text_limit -= 1
 		photos = []
 		text_result[0..text_limit].each do |r|
 			info = Flickrie.get_photo_info(r.id)
 			photos << FlickrPhoto.new(info)
 		end
+		# raise photos.length.inspect
 
+		tag_limit -= 1
 		tag_result[0..tag_limit].each do |r|
 			info = Flickrie.get_photo_info(r.id)
 			photos << FlickrPhoto.new(info)
@@ -137,17 +141,21 @@ class ApiController < ApplicationController
 
 	def instagram
 		photos = []
+		tag_limit = 2
 
 		result = Instagram.tag_search(params[:search].gsub(/ /,'_'))
-
-		
-		result[0..2].each do |tag|
+		debug = []
+		tag_limit = result.length if result.length < tag_limit
+		debug << "found #{result.length} tags"
+		result[0..tag_limit].each do |tag|
 			tag_media = Instagram.tag_recent_media(tag['name'])
 			limit = (result.length > 1 ? (@limit/2) : @limit)
 			limit = tag_media.length if tag_media.length < limit
+			limit -= 1
 			tag_media[0..limit].each do |media|
 				media['type'] = "media"
 				photos << InstagramPhoto.new(media)
+				debug << "image from tag #{tag}"
 			end
 		end
 
@@ -177,7 +185,7 @@ class ApiController < ApplicationController
 
 		client.authorization = nil
 
-		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => youtube.search.list, :parameters => {:part => 'id,snippet', :q => params[:search], :maxResults => 10}
+		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => youtube.search.list, :parameters => {:part => 'id,snippet', :q => params[:search], :maxResults => @limit}
 
 		result = JSON.parse(res.data.to_json)
 
@@ -187,7 +195,7 @@ class ApiController < ApplicationController
 			results << YoutubeResult.new(r)
 		end
 
-		return_result total_count: 15, items: results
+		return_result items: results
 	end
 
 	def googleplus
@@ -200,7 +208,7 @@ class ApiController < ApplicationController
 		results = []
 
 		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.people.search, :parameters => {:query => params[:search], :maxResults => 4}
-		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.activities.search, :parameters => {:query => params[:search], :maxResults => 10}
+		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.activities.search, :parameters => {:query => params[:search], :maxResults => @limit}
 
 		people = JSON.parse(res.data.to_json)
 		activities = JSON.parse(res2.data.to_json)
