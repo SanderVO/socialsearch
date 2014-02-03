@@ -135,6 +135,8 @@
 		</div>
 	</div>
 
+	<%= button_tag "Next results", class: "nextLink btn btn-success", onclick: "getNextResults()", style: "margin:5px" %>
+
 	<script type="text/javascript">
 	$(document).ready(function(){
 		<%= "simulateSearch('#{params[:search]}');".html_safe if params[:search] %>

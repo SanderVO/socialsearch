@@ -16,7 +16,7 @@ class YoutubeResult < Result
     super(info["snippet"]['publishedAt'], info["snippet"]['description'], "", url)
     @title = info['snippet']['title']
     @description = info['snippet']['description']
-    @type = info['id']['type']
+    @type = info['id']['kind']
     @videoid = info['id']['videoId']
     @channelid = info['snippet']['channelId']
     @thumbnails = info['snippet']['thumbnails']

@@ -1,6 +1,6 @@
 <ul>
   <% result["tumblr"][:items].each do |r| %>
-    <li>
+    <li nextpagetoken="<%= r.timestamp %>">
       <!-- Photo -->
       <% if r.type == "photo" %>
         <a href="<%= r.url %>" target="_blank">

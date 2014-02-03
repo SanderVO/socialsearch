@@ -1,6 +1,6 @@
 <ul>
   <% result["googleplus"][:items].each do |r| %>
-    <li>
+    <li nextpagetoken="<%= result['googleplus'][:page_token] %>" secondpagetoken="<%= result['googleplus'][:second_token] %>">
       <div class="google-container">
         <% if r.type == 'plus#person' %>
           <div class="google-profile-image">
