@@ -1,4 +1,3 @@
-require 'net/http'
 class ApiController < ApplicationController
 	# doorkeeper_for :all, :if => lambda { request.format == "json" }
 	respond_to :json
