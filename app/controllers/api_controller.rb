@@ -1,3 +1,4 @@
+require 'net/http'
 class ApiController < ApplicationController
 	# doorkeeper_for :all, :if => lambda { request.format == "json" }
 	respond_to :json
@@ -31,7 +32,7 @@ class ApiController < ApplicationController
 				@search.providers = params[:provider] ? [params[:provider]] : []
 				@search.save
 			end
-			
+
 
 			if params[:provider]
 				@result = {}
@@ -41,10 +42,11 @@ class ApiController < ApplicationController
 					flickr: flickr,
 					tumblr: tumblr,
 					instagram: instagram,
-	  				twitter: twitter,
-	  				youtube: youtube,
-	  				wikipedia: wikipedia,
-	  				googleplus: googleplus
+	  			twitter: twitter,
+	  			youtube: youtube,
+	  			wikipedia: wikipedia,
+	  			googleplus: googleplus,
+	  			facebook: facebook
   				}
   			end
   		end
@@ -86,7 +88,20 @@ class ApiController < ApplicationController
 	end
 
 	def facebook
-		return_result items: []
+		facebook_posts = []
+		if session[:fb_token]
+			query = params[:search]
+
+			graph = Koala::Facebook::API.new(session[:fb_token])
+
+			results = graph.search(query)
+
+			results.each do |result|
+				facebook_posts << Facebook.new(result)
+			end
+		end
+
+		return_result items: facebook_posts
 	end
 
 	def tumblr
@@ -99,7 +114,7 @@ class ApiController < ApplicationController
 		photo_url = ''
 
 		error = nil
-		
+
 		client.tagged(tags, :limit => @limit, :filter => "raw").each do |blog|
 			if blog.first == "status" || blog.first == "msg"
 				error = blog.last
@@ -168,7 +183,7 @@ class ApiController < ApplicationController
 		# 	limit = user_media.length < 2 ? user_media.length : 2
 		# 	user_media[0..limit].each do |media|
 		# 		media['type'] = "user_media"
-				
+
 		# 		photos << InstagramPhoto.new(media)
 		# 	end
 		# end

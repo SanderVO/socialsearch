@@ -43,6 +43,8 @@ gem 'kaminari'
 # OAuth in api
 gem 'doorkeeper'
 
+gem "koala", "~> 1.8.0rc1"
+
 group :production do
   gem 'thin'
 end
@@ -66,7 +68,7 @@ gem 'omniauth'
 # User roles
 gem "cancan"
 
-# omniauth stratigy's 
+# omniauth stratigy's
 gem 'omniauth-twitter', :github => 'arunagw/omniauth-twitter'
 gem 'omniauth-facebook'
 gem 'omniauth-linkedin'

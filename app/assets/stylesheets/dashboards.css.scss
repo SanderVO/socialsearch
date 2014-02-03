@@ -57,6 +57,53 @@
 	max-width: 200px;
 }
 
+.facebook-container {
+  width:200px;
+  padding: 10px;
+  font-family: 'lucida grande', 'tahoma', 'verdana', 'arial', 'sans-serif';
+  font-size: 11px;
+}
+
+.facebook-user {
+  width:320px;
+  border-bottom: 1px grey solid;
+  height:55px;
+}
+
+.facebook-user-image {
+  width:20%;
+  float:left;
+}
+.facebook-username-block {
+  width: 60%;
+  margin-left:80px;
+}
+
+.facebook-username {
+  margin-top:5px;
+  margin-bottom:5px;
+}
+
+.facebook-content {
+
+  width:300px;
+  padding:10px;
+  background-color: #F7F7F7;
+}
+
+.facebook-text {
+  margin-bottom:10px;
+
+}
+
+.facebook-container a:hover {
+	color:black;
+}
+
+.facebook-image {
+  width:300px;
+}
+
 .searchData {
 	ul {
 		padding-left: 0;
@@ -119,13 +166,13 @@ input#limit {
 		margin-top: 7px;
 		text-align: center;
 		width: 60%;
-		
+
 		z-index: 10;
 		div {
 			z-index: 10;
 		}
 		.input-group {
-			position: relative;	
+			position: relative;
 		}
 		#searchOptions {
 			position: absolute;
