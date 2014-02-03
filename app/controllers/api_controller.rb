@@ -1,5 +1,5 @@
 class ApiController < ApplicationController
-	doorkeeper_for :all, :if => lambda { request.format == "json" }
+	# doorkeeper_for :all, :if => lambda { request.format == "json" }
 	respond_to :json
 	before_filter :validate_params
 
@@ -139,10 +139,13 @@ class ApiController < ApplicationController
 		photos = []
 
 		result = Instagram.tag_search(params[:search].gsub(/ /,'_'))
-		@limit = result.length if result.length < @limit
+
+		
 		result[0..2].each do |tag|
 			tag_media = Instagram.tag_recent_media(tag['name'])
-			tag_media[0..(@limit/2)].each do |media|
+			limit = (result.length > 1 ? (@limit/2) : @limit)
+			limit = tag_media.length if tag_media.length < limit
+			tag_media[0..limit].each do |media|
 				media['type'] = "media"
 				photos << InstagramPhoto.new(media)
 			end

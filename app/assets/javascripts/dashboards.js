@@ -29,6 +29,7 @@ function searchAll() {
 		current_page = 0;
 
 		$('#searchResults .searchData').html("");
+		$('.dialog.notice').slideUp(300);
 
 		var delay = animation_delay;
 
