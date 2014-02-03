@@ -212,7 +212,7 @@ class ApiController < ApplicationController
 
 		client.authorization = nil
 
-		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => youtube.search.list, :parameters => {:part => 'id,snippet', :q => params[:search], :maxResults => 20, :pageToken => (params[:nextpagetoken] ? params[:nextpagetoken] : '')}
+		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => youtube.search.list, :parameters => {:part => 'id,snippet', :q => params[:search], :maxResults => @limit, :pageToken => (params[:nextpagetoken] ? params[:nextpagetoken] : '')}
 
 		result = JSON.parse(res.data.to_json)
 
@@ -234,8 +234,8 @@ class ApiController < ApplicationController
 
 		results = []
 
-		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.people.search, :parameters => {:query => params[:search], :maxResults => 20, :pageToken => (params[:nextpagetoken] ? params[:nextpagetoken] : '')}
-		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.activities.search, :parameters => {:query => params[:search], :maxResults => 20, :pageToken => (params[:secondtoken] ? params[:secondtoken] : '')}
+		res = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.people.search, :parameters => {:query => params[:search], :maxResults => (@limit/2).to_i, :pageToken => (params[:nextpagetoken] ? params[:nextpagetoken] : '')}
+		res2 = client.execute :key => ENV['GOOGLE_API_KEY'], :api_method => plus.activities.search, :parameters => {:query => params[:search], :maxResults => @limit, :pageToken => (params[:secondtoken] ? params[:secondtoken] : '')}
 
 		people = JSON.parse(res.data.to_json)
 		activities = JSON.parse(res2.data.to_json)
